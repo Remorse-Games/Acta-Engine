@@ -1,0 +1,20 @@
+# Directories
+.vs/
+bin/
+obj/
+
+# Files
+
+*.user
+*.vcxproj
+*.filters
+*.sln
+*.obj
+*.log
+*.tlog
+*.lastbuildstate
+*.idb
+*.pdb
+*.bak
+*.lib
+*.recipe
