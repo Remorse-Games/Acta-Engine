@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#if defined(RRE_DEBUG) || defined(RRE_DEV)
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
 #include "imgui.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"

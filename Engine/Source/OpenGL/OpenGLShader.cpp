@@ -1,7 +1,7 @@
-#include "rrepch.h"
+#include "actapch.h"
 #include "OpenGLShader.h"
 
-#if defined(RRE_DEBUG) || (_DEBUG)
+#if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
@@ -34,7 +34,7 @@ OpenGLShader::OpenGLShader(const char* vertexPath, const char* fragmentPath)
     glShaderSource(vertexShader, 1, &vs, NULL);
     glCompileShader(vertexShader);
     ShaderAssert(vertexShader, "VERTEX");
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 
@@ -42,30 +42,30 @@ OpenGLShader::OpenGLShader(const char* vertexPath, const char* fragmentPath)
     glShaderSource(fragmentShader, 1, &fs, NULL);
     glCompileShader(fragmentShader);
     ShaderAssert(fragmentShader, "FRAGMENT");
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 
     shaderProgram = glCreateProgram();
 
     glAttachShader(shaderProgram, vertexShader);
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
     glAttachShader(shaderProgram, fragmentShader);
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
     glLinkProgram(shaderProgram);
     ShaderAssert(shaderProgram, "PROGRAM");
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 
     // cleaning
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 
@@ -78,7 +78,7 @@ OpenGLShader::~OpenGLShader()
 void OpenGLShader::use()
 {
     glUseProgram(shaderProgram);
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 
@@ -142,7 +142,7 @@ void OpenGLShader::SetUniformMat3(const std::string& name, const glm::mat3& valu
 void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& value) const
 {
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, name.c_str()), 1, GL_FALSE, &value[0][0]);
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 }

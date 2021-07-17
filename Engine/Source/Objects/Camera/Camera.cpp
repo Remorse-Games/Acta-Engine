@@ -1,4 +1,4 @@
-#include "rrepch.h"
+#include "actapch.h"
 #include "Camera.h"
 
 Camera::Camera() :
@@ -35,33 +35,33 @@ void Camera::Draw()
 
 void Camera::Input(GLFWwindow* window)
 {
-	time.CalculateTime();
+	//time.CalculateTime();
 
 	// forward
 	OpenGLInput::ProcessInput(window, GLFW_KEY_W, GLFW_PRESS, [&]()
 		{
-			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = cameraForward * cameraSpeed;// *time.deltaTime;
 			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
 		});
 	
 	// backward
 	OpenGLInput::ProcessInput(window, GLFW_KEY_S, GLFW_PRESS, [&]()
 		{
-			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = cameraForward * cameraSpeed;// *time.deltaTime;
 			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
 		});
 	
 	// left
 	OpenGLInput::ProcessInput(window, GLFW_KEY_A, GLFW_PRESS, [&]()
 		{
-			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = cameraRight * cameraSpeed;// *time.deltaTime;
 			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
 		});
 	
 	// right
 	OpenGLInput::ProcessInput(window, GLFW_KEY_D, GLFW_PRESS, [&]()
 		{
-			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = cameraRight * cameraSpeed;// *time.deltaTime;
 			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
 		});
 }

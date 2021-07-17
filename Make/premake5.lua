@@ -1,7 +1,7 @@
-workspace "RRE"
+workspace "Acta"
 	location ".."
 	architecture "x64"
-	startproject "RRE"
+	startproject "Acta"
 	
 	configurations
 	{
@@ -34,7 +34,7 @@ include (trunk .. "Externals/glfw/project")
 ------------------------ Engine project ---------------------------------------------	
 -------------------------------------------------------------------------------------
 
-project "RRE"
+project "Acta"
 	location (trunk .. "Engine")
 	kind "ConsoleApp"
 	language "C++"
@@ -45,8 +45,8 @@ project "RRE"
 	objdir (trunk .. "%{prj.name}/obj/" .. outputName)
 
 	-- use precompile header
-	pchheader "rrepch.h"
-	pchsource (trunk .. "Engine/Source/rrepch.cpp")
+	pchheader "actapch.h"
+	pchsource (trunk .. "Engine/Source/actapch.cpp")
 	
 	files
 	{
@@ -95,16 +95,16 @@ project "RRE"
 	}
 	
 	filter "configurations:Debug"
-		defines "RRE_DEBUG"
+		defines "ACTA_DEBUG"
 		runtime "Debug"
 		symbols "on"
 	
 	filter "configurations:Develop"
-		defines "RRE_DEV"
+		defines "ACTA_DEV"
 		runtime "Release"
 		optimize "on"	
 
 	filter "configurations:Release"
-		defines "RRE_RELEASE"
+		defines "ACTA_RELEASE"
 		runtime "Release"
 		optimize "on"

@@ -2,7 +2,7 @@
 #include "Objects/Object.h"
 #include "OpenGL/OpenGLShader.h"
 #include "OpenGL/OpenGLInput.h"
-#include "System/Time.h"
+//#include "System/Time.h"
 
 class Camera : public Object
 {
@@ -19,7 +19,7 @@ public:
 
 private:
 	OpenGLShader shader;
-	Time time;
+	//Time time;
 
 private:
 	glm::mat4 view;

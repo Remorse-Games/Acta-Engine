@@ -1,7 +1,7 @@
-#include "rrepch.h"
+#include "actapch.h"
 #include "GameObject.h"
 
-#if defined(RRE_DEBUG) || (_DEBUG)
+#if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
@@ -71,7 +71,7 @@ shader("Shader/triangle.vert", "Shader/triangle.frag")
     shader.SetUniformInt("Texture1", 1);
 
     shader.SetUniformMat4("model", transform);
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 
@@ -108,7 +108,7 @@ void GameObject::Draw()
 
     // only need declared once, it will populate all errors happened in
     // one block.
-#if (defined(RRE_DEBUG) || (_DEBUG))
+#if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 

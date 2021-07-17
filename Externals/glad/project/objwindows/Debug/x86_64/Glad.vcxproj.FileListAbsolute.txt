@@ -1,0 +1,2 @@
+D:\Remorse Games\Acta-Engine\Externals\glad\project\binwindows\Debug\x86_64\Glad.pdb
+D:\Remorse Games\Acta-Engine\Externals\glad\project\objwindows\Debug\x86_64\Glad.pdb
