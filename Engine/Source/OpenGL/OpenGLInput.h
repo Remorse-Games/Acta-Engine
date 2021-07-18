@@ -1,5 +1,7 @@
 #pragma once
 
+void mouse_callback(GLFWwindow* window, double xPos, double yPos);
+
 class OpenGLInput
 {
 public:

@@ -29,6 +29,11 @@ Camera::~Camera()
 void Camera::Draw()
 {
 	time.Update();
+	
+	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.y = sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraForward = glm::normalize(direction);
 
 	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
 	shader.SetUniformMat4("projection", projection);

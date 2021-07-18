@@ -3,6 +3,11 @@
 #include "OpenGL/OpenGLRenderer.h"
 #include "ImGui/ImGui_Main.h"
 
+void resize_callback(GLFWwindow* window, int width, int height);
+
+extern float yaw;
+extern float pitch;
+
 class OpenGLWindow
 {
 public:

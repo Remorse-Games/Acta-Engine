@@ -4,6 +4,9 @@
 #include "OpenGL/OpenGLInput.h"
 #include "System/Time.h"
 
+extern float yaw;
+extern float pitch;
+
 class Camera : public Object
 {
 public:
@@ -16,6 +19,7 @@ public:
 public:
 	float fieldOfView;
 	float cameraSpeed = 1.0f;
+	glm::vec3 direction;
 
 private:
 	OpenGLShader shader;
@@ -26,7 +30,9 @@ private:
 	glm::mat4 projection;
 
 	glm::vec3 cameraTarget;
+	
 	glm::vec3 cameraForward;
 	glm::vec3 cameraUp;
 	glm::vec3 cameraRight;
+
 };
