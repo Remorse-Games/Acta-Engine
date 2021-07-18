@@ -44,6 +44,7 @@ project "Acta"
 	targetdir (trunk .. "%{prj.name}/bin/" .. outputName)
 	objdir (trunk .. "%{prj.name}/obj/" .. outputName)
 
+
 	-- use precompile header
 	pchheader "actapch.h"
 	pchsource (trunk .. "Engine/Source/actapch.cpp")
