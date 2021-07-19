@@ -57,6 +57,8 @@ void OpenGLRenderer::Draw()
     gameObject[0].SetPosition(glm::vec3(objectPosition[0], objectPosition[1], objectPosition[2]));
     gameObject[0].Draw();
 
+
+    // ImGui region
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
@@ -81,7 +83,7 @@ void OpenGLRenderer::Draw()
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+    //
 }
 
 void OpenGLRenderer::Wireframe()

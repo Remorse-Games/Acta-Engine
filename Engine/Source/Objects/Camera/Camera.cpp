@@ -1,7 +1,15 @@
 #include "actapch.h"
 #include "Camera.h"
 
+extern unsigned int windowWidth;
+extern unsigned int windowHeight;
+
 bool firstMouse = true;
+float yaw = -90.0f;
+float pitch = 0.0f;
+
+float lastMousePosX = windowWidth / 2;
+float lastMousePosY = windowHeight / 2;
 
 Camera::Camera() :
 	view(glm::mat4(0)), 
@@ -10,7 +18,6 @@ Camera::Camera() :
 	shader("Shader/triangle.vert", "Shader/triangle.frag")
 {
 	// Init position
-	Init();
 	SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 }
 

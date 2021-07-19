@@ -4,15 +4,6 @@
 #include "OpenGL/OpenGLInput.h"
 #include "System/Time.h"
 
-extern unsigned int windowWidth;
-extern unsigned int windowHeight;
-
-extern float yaw;
-extern float pitch;
-
-static float lastMousePosX = windowWidth / 2;
-static float lastMousePosY = windowHeight / 2;
-
 void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 
 class Camera : public Object
