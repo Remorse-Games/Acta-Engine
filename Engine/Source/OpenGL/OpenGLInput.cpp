@@ -6,7 +6,7 @@ extern unsigned int windowHeight;
 extern float yaw;
 extern float pitch;
 
-static bool firstMouse = true;
+bool firstMouse = true;
 static float lastMousePosX = windowWidth / 2;
 static float lastMousePosY = windowHeight / 2;
 
@@ -39,9 +39,27 @@ void OpenGLInput::ProcessInput(GLFWwindow* window, GLenum glKey, GLenum glPress,
 	}
 }
 
+void OpenGLInput::ProcessInput(GLFWwindow* window, GLenum glKey, GLenum glPress, const bool& isEqual, std::function<void()> func)
+{
+	if (isEqual)
+	{
+		if (glfwGetKey(window, glKey) == glPress)
+		{
+			func();
+		}
+	}
+	else
+	{
+		if (glfwGetKey(window, glKey) != glPress)
+		{
+			func();
+		}
+	}
+}
+
 void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 {
-	if (firstMouse) // initially set to true
+	if (firstMouse)
 	{
 		lastMousePosX = xPos;
 		lastMousePosY = yPos;

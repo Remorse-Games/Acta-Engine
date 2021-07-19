@@ -68,10 +68,6 @@ void OpenGLRenderer::Draw()
     camera.SetPosition(camPos[0], camPos[1], camPos[2]);
     ImGui::InputFloat("Field of View", &camera.fieldOfView);
     ImGui::InputFloat("Camera Speed", &camera.cameraSpeed);
-    ImGui::InputFloat("Pitch", &pitch);
-    ImGui::InputFloat("Yaw", &yaw);
-    float direction[] = { camera.direction[0], camera.direction[1], camera.direction[2] };
-    ImGui::InputFloat3("Camera Direction", direction);
     ImGui::End();
 
     ImGui::Begin("Game Object 0");

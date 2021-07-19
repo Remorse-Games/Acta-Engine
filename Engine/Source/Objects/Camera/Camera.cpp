@@ -8,18 +8,8 @@ Camera::Camera() :
 	shader("Shader/triangle.vert", "Shader/triangle.frag")
 {
 	// Init position
+	Init();
 	SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-
-	cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	cameraForward = glm::normalize(cameraTarget - position);
-	
-	// world up when init
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	
-	cameraRight = glm::normalize(glm::cross(up, cameraForward));
-
-	cameraUp = glm::cross(cameraForward, cameraRight);
-
 }
 
 Camera::~Camera()
@@ -30,45 +20,64 @@ void Camera::Draw()
 {
 	time.Update();
 	
-	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	direction.y = sin(glm::radians(pitch));
-	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraForward = glm::normalize(direction);
+	UpdateVectors();
 
 	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
 	shader.SetUniformMat4("projection", projection);
 
-	view = glm::lookAt(position, cameraForward + position, cameraUp);
+	view = glm::lookAt(position, Forward + position, Up);
 	shader.SetUniformMat4("view", view);
 }
+
 
 void Camera::Input(GLFWwindow* window)
 {
 	// forward
 	OpenGLInput::ProcessInput(window, GLFW_KEY_W, GLFW_PRESS, [&]()
 		{
-			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Forward * cameraSpeed * time.deltaTime;
 			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
 		});
 	
 	// backward
 	OpenGLInput::ProcessInput(window, GLFW_KEY_S, GLFW_PRESS, [&]()
 		{
-			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Forward * cameraSpeed * time.deltaTime;
 			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
 		});
 	
 	// left
 	OpenGLInput::ProcessInput(window, GLFW_KEY_A, GLFW_PRESS, [&]()
 		{
-			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Right * cameraSpeed * time.deltaTime;
 			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
 		});
 	
 	// right
 	OpenGLInput::ProcessInput(window, GLFW_KEY_D, GLFW_PRESS, [&]()
 		{
-			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Right * cameraSpeed * time.deltaTime;
 			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
 		});
+
+	OpenGLInput::ProcessInput(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, true, [&]()
+		{
+			if (!sprintInit)
+			{
+				cameraSpeed += cameraSprintSpeed;
+				sprintInit = true;
+				moveInit = false;
+			}
+		});
+
+	OpenGLInput::ProcessInput(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, false, [&]()
+		{
+			if (!moveInit)
+			{
+				cameraSpeed -= cameraSprintSpeed;
+				sprintInit = false;
+				moveInit = true;
+			}
+		});
+
 }
