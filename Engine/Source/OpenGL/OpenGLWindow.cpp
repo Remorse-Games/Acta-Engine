@@ -1,10 +1,7 @@
 #include "actapch.h"
 #include "OpenGLWindow.h"
 
-extern unsigned int windowWidth;
-extern unsigned int windowHeight;
-
-OpenGLWindow::OpenGLWindow(unsigned int&& width, unsigned int&& height, std::string&& title) :
+OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, std::string&& title) :
 	window(nullptr)
 {
 	glfwInit();
@@ -23,10 +20,6 @@ OpenGLWindow::OpenGLWindow(unsigned int&& width, unsigned int&& height, std::str
 		spdlog::error("GLFW not initialize");
 		glfwTerminate();
 	}
-
-	// TODO: remove this later.
-	windowWidth = width;
-	windowHeight = height;
 
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, resize_callback);
@@ -82,6 +75,6 @@ void OpenGLWindow::UpdateWindow()
 
 void resize_callback(GLFWwindow* window, int width, int height)
 {
-	glViewport(width, height, width, height);
+	glViewport(0, 0, width, height);
 }
 

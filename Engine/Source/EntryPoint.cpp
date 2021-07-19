@@ -6,7 +6,7 @@ unsigned int windowHeight = 720;
 
 int main()
 {
-	OpenGLWindow* window = new OpenGLWindow(1280, 720, "Remorse Render Engine");
+	OpenGLWindow* window = new OpenGLWindow(windowWidth, windowHeight, "Remorse Render Engine");
 	window->UpdateWindow();
 	delete window;
 }

@@ -5,13 +5,10 @@
 
 void resize_callback(GLFWwindow* window, int width, int height);
 
-extern float yaw;
-extern float pitch;
-
 class OpenGLWindow
 {
 public:
-	OpenGLWindow(unsigned int&& width, unsigned int&& height, std::string&& title);
+	OpenGLWindow(unsigned int width, unsigned int height, std::string&& title);
 	~OpenGLWindow();
 
 	void UpdateWindow();
