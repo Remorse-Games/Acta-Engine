@@ -1,14 +1,26 @@
 #include "actapch.h"
 #include "catch.hpp"
 
-TEST_CASE("SampleTest", "SampleTestOnly")
+
+// you only need to write the TEST_CASE(string, string) [PASSED STRING WON'T CAUSE ANY PROBLEM]
+// should you erase the SECTION(string) part, there won't be any problem
+// but you'd better put it for a better understanding between programmer(s)
+TEST_CASE("SampleTest")
 {
-	SECTION("FirstCase")
-	{
-		REQUIRE(0 == 0);
-	}
-	SECTION("SecondCase")
+	REQUIRE(2 == 2);
+	SECTION("First")
 	{
 		REQUIRE(false == false);
+	}
+}
+TEST_CASE("SampleUnitTest", "StringValueTesting")
+{
+	SECTION("Second")
+	{
+		REQUIRE("you" == "you");
+	}
+	SECTION("This Sample Case Is Indeed WRONG")
+	{
+		REQUIRE("you" == "are");
 	}
 }
