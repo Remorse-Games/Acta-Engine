@@ -23,7 +23,7 @@ IncludeDir["spdlog"] 	= 	(trunk .. "Externals/spdlog/include")
 
 
 -- output name for bin / obj
-outputName = "%{cfg.system}/%{cfg.buildcfg}/%{cfg.architecture}"
+outputName = "/%{cfg.system}__%{cfg.buildcfg}__%{cfg.architecture}"
 
 -- take another premake to build the project
 include (trunk .. "Externals/imgui/project")
