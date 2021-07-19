@@ -4,20 +4,16 @@
 //{
 //	EXPECT_EQ(0, 0);
 //}
-#define CATCH_CONFIG_MAIN
-#include "../../Externals/catch.hpp"
 
-#define CATCH_CONFIG_MAIN
-#define UNIT_TESTING 1
+#include "gtest/gtest.h"
 
-#if !UNIT_TESTING
+
 int main(int argc, char** argv)
 {
 	OpenGLWindow* window = new OpenGLWindow(1280, 720, "Remorse Render Engine");
 	window->UpdateWindow();
 	delete window;
 }
-#endif
 
 
 

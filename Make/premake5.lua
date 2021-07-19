@@ -20,6 +20,8 @@ IncludeDir["ImGui"] 	= 	(trunk .. "Externals/imgui")
 IncludeDir["glm"] 		= 	(trunk .. "Externals/glm")
 IncludeDir["stb_image"] = 	(trunk .. "Externals/stb_image")
 IncludeDir["spdlog"] 	= 	(trunk .. "Externals/spdlog/include")
+IncludeDir["gtest"]		=	(trunk .. "packages/gtest.1.7.0/build/native/include")
+IncludeDir["gtest.lib"]	=	(trunk .. "packages/gtest.1.7.0/build/native/lib/Release.gtest.lib")
 
 
 -- output name for bin / obj
@@ -55,7 +57,10 @@ project "Acta"
 		(trunk .. "Externals/stb_image/**.cpp"),
 		(trunk .. "Externals/stb_image/**.h"),
 		(trunk .. "Externals/glm/glm/**.hpp"),		
-		(trunk .. "Externals/glm/glm/**.inl")
+		(trunk .. "Externals/glm/glm/**.inl"),
+		(trunk .. "packages/gtest.1.7.0/build/native/include/**.h"),
+		(trunk .. "packages/gtest.1.7.0/build/native/include/**.cpp"),
+		(trunk .. "packages/gtest.1.7.0/build/native/lib/Release")
 	}
 	
 	defines
@@ -74,7 +79,10 @@ project "Acta"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.gtest}",
+		"%{IncludeDir.gtest.lib}"
+
 	}
 	
 	links
@@ -82,7 +90,9 @@ project "Acta"
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
+		"opengl32.lib",
+		"gtest",
+		"gtest.lib"
 	}
 	
 	filter "system:windows"
