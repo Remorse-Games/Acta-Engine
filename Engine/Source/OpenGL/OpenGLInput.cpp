@@ -1,45 +1,15 @@
 #include "actapch.h"
 #include "OpenGLInput.h"
 
-extern unsigned int windowWidth;
-extern unsigned int windowHeight;
-extern float yaw;
-extern float pitch;
-
-bool firstMouse = true;
-static float lastMousePosX = windowWidth / 2;
-static float lastMousePosY = windowHeight / 2;
-
-void OpenGLInput::ProcessInput(GLFWwindow* window)
+void OpenGLInput::ProcessInputKey(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
-
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-	{
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		glfwSetCursorPosCallback(window, mouse_callback);
-	}
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) != GLFW_PRESS)
-	{
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) { firstMouse = true; });
-	}
-
-	spdlog::info("Last Pos X : {0}, Last Pos Y : {1}", lastMousePosX, lastMousePosY);
 }
 
-void OpenGLInput::ProcessInput(GLFWwindow* window, GLenum glKey, GLenum glPress, std::function<void()> func)
-{
-	if (glfwGetKey(window, glKey) == glPress)
-	{
-		func();
-	}
-}
-
-void OpenGLInput::ProcessInput(GLFWwindow* window, GLenum glKey, GLenum glPress, const bool& isEqual, std::function<void()> func)
+void OpenGLInput::ProcessInputKey(GLFWwindow* window, GLenum glKey, GLenum glPress, const bool& isEqual, std::function<void()> func)
 {
 	if (isEqual)
 	{
@@ -57,29 +27,20 @@ void OpenGLInput::ProcessInput(GLFWwindow* window, GLenum glKey, GLenum glPress,
 	}
 }
 
-void mouse_callback(GLFWwindow* window, double xPos, double yPos)
+void OpenGLInput::ProcessInputMouse(GLFWwindow* window, GLenum glButton, GLenum glPress, const bool& isEqual, std::function<void()> func)
 {
-	if (firstMouse)
+	if (isEqual)
 	{
-		lastMousePosX = xPos;
-		lastMousePosY = yPos;
-		firstMouse = false;
+		if (glfwGetMouseButton(window, glButton) == glPress)
+		{
+			func();
+		}
 	}
-
-	float xOffset = xPos - lastMousePosX;
-	float yOffset = lastMousePosY - yPos;
-	lastMousePosX = xPos;
-	lastMousePosY = yPos;
-
-	const float mouseSensitivity = 0.1f;
-	xOffset *= mouseSensitivity;
-	yOffset *= mouseSensitivity;
-
-	yaw += xOffset;
-	pitch += yOffset;
-
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	else if (pitch < -89.0f)
-		pitch = -89.0f;
+	else
+	{
+		if (glfwGetMouseButton(window, glButton) != glPress)
+		{
+			func();
+		}
+	}
 }

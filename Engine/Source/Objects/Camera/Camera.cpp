@@ -1,6 +1,8 @@
 #include "actapch.h"
 #include "Camera.h"
 
+bool firstMouse = true;
+
 Camera::Camera() :
 	view(glm::mat4(0)), 
 	projection(glm::mat4(0)),
@@ -32,35 +34,38 @@ void Camera::Draw()
 
 void Camera::Input(GLFWwindow* window)
 {
+	//////////////////////////////KEYBOARD CAMERA INPUT////////////////////////////////////////////
+
 	// forward
-	OpenGLInput::ProcessInput(window, GLFW_KEY_W, GLFW_PRESS, [&]()
+	OpenGLInput::ProcessInputKey(window, GLFW_KEY_W, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = Forward * cameraSpeed * time.deltaTime;
 			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
 		});
 	
 	// backward
-	OpenGLInput::ProcessInput(window, GLFW_KEY_S, GLFW_PRESS, [&]()
+	OpenGLInput::ProcessInputKey(window, GLFW_KEY_S, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = Forward * cameraSpeed * time.deltaTime;
 			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
 		});
 	
 	// left
-	OpenGLInput::ProcessInput(window, GLFW_KEY_A, GLFW_PRESS, [&]()
+	OpenGLInput::ProcessInputKey(window, GLFW_KEY_A, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = Right * cameraSpeed * time.deltaTime;
 			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
 		});
 	
 	// right
-	OpenGLInput::ProcessInput(window, GLFW_KEY_D, GLFW_PRESS, [&]()
+	OpenGLInput::ProcessInputKey(window, GLFW_KEY_D, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = Right * cameraSpeed * time.deltaTime;
 			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
 		});
 
-	OpenGLInput::ProcessInput(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, true, [&]()
+	//////////////////////////////RUN CAMERA INPUT////////////////////////////////////////////
+	OpenGLInput::ProcessInputKey(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, true, [&]()
 		{
 			if (!sprintInit)
 			{
@@ -70,7 +75,7 @@ void Camera::Input(GLFWwindow* window)
 			}
 		});
 
-	OpenGLInput::ProcessInput(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, false, [&]()
+	OpenGLInput::ProcessInputKey(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, false, [&]()
 		{
 			if (!moveInit)
 			{
@@ -80,4 +85,47 @@ void Camera::Input(GLFWwindow* window)
 			}
 		});
 
+	//////////////////////////////MOUSE INPUT////////////////////////////////////////////
+	OpenGLInput::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, true, [&]()
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			glfwSetCursorPosCallback(window, mouse_callback);
+		});
+	OpenGLInput::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, false, [&]()
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) { firstMouse = true; });
+		});
+
+}
+
+void mouse_callback(GLFWwindow* window, double xPos, double yPos)
+{
+	if (firstMouse)
+	{
+		lastMousePosX = xPos;
+		lastMousePosY = yPos;
+		firstMouse = false;
+	}
+
+	float xOffset = xPos - lastMousePosX;
+	float yOffset = lastMousePosY - yPos;
+	lastMousePosX = xPos;
+	lastMousePosY = yPos;
+
+	const float mouseSensitivity = 0.1f;
+	xOffset *= mouseSensitivity;
+	yOffset *= mouseSensitivity;
+
+	yaw += xOffset;
+	pitch += yOffset;
+
+	if (pitch > 89.0f)
+	{
+		pitch = 89.0f;
+	}
+	else if (pitch < -89.0f)
+	{
+		pitch = -89.0f;
+	}
 }
