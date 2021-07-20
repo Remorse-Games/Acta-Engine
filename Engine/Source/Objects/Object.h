@@ -10,7 +10,7 @@ public:
 	glm::vec3 GetPosition();
 	void SetRotation(const float& angle, const glm::vec3& rot);
 	glm::vec3 GetRotation();
-	void SetScale();
+	void SetScale(const glm::vec3& sca);
 	glm::vec3 GetScale();
 
 protected:
