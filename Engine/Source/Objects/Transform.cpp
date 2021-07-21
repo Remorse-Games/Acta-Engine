@@ -1,62 +1,66 @@
 #include "actapch.h"
-#include "Object.h"
+#include "Transform.h"
 #include "catch.hpp"
 
-extern float yaw;
-extern float pitch;
+float yaw = 0.0f;
+float pitch = 0.0f;
+float roll = 0.0f;
 
-void Object::Init()
+void Transform::Identity()
 {
 	transform = glm::mat4(1.0f);
 }
 
-void Object::SetPosition(const glm::vec3& position)
+void Transform::SetPosition(const glm::vec3& position)
 {
 	m_position = position;
 	transform = glm::translate(transform, m_position);
 }
 
-void Object::SetPosition(const float& x, const float& y, const float& z)
+void Transform::SetPosition(const float& x, const float& y, const float& z)
 {
 	m_position = glm::vec3(x, y, z);
 	transform = glm::translate(transform, m_position);
 }
 
-glm::vec3 Object::GetPosition()
+glm::vec3 Transform::GetPosition() const
 {
 	return m_position;
 }
 
-void Object::SetRotation(const float& angle, const glm::vec3& rotation)
+void Transform::SetRotation(const float& angle, const glm::vec3& rotation)
 {
 	m_rotation = rotation;
 	transform = glm::rotate(transform, glm::radians(angle), m_rotation);
 }
 
-glm::vec3 Object::GetRotation()
+glm::vec3 Transform::GetRotation() const
 {
 	return m_rotation;
 }
 
-void Object::SetScale(const glm::vec3& scale)
+void Transform::SetScale(const glm::vec3& scale)
 {
 	m_scale = scale;
 	transform = glm::scale(transform, m_scale);
 }
 
-glm::vec3 Object::GetScale()
+glm::vec3 Transform::GetScale() const
 {
 	return m_scale;
 }
 
-void Object::UpdateVectors()
+void Transform::UpdateDirection()
 {
 	glm::vec3 direction;
+	glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	direction.y = sin(glm::radians(pitch));
 	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	
 	Forward = glm::normalize(direction);
-	Right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), Forward));
+	Right = glm::normalize(glm::cross(worldUp, Forward));
 	Up = glm::cross(Forward, Right);
 }
 

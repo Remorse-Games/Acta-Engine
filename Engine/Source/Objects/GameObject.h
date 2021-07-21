@@ -1,8 +1,8 @@
 #pragma once
-#include "Object.h"
+#include "Transform.h"
 #include "OpenGL/OpenGLBuffer.h"
 
-class GameObject : public Object
+class GameObject : public Transform
 {
 public:
 	GameObject();

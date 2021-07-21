@@ -1,12 +1,12 @@
 #pragma once
-#include "Objects/Object.h"
+#include "Objects/Transform.h"
 #include "OpenGL/OpenGLShader.h"
 #include "OpenGL/OpenGLInput.h"
 #include "System/Time.h"
 
 void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 
-class Camera : public Object
+class Camera : public Transform
 {
 public:
 	Camera();
@@ -23,7 +23,6 @@ public:
 
 private:
 	OpenGLShader shader;
-	Time time;
 
 private:
 	glm::mat4 view;

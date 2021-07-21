@@ -5,8 +5,9 @@ extern unsigned int windowWidth;
 extern unsigned int windowHeight;
 
 bool firstMouse = true;
-float yaw = -90.0f;
-float pitch = 0.0f;
+extern float yaw;
+extern float pitch;
+extern float roll;
 
 float lastMousePosX = windowWidth / 2;
 float lastMousePosY = windowHeight / 2;
@@ -14,10 +15,12 @@ float lastMousePosY = windowHeight / 2;
 Camera::Camera() :
 	view(glm::mat4(0)), 
 	projection(glm::mat4(0)),
-	fieldOfView(45.0f), 
+	fieldOfView(45.0f),
+	direction(0.0f),
 	shader("Shader/triangle.vert", "Shader/triangle.frag")
 {
 	// Init position
+	yaw = -90.0f;
 	SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 }
 
@@ -27,9 +30,7 @@ Camera::~Camera()
 
 void Camera::Draw()
 {
-	time.Update();
-	
-	UpdateVectors();
+	UpdateDirection();
 
 	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
 	shader.SetUniformMat4("projection", projection);
@@ -38,7 +39,6 @@ void Camera::Draw()
 	shader.SetUniformMat4("view", view);
 }
 
-
 void Camera::Input(GLFWwindow* window)
 {
 	//////////////////////////////KEYBOARD CAMERA INPUT////////////////////////////////////////////
@@ -46,28 +46,28 @@ void Camera::Input(GLFWwindow* window)
 	// forward
 	OpenGLInput::ProcessInputKey(window, GLFW_KEY_W, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = Forward * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Forward * cameraSpeed * Time::deltaTime;
 			SetPosition(m_position.x + calcSpeed.x, m_position.y + calcSpeed.y, m_position.z + calcSpeed.z);
 		});
 	
 	// backward
 	OpenGLInput::ProcessInputKey(window, GLFW_KEY_S, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = Forward * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Forward * cameraSpeed * Time::deltaTime;
 			SetPosition(m_position.x - calcSpeed.x, m_position.y - calcSpeed.y, m_position.z - calcSpeed.z);
 		});
 	
 	// left
 	OpenGLInput::ProcessInputKey(window, GLFW_KEY_A, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = Right * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Right * cameraSpeed * Time::deltaTime;
 			SetPosition(m_position.x + calcSpeed.x, m_position.y + calcSpeed.y, m_position.z + calcSpeed.z);
 		});
 	
 	// right
 	OpenGLInput::ProcessInputKey(window, GLFW_KEY_D, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = Right * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Right * cameraSpeed * Time::deltaTime;
 			SetPosition(m_position.x - calcSpeed.x, m_position.y - calcSpeed.y, m_position.z - calcSpeed.z);
 		});
 

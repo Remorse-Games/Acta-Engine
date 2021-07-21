@@ -45,7 +45,7 @@ void OpenGLRenderer::Draw()
 
     for (int i = 1; i < 10; i++)
     {
-        gameObject[i].Init();
+        gameObject[i].Identity();
         gameObject[i].SetPosition(cubePositions[i]);
         float angle = 20.0f * i;
         gameObject[i].SetRotation(angle, glm::vec3(0.5f, 1.0f, 0.0f));
@@ -53,7 +53,7 @@ void OpenGLRenderer::Draw()
     }
     
     // Don't forget to use Init, or matrix won't reset and cause problem.
-    gameObject[0].Init();
+    gameObject[0].Identity();
     gameObject[0].SetPosition(glm::vec3(objectPosition[0], objectPosition[1], objectPosition[2]));
     gameObject[0].SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
     gameObject[0].Draw();

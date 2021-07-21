@@ -1,14 +1,15 @@
 #pragma once
 
-class Time
+struct Time
 {
-public:
-	Time();
-	~Time();
+	static float deltaTime;
+	static float lastFrame;
 
-	void Update();
-
-public:
-	float deltaTime = 0.0f;
-	float lastFrame = 0.0f;
+	static void Update()
+	{
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+	}
 };
+

@@ -1,20 +1,20 @@
 #pragma once
 
-class Object
+class Transform
 {
 public:
-	void Init();
+	void Identity();
 
 	void SetPosition(const glm::vec3& pos);
 	void SetPosition(const float& x, const float& y, const float& z);
-	glm::vec3 GetPosition();
+	glm::vec3 GetPosition() const;
 	void SetRotation(const float& angle, const glm::vec3& rot);
-	glm::vec3 GetRotation();
+	glm::vec3 GetRotation() const;
 	void SetScale(const glm::vec3& sca);
-	glm::vec3 GetScale();
+	glm::vec3 GetScale() const;
 
 protected:
-	void UpdateVectors();
+	void UpdateDirection();
 
 protected:
 	glm::mat4 transform;

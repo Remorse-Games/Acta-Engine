@@ -52,7 +52,6 @@ OpenGLWindow::~OpenGLWindow()
 	glfwTerminate();
 }
 
-
 void OpenGLWindow::UpdateWindow()
 {
 	while (!glfwWindowShouldClose(window))
@@ -62,6 +61,8 @@ void OpenGLWindow::UpdateWindow()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
+		Time::Update();
+
 		// TODO: this is so bad. will fix it later.
 		render->camera.Input(window);
 
