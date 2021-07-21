@@ -2,6 +2,9 @@
 #include "Object.h"
 #include "catch.hpp"
 
+extern float yaw;
+extern float pitch;
+
 void Object::Init()
 {
 	transform = glm::mat4(1.0f);
@@ -44,6 +47,18 @@ void Object::SetScale(const glm::vec3& scale)
 glm::vec3 Object::GetScale()
 {
 	return m_scale;
+}
+
+void Object::UpdateVectors()
+{
+	glm::vec3 direction;
+	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.y = sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	Forward = glm::normalize(direction);
+	Right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), Forward));
+	Up = glm::cross(Forward, Right);
+
 }
 
 #if UNIT_TESTING

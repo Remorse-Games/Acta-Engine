@@ -1,7 +1,7 @@
 #include "actapch.h"
 #include "OpenGLInput.h"
 
-void OpenGLInput::ProcessInput(GLFWwindow* window)
+void OpenGLInput::ProcessInputKey(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
@@ -9,10 +9,38 @@ void OpenGLInput::ProcessInput(GLFWwindow* window)
 	}
 }
 
-void OpenGLInput::ProcessInput(GLFWwindow* window, GLenum glKey, GLenum glPress, std::function<void()> func)
+void OpenGLInput::ProcessInputKey(GLFWwindow* window, GLenum glKey, GLenum glPress, const bool& isEqual, std::function<void()> func)
 {
-	if (glfwGetKey(window, glKey) == glPress)
+	if (isEqual)
 	{
-		func();
+		if (glfwGetKey(window, glKey) == glPress)
+		{
+			func();
+		}
+	}
+	else
+	{
+		if (glfwGetKey(window, glKey) != glPress)
+		{
+			func();
+		}
+	}
+}
+
+void OpenGLInput::ProcessInputMouse(GLFWwindow* window, GLenum glButton, GLenum glPress, const bool& isEqual, std::function<void()> func)
+{
+	if (isEqual)
+	{
+		if (glfwGetMouseButton(window, glButton) == glPress)
+		{
+			func();
+		}
+	}
+	else
+	{
+		if (glfwGetMouseButton(window, glButton) != glPress)
+		{
+			func();
+		}
 	}
 }

@@ -1,9 +1,8 @@
 #include "actapch.h"
 #include "OpenGLWindow.h"
 
-void resize_callback(GLFWwindow* window, int width, int height);
-
-OpenGLWindow::OpenGLWindow(unsigned int&& width, unsigned int&& height, std::string&& title) : window(NULL)
+OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, std::string&& title) :
+	window(nullptr)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -58,7 +57,7 @@ void OpenGLWindow::UpdateWindow()
 {
 	while (!glfwWindowShouldClose(window))
 	{
-		OpenGLInput::ProcessInput(window);
+		OpenGLInput::ProcessInputKey(window);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -76,5 +75,6 @@ void OpenGLWindow::UpdateWindow()
 
 void resize_callback(GLFWwindow* window, int width, int height)
 {
-	glViewport(width, height, width, height);
+	glViewport(0, 0, width, height);
 }
+

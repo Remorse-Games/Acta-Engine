@@ -4,6 +4,8 @@
 #include "OpenGL/OpenGLInput.h"
 #include "System/Time.h"
 
+void mouse_callback(GLFWwindow* window, double xPos, double yPos);
+
 class Camera : public Object
 {
 public:
@@ -16,6 +18,8 @@ public:
 public:
 	float fieldOfView;
 	float cameraSpeed = 1.0f;
+	float cameraSprintSpeed = 2.0f;
+	glm::vec3 direction;
 
 private:
 	OpenGLShader shader;
@@ -25,8 +29,8 @@ private:
 	glm::mat4 view;
 	glm::mat4 projection;
 
-	glm::vec3 cameraTarget;
-	glm::vec3 cameraForward;
-	glm::vec3 cameraUp;
-	glm::vec3 cameraRight;
+private:
+	bool sprintInit = false;
+	bool moveInit = true;
+
 };

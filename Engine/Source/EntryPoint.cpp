@@ -5,11 +5,10 @@
 #include "catch.hpp"
 
 #define UNIT_TESTING false
-
 #if !UNIT_TESTING
 int main(int argc, char** argv)
 {
-	OpenGLWindow* window = new OpenGLWindow(1280, 720, "Remorse Render Engine");
+	OpenGLWindow* window = new OpenGLWindow(windowWidth, windowHeight, "Remorse Render Engine");
 	window->UpdateWindow();
 	delete window;
 }
