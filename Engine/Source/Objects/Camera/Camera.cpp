@@ -19,17 +19,6 @@ Camera::Camera() :
 {
 	// Init position
 	SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-
-	cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	cameraForward = glm::normalize(cameraTarget - m_position);
-	
-	// world up when init
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	
-	cameraRight = glm::normalize(glm::cross(up, cameraForward));
-
-	cameraUp = glm::cross(cameraForward, cameraRight);
-
 }
 
 Camera::~Camera()
@@ -45,7 +34,7 @@ void Camera::Draw()
 	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
 	shader.SetUniformMat4("projection", projection);
 
-	view = glm::lookAt(m_position, cameraForward + m_position, cameraUp);
+	view = glm::lookAt(m_position, Forward + m_position, Up);
 	shader.SetUniformMat4("view", view);
 }
 
@@ -57,28 +46,28 @@ void Camera::Input(GLFWwindow* window)
 	// forward
 	OpenGLInput::ProcessInputKey(window, GLFW_KEY_W, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Forward * cameraSpeed * time.deltaTime;
 			SetPosition(m_position.x + calcSpeed.x, m_position.y + calcSpeed.y, m_position.z + calcSpeed.z);
 		});
 	
 	// backward
 	OpenGLInput::ProcessInputKey(window, GLFW_KEY_S, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Forward * cameraSpeed * time.deltaTime;
 			SetPosition(m_position.x - calcSpeed.x, m_position.y - calcSpeed.y, m_position.z - calcSpeed.z);
 		});
 	
 	// left
 	OpenGLInput::ProcessInputKey(window, GLFW_KEY_A, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Right * cameraSpeed * time.deltaTime;
 			SetPosition(m_position.x + calcSpeed.x, m_position.y + calcSpeed.y, m_position.z + calcSpeed.z);
 		});
 	
 	// right
 	OpenGLInput::ProcessInputKey(window, GLFW_KEY_D, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
+			glm::vec3 calcSpeed = Right * cameraSpeed * time.deltaTime;
 			SetPosition(m_position.x - calcSpeed.x, m_position.y - calcSpeed.y, m_position.z - calcSpeed.z);
 		});
 
