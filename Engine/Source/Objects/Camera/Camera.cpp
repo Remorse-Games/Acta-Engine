@@ -11,7 +11,7 @@ Camera::Camera() :
 	SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 
 	cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	cameraForward = glm::normalize(cameraTarget - position);
+	cameraForward = glm::normalize(cameraTarget - m_position);
 	
 	// world up when init
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -33,7 +33,7 @@ void Camera::Draw()
 	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
 	shader.SetUniformMat4("projection", projection);
 
-	view = glm::lookAt(position, cameraForward + position, cameraUp);
+	view = glm::lookAt(m_position, cameraForward + m_position, cameraUp);
 	shader.SetUniformMat4("view", view);
 }
 
@@ -43,27 +43,27 @@ void Camera::Input(GLFWwindow* window)
 	OpenGLInput::ProcessInput(window, GLFW_KEY_W, GLFW_PRESS, [&]()
 		{
 			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
-			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
+			SetPosition(m_position.x + calcSpeed.x, m_position.y + calcSpeed.y, m_position.z + calcSpeed.z);
 		});
 	
 	// backward
 	OpenGLInput::ProcessInput(window, GLFW_KEY_S, GLFW_PRESS, [&]()
 		{
 			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
-			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
+			SetPosition(m_position.x - calcSpeed.x, m_position.y - calcSpeed.y, m_position.z - calcSpeed.z);
 		});
 	
 	// left
 	OpenGLInput::ProcessInput(window, GLFW_KEY_A, GLFW_PRESS, [&]()
 		{
 			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
-			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
+			SetPosition(m_position.x + calcSpeed.x, m_position.y + calcSpeed.y, m_position.z + calcSpeed.z);
 		});
 	
 	// right
 	OpenGLInput::ProcessInput(window, GLFW_KEY_D, GLFW_PRESS, [&]()
 		{
 			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
-			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
+			SetPosition(m_position.x - calcSpeed.x, m_position.y - calcSpeed.y, m_position.z - calcSpeed.z);
 		});
 }

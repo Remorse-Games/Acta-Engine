@@ -7,45 +7,46 @@ void Object::Init()
 	transform = glm::mat4(1.0f);
 }
 
-void Object::SetPosition(const glm::vec3& pos)
+void Object::SetPosition(const glm::vec3& position)
 {
-	position = pos;
-	transform = glm::translate(transform, position);
+	m_position = position;
+	transform = glm::translate(transform, m_position);
 }
 
 void Object::SetPosition(const float& x, const float& y, const float& z)
 {
-	position = glm::vec3(x, y, z);
-	transform = glm::translate(transform, position);
+	m_position = glm::vec3(x, y, z);
+	transform = glm::translate(transform, m_position);
 }
 
 glm::vec3 Object::GetPosition()
 {
-	return position;
+	return m_position;
 }
 
-void Object::SetRotation(const float& angle, const glm::vec3& rot)
+void Object::SetRotation(const float& angle, const glm::vec3& rotation)
 {
-	rotation = rot;
-	transform = glm::rotate(transform, glm::radians(angle), rotation);
+	m_rotation = rotation;
+	transform = glm::rotate(transform, glm::radians(angle), m_rotation);
 }
 
 glm::vec3 Object::GetRotation()
 {
-	return rotation;
+	return m_rotation;
 }
 
-void Object::SetScale(const glm::vec3& sca)
+void Object::SetScale(const glm::vec3& scale)
 {
-	scale = sca;
-	transform = glm::scale(transform, scale);
+	m_scale = scale;
+	transform = glm::scale(transform, m_scale);
 }
 
 glm::vec3 Object::GetScale()
 {
-	return scale;
+	return m_scale;
 }
 
+#if UNIT_TESTING
 TEST_CASE("ObjectFunctions")
 {
 	auto obj = new Object;
@@ -86,3 +87,4 @@ TEST_CASE("ObjectFunctions")
 		REQUIRE(obj->GetScale() == glm::vec3(10, 11, 12));
 	}
 }
+#endif

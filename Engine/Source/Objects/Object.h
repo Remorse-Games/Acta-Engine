@@ -16,7 +16,7 @@ public:
 protected:
 	glm::mat4 transform;
 
-	glm::vec3 position;
-	glm::vec3 rotation;
-	glm::vec3 scale;
+	glm::vec3 m_position;
+	glm::vec3 m_rotation;
+	glm::vec3 m_scale;
 };

@@ -4,7 +4,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
-#define UNIT_TESTING true
+#define UNIT_TESTING false
 
 #if !UNIT_TESTING
 int main(int argc, char** argv)
