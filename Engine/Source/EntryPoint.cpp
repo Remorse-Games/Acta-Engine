@@ -1,12 +1,18 @@
 #include "actapch.h"
 #include "OpenGL/OpenGLWindow.h"
 
-unsigned int windowWidth = 1280;
-unsigned int windowHeight = 720;
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 
-int main()
+#define UNIT_TESTING false
+#if !UNIT_TESTING
+int main(int argc, char** argv)
 {
 	OpenGLWindow* window = new OpenGLWindow(windowWidth, windowHeight, "Remorse Render Engine");
 	window->UpdateWindow();
 	delete window;
 }
+#endif
+
+
+

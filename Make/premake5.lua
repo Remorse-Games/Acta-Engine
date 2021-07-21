@@ -20,6 +20,7 @@ IncludeDir["ImGui"] 	= 	(trunk .. "Externals/imgui")
 IncludeDir["glm"] 		= 	(trunk .. "Externals/glm")
 IncludeDir["stb_image"] = 	(trunk .. "Externals/stb_image")
 IncludeDir["spdlog"] 	= 	(trunk .. "Externals/spdlog/include")
+IncludeDir["catch"] 	= 	(trunk .. "Externals/Catch2")
 
 
 -- output name for bin / obj
@@ -55,7 +56,8 @@ project "Acta"
 		(trunk .. "Externals/stb_image/**.cpp"),
 		(trunk .. "Externals/stb_image/**.h"),
 		(trunk .. "Externals/glm/glm/**.hpp"),		
-		(trunk .. "Externals/glm/glm/**.inl")
+		(trunk .. "Externals/glm/glm/**.inl"),
+		(trunk .. "Externals/Catch2/**.hpp")
 	}
 	
 	defines
@@ -74,7 +76,8 @@ project "Acta"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.catch}"
 	}
 	
 	links

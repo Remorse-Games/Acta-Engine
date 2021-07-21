@@ -10,7 +10,7 @@ public:
 	glm::vec3 GetPosition();
 	void SetRotation(const float& angle, const glm::vec3& rot);
 	glm::vec3 GetRotation();
-	void SetScale();
+	void SetScale(const glm::vec3& sca);
 	glm::vec3 GetScale();
 
 protected:
@@ -19,12 +19,11 @@ protected:
 protected:
 	glm::mat4 transform;
 
-	glm::vec3 position;
-	glm::vec3 rotation;
-	glm::vec3 scale;
+	glm::vec3 m_position;
+	glm::vec3 m_rotation;
+	glm::vec3 m_scale;
 
 	glm::vec3 Forward;
 	glm::vec3 Up;
 	glm::vec3 Right;
-
 };
