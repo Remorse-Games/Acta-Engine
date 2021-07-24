@@ -1,4 +1,5 @@
 #include "actapch.h"
+#include "glad/glad.h"
 #include "OpenGLRenderer.h"
 
 OpenGLRenderer::OpenGLRenderer() :

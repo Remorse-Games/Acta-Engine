@@ -5,7 +5,7 @@ class Game : public Application
 public:
 	Game()
 	{
-		//spdlog::info("Start the game!");
+		spdlog::info("Start the game!");
 	}
 
 	~Game()

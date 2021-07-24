@@ -1,8 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <functional>
 #include "spdlog/spdlog.h"
 
 #include <glm/glm.hpp>

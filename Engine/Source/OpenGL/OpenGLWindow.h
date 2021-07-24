@@ -1,4 +1,7 @@
 #pragma once
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
 #include "OpenGL/OpenGLInput.h"
 #include "OpenGL/OpenGLRenderer.h"
 #include "ImGui/ImGui_Main.h"

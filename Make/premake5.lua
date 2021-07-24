@@ -143,7 +143,7 @@ project "Game"
 		(trunk .. "Engine/Source"),
 		(trunk .. "Externals"),
 		(trunk .. "Externals/spdlog/include"),
-		(trunk .. "Acta/bin/" .. outputName),
+		--(trunk .. "Acta/bin/" .. outputName),
         --(trunk .. "Externals/assimp/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",

@@ -1,4 +1,5 @@
 #include "actapch.h"
+#include "glad/glad.h"
 #include "GameObject.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
@@ -69,7 +70,6 @@ shader("Shader/triangle.vert", "Shader/triangle.frag")
     
     shader.use();
     shader.SetUniformInt("Texture1", 1);
-
     shader.SetUniformMat4("model", transform);
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();

@@ -75,6 +75,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 #include "actapch.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
