@@ -13,4 +13,8 @@
 #include "imgui.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
+
+//#define CATCH_CONFIG_MAIN
+//#include "catch.hpp"
+#define UNIT_TESTING false
 #endif

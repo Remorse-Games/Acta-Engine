@@ -67,7 +67,7 @@ void Transform::UpdateDirection()
 #if UNIT_TESTING
 TEST_CASE("ObjectFunctions")
 {
-	auto obj = new Object;
+	auto obj = new Transform;
 	SECTION("GetPosition And SetPosition (By Floats)")
 	{
 		obj->SetPosition(1, 2, 3);
