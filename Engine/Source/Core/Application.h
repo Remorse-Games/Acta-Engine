@@ -2,17 +2,20 @@
 
 #include "OpenGL/OpenGLWindow.h"
 
-class Application
+namespace ActaEngine
 {
-public:
-	Application();
-	~Application();
+	class Application
+	{
+	public:
+		Application();
+		~Application();
 
-	void Start();
-	void Update();
+		void Start();
+		void Update();
 
-private:
-	OpenGLWindow* window;
-};
+	private:
+		OpenGLWindow* window;
+	};
+}
 
-Application* CreateApplication();
+ActaEngine::Application* CreateApplication();

@@ -1,7 +1,7 @@
 #include "actapch.h"
 #include "OpenGLWindow.h"
-
-OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, std::string&& title) :
+#include "System/Time.h"
+ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, std::string&& title) :
 	window(nullptr)
 {
 	glfwInit();
@@ -45,18 +45,18 @@ OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, std::string&
 	spdlog::info("Version	: {0}", glGetString(GL_VERSION));
 }
 
-OpenGLWindow::~OpenGLWindow()
+ActaEngine::OpenGLWindow::~OpenGLWindow()
 {
 	delete render;
 	imgui.Destroy();
 	glfwTerminate();
 }
 
-void OpenGLWindow::UpdateWindow()
+void ActaEngine::OpenGLWindow::UpdateWindow()
 {
 	while (!glfwWindowShouldClose(window))
 	{
-		OpenGLInput::ProcessInputKey(window);
+		InputEvents::ProcessInputKey(window);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

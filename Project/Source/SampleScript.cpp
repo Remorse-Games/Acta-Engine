@@ -1,6 +1,6 @@
 #include "ActaEngine.h"
 
-class Game : public Application
+class Game : public ActaEngine::Application
 {
 public:
 	Game()
@@ -14,7 +14,7 @@ public:
 	}
 };
 
-Application* CreateApplication()
+ActaEngine::Application* CreateApplication()
 {
 	return new Game();
 }

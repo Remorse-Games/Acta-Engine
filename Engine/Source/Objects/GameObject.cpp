@@ -7,7 +7,7 @@
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-GameObject::GameObject() :
+ActaEngine::GameObject::GameObject() :
 shader("Shader/triangle.vert", "Shader/triangle.frag")
 {
     // vertex draw. remove later.
@@ -77,12 +77,12 @@ shader("Shader/triangle.vert", "Shader/triangle.frag")
 
 }
 
-GameObject::~GameObject()
+ActaEngine::GameObject::~GameObject()
 {
 
 }
 
-void GameObject::Draw()
+void ActaEngine::GameObject::Draw()
 {
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.render_ID);

@@ -1,9 +1,9 @@
 #include "actapch.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "OpenGLInput.h"
+#include "InputEvents.h"
 
-void OpenGLInput::ProcessInputKey(GLFWwindow* window)
+void ActaEngine::InputEvents::ProcessInputKey(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
@@ -11,7 +11,7 @@ void OpenGLInput::ProcessInputKey(GLFWwindow* window)
 	}
 }
 
-void OpenGLInput::ProcessInputKey(GLFWwindow* window, GLenum glKey, GLenum glPress, const bool& isEqual, std::function<void()> func)
+void ActaEngine::InputEvents::ProcessInputKey(GLFWwindow* window, GLenum glKey, GLenum glPress, const bool& isEqual, std::function<void()> func)
 {
 	if (isEqual)
 	{
@@ -29,7 +29,7 @@ void OpenGLInput::ProcessInputKey(GLFWwindow* window, GLenum glKey, GLenum glPre
 	}
 }
 
-void OpenGLInput::ProcessInputMouse(GLFWwindow* window, GLenum glButton, GLenum glPress, const bool& isEqual, std::function<void()> func)
+void ActaEngine::InputEvents::ProcessInputMouse(GLFWwindow* window, GLenum glButton, GLenum glPress, const bool& isEqual, std::function<void()> func)
 {
 	if (isEqual)
 	{

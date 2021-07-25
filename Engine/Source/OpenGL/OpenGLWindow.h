@@ -2,23 +2,24 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#include "OpenGL/OpenGLInput.h"
+#include "Core/Events/InputEvents.h"
 #include "OpenGL/OpenGLRenderer.h"
 #include "ImGui/ImGui_Main.h"
 
 void resize_callback(GLFWwindow* window, int width, int height);
-
-class OpenGLWindow
+namespace ActaEngine
 {
-public:
-	OpenGLWindow(unsigned int width, unsigned int height, std::string&& title);
-	~OpenGLWindow();
+	class OpenGLWindow
+	{
+	public:
+		OpenGLWindow(unsigned int width, unsigned int height, std::string&& title);
+		~OpenGLWindow();
 
-	void UpdateWindow();
+		void UpdateWindow();
 
-private:
-	GLFWwindow* window;
-	ImGui_Main imgui;
-	OpenGLRenderer* render;
-};
-
+	private:
+		GLFWwindow* window;
+		ImGui_Main imgui;
+		OpenGLRenderer* render;
+	};
+}

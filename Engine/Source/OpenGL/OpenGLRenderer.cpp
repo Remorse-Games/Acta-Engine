@@ -2,7 +2,7 @@
 #include "glad/glad.h"
 #include "OpenGLRenderer.h"
 
-OpenGLRenderer::OpenGLRenderer() :
+ActaEngine::OpenGLRenderer::OpenGLRenderer() :
     wireframe(false)
 {
     gameObject.reserve(10);
@@ -35,12 +35,12 @@ OpenGLRenderer::OpenGLRenderer() :
     shader = new OpenGLShader("Shader/triangle.vert", "Shader/triangle.frag");
 }
 
-OpenGLRenderer::~OpenGLRenderer()
+ActaEngine::OpenGLRenderer::~OpenGLRenderer()
 {
     delete shader;
 }
 
-void OpenGLRenderer::Draw()
+void ActaEngine::OpenGLRenderer::Draw()
 {
     camera.Draw();
 
@@ -88,7 +88,7 @@ void OpenGLRenderer::Draw()
     //
 }
 
-void OpenGLRenderer::Wireframe()
+void ActaEngine::OpenGLRenderer::Wireframe()
 {
     if (wireframe)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

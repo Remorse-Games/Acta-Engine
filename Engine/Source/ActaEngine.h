@@ -6,6 +6,9 @@
 #include "Core/Application.h"
 #include "System/Time.h"
 
+//Events
+#include "Core/Events/InputEvents.h"
+
 //ImGui
 #include "imgui.h"
 
@@ -19,7 +22,6 @@
 #include "OpenGL/OpenGLRenderer.h"
 #include "OpenGL/OpenGLShader.h"
 #include "OpenGL/OpenGLTexture.h"
-#include "OpenGL/OpenGLInput.h"
 #include "OpenGL/OpenGLWindow.h"
 
 //Entry Point

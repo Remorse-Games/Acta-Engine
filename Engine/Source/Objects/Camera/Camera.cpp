@@ -3,6 +3,11 @@
 #include "GLFW/glfw3.h"
 #include "Camera.h"
 
+#include "Objects/Transform.h"
+#include "OpenGL/OpenGLShader.h"
+#include "Core/Events/InputEvents.h"
+#include "System/Time.h"
+
 extern unsigned int windowWidth;
 extern unsigned int windowHeight;
 
@@ -14,7 +19,7 @@ extern float roll;
 float lastMousePosX = windowWidth / 2;
 float lastMousePosY = windowHeight / 2;
 
-Camera::Camera() :
+ActaEngine::Camera::Camera() :
 	view(glm::mat4(0)), 
 	projection(glm::mat4(0)),
 	fieldOfView(45.0f),
@@ -26,11 +31,11 @@ Camera::Camera() :
 	SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 }
 
-Camera::~Camera()
+ActaEngine::Camera::~Camera()
 {
 }
 
-void Camera::Draw()
+void ActaEngine::Camera::Draw()
 {
 	UpdateDirection();
 
@@ -41,40 +46,41 @@ void Camera::Draw()
 	shader.SetUniformMat4("view", view);
 }
 
-void Camera::Input(GLFWwindow* window)
+void ActaEngine::Camera::Input(GLFWwindow* window)
 {
 	//////////////////////////////KEYBOARD CAMERA INPUT////////////////////////////////////////////
 
 	// forward
-	OpenGLInput::ProcessInputKey(window, GLFW_KEY_W, GLFW_PRESS, true, [&]()
+	InputEvents::ProcessInputKey(window, GLFW_KEY_W, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = Forward * cameraSpeed * Time::deltaTime;
 			SetPosition(m_position.x + calcSpeed.x, m_position.y + calcSpeed.y, m_position.z + calcSpeed.z);
 		});
 	
 	// backward
-	OpenGLInput::ProcessInputKey(window, GLFW_KEY_S, GLFW_PRESS, true, [&]()
+	InputEvents::ProcessInputKey(window, GLFW_KEY_S, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = Forward * cameraSpeed * Time::deltaTime;
 			SetPosition(m_position.x - calcSpeed.x, m_position.y - calcSpeed.y, m_position.z - calcSpeed.z);
 		});
 	
 	// left
-	OpenGLInput::ProcessInputKey(window, GLFW_KEY_A, GLFW_PRESS, true, [&]()
+	InputEvents::ProcessInputKey(window, GLFW_KEY_A, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = Right * cameraSpeed * Time::deltaTime;
+
 			SetPosition(m_position.x + calcSpeed.x, m_position.y + calcSpeed.y, m_position.z + calcSpeed.z);
 		});
 	
 	// right
-	OpenGLInput::ProcessInputKey(window, GLFW_KEY_D, GLFW_PRESS, true, [&]()
+	InputEvents::ProcessInputKey(window, GLFW_KEY_D, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = Right * cameraSpeed * Time::deltaTime;
 			SetPosition(m_position.x - calcSpeed.x, m_position.y - calcSpeed.y, m_position.z - calcSpeed.z);
 		});
 
 	//////////////////////////////RUN CAMERA INPUT////////////////////////////////////////////
-	OpenGLInput::ProcessInputKey(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, true, [&]()
+	InputEvents::ProcessInputKey(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, true, [&]()
 		{
 			if (!sprintInit)
 			{
@@ -84,7 +90,7 @@ void Camera::Input(GLFWwindow* window)
 			}
 		});
 
-	OpenGLInput::ProcessInputKey(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, false, [&]()
+	InputEvents::ProcessInputKey(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, false, [&]()
 		{
 			if (!moveInit)
 			{
@@ -95,12 +101,12 @@ void Camera::Input(GLFWwindow* window)
 		});
 
 	//////////////////////////////MOUSE INPUT////////////////////////////////////////////
-	OpenGLInput::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, true, [&]()
+	InputEvents::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, true, [&]()
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			glfwSetCursorPosCallback(window, mouse_callback);
 		});
-	OpenGLInput::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, false, [&]()
+	InputEvents::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, false, [&]()
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) { firstMouse = true; });
