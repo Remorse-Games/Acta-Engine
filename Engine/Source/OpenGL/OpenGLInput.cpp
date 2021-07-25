@@ -1,4 +1,6 @@
 #include "actapch.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 #include "OpenGLInput.h"
 
 void OpenGLInput::ProcessInputKey(GLFWwindow* window)

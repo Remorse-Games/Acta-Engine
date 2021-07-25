@@ -1,4 +1,5 @@
 #include "actapch.h"
+#include "glad/glad.h"
 #include "OpenGLDebugger.h"
 
 GLenum OpenGLDebugger::glCheckError(const char* file, int line)

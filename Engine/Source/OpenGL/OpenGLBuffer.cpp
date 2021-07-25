@@ -1,4 +1,5 @@
 #include "actapch.h"
+#include "glad/glad.h"
 #include "OpenGLBuffer.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)

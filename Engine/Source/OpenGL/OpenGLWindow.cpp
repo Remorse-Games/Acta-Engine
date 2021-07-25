@@ -70,7 +70,6 @@ void OpenGLWindow::UpdateWindow()
 
 		glfwPollEvents();
 		glfwSwapBuffers(window);
-
 	}
 }
 
