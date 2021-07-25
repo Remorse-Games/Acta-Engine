@@ -129,7 +129,8 @@ project "Game"
 	files
 	{
 		(trunk .. "Project/Source/**.h"),
-		(trunk .. "Project/Source/**.cpp")
+		(trunk .. "Project/Source/**.cpp"),
+		(trunk .. "Externals/Catch2/**.hpp")
 	}
 	
 	defines
@@ -143,14 +144,13 @@ project "Game"
 		(trunk .. "Engine/Source"),
 		(trunk .. "Externals"),
 		(trunk .. "Externals/spdlog/include"),
-		--(trunk .. "Acta/bin/" .. outputName),
         --(trunk .. "Externals/assimp/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		--"%{IncludeDir.catch}"
+		"%{IncludeDir.catch}"
 	}
 	
 	links
