@@ -1,8 +1,8 @@
 #include "actapch.h"
 #include "OpenGLWindow.h"
 #include "System/Time.h"
-ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, std::string&& title) :
-	window(nullptr)
+
+ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, std::string&& title)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -34,8 +34,6 @@ ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, 
 
 	imgui.Init(window);
 	
-	render = new OpenGLRenderer();
-
 	int nrAttrib;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttrib);
 	spdlog::info("Maximum number of vertex attributes supported : {0}", nrAttrib);
@@ -47,30 +45,14 @@ ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, 
 
 ActaEngine::OpenGLWindow::~OpenGLWindow()
 {
-	delete render;
 	imgui.Destroy();
 	glfwTerminate();
 }
 
 void ActaEngine::OpenGLWindow::UpdateWindow()
 {
-	while (!glfwWindowShouldClose(window))
-	{
-		KeyEvent::ProcessInputKey(window);
-
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		Time::Update();
-
-		// TODO: this is so bad. will fix it later.
-		render->camera.Input(window);
-
-		render->Draw();
-
-		glfwPollEvents();
-		glfwSwapBuffers(window);
-	}
+	mainCamera.Draw();
+	mainCamera.Input(window);
 }
 
 void resize_callback(GLFWwindow* window, int width, int height)

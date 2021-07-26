@@ -6,7 +6,7 @@
 
 namespace ActaEngine
 {
-	class GameObject : public Transform
+	class GameObject
 	{
 	public:
 		GameObject();
@@ -18,11 +18,14 @@ namespace ActaEngine
 	public:
 		OpenGLTexture texture;
 		OpenGLShader shader;
-
+		Transform transform;
 	private:
 		OpenGLVertexBuffer vertexBuffer;
 		OpenGLIndexBuffer indexBuffer;
 		unsigned int vao;
 		unsigned int vbo;
+
+	private:
+		glm::mat4 model;
 	};
 }

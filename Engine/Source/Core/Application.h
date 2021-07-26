@@ -1,7 +1,7 @@
 #pragma once
 
 #include "OpenGL/OpenGLWindow.h"
-
+#include "Objects/Camera/Camera.h"
 namespace ActaEngine
 {
 	class Application
@@ -13,8 +13,11 @@ namespace ActaEngine
 		virtual void Start();
 		virtual void Update();
 
+		void Run();
+
 	private:
-		OpenGLWindow* window;
+		OpenGLWindow* OglWindow;
+		OpenGLRenderer* render;
 	};
 }
 

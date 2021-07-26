@@ -70,7 +70,7 @@ shader("Shader/triangle.vert", "Shader/triangle.frag")
     
     shader.use();
     shader.SetUniformInt("Texture1", 1);
-    shader.SetUniformMat4("model", transform);
+    shader.SetUniformMat4("model", transform.m_Transform);
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
@@ -101,7 +101,7 @@ void ActaEngine::GameObject::Draw()
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture.texture[1]);
 
-    shader.SetUniformMat4("model", transform);
+    shader.SetUniformMat4("model", transform.m_Transform);
 
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 36);

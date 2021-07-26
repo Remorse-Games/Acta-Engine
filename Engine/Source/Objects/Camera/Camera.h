@@ -8,7 +8,7 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 
 namespace ActaEngine
 {
-	class Camera : public Transform
+	class Camera
 	{
 	public:
 		Camera();
@@ -16,6 +16,9 @@ namespace ActaEngine
 
 		void Draw();
 		void Input(GLFWwindow* window);
+
+	public:
+		Transform transform;
 
 	public:
 		float fieldOfView;

@@ -5,8 +5,10 @@
 #include "Core/Events/KeyEvent.h"
 #include "OpenGL/OpenGLRenderer.h"
 #include "ImGui/ImGui_Main.h"
+#include "Objects/Camera/Camera.h"
 
 void resize_callback(GLFWwindow* window, int width, int height);
+
 namespace ActaEngine
 {
 	class OpenGLWindow
@@ -16,10 +18,11 @@ namespace ActaEngine
 		~OpenGLWindow();
 
 		void UpdateWindow();
+		
+		GLFWwindow* window;
 
 	private:
-		GLFWwindow* window;
 		ImGui_Main imgui;
-		OpenGLRenderer* render;
+		Camera mainCamera;
 	};
 }

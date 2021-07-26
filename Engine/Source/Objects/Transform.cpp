@@ -8,19 +8,19 @@ float roll = 0.0f;
 
 void ActaEngine::Transform::Identity()
 {
-	transform = glm::mat4(1.0f);
+	m_Transform = glm::mat4(1.0f);
 }
 
 void ActaEngine::Transform::SetPosition(const glm::vec3& position)
 {
 	m_position = position;
-	transform = glm::translate(transform, m_position);
+	m_Transform = glm::translate(m_Transform, m_position);
 }
 
 void ActaEngine::Transform::SetPosition(const float& x, const float& y, const float& z)
 {
 	m_position = glm::vec3(x, y, z);
-	transform = glm::translate(transform, m_position);
+	m_Transform = glm::translate(m_Transform, m_position);
 }
 
 glm::vec3 ActaEngine::Transform::GetPosition() const
@@ -31,7 +31,7 @@ glm::vec3 ActaEngine::Transform::GetPosition() const
 void ActaEngine::Transform::SetRotation(const float& angle, const glm::vec3& rotation)
 {
 	m_rotation = rotation;
-	transform = glm::rotate(transform, glm::radians(angle), m_rotation);
+	m_Transform = glm::rotate(m_Transform, glm::radians(angle), m_rotation);
 }
 
 glm::vec3 ActaEngine::Transform::GetRotation() const
@@ -42,7 +42,7 @@ glm::vec3 ActaEngine::Transform::GetRotation() const
 void ActaEngine::Transform::SetScale(const glm::vec3& scale)
 {
 	m_scale = scale;
-	transform = glm::scale(transform, m_scale);
+	m_Transform = glm::scale(m_Transform, m_scale);
 }
 
 glm::vec3 ActaEngine::Transform::GetScale() const
