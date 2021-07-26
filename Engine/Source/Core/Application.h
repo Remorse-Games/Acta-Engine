@@ -10,8 +10,8 @@ namespace ActaEngine
 		Application();
 		~Application();
 
-		void Start();
-		void Update();
+		virtual void Start();
+		virtual void Update();
 
 	private:
 		OpenGLWindow* window;

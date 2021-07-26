@@ -1,7 +1,7 @@
 #pragma once
 #include "Objects/Transform.h"
 #include "OpenGL/OpenGLShader.h"
-#include "Core/Events/InputEvents.h"
+#include "Core/Events/KeyEvent.h"
 #include "System/Time.h"
 
 void mouse_callback(GLFWwindow* window, double xPos, double yPos);

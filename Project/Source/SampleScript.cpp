@@ -12,6 +12,17 @@ public:
 	{
 
 	}
+
+	void Start() override
+	{
+
+	}
+
+	//TODO: not updating yet
+	void Update() override
+	{
+		Application::Update();
+	}
 };
 
 ActaEngine::Application* CreateApplication()

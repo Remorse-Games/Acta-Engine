@@ -7,7 +7,8 @@
 #include "System/Time.h"
 
 //Events
-#include "Core/Events/InputEvents.h"
+#include "Core/Events/KeyEvent.h"
+#include "Core/Events/MouseEvent.h"
 
 //ImGui
 #include "imgui.h"

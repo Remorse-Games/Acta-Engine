@@ -2,7 +2,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
-#include "Core/Events/InputEvents.h"
+#include "Core/Events/KeyEvent.h"
 #include "OpenGL/OpenGLRenderer.h"
 #include "ImGui/ImGui_Main.h"
 
