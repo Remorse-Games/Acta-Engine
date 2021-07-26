@@ -20,9 +20,9 @@ namespace ActaEngine
 		void UpdateWindow();
 		
 		GLFWwindow* window;
+		Camera* mainCamera;
 
 	private:
 		ImGui_Main imgui;
-		Camera mainCamera;
 	};
 }

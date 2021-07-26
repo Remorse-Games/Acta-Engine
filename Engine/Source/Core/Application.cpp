@@ -8,7 +8,7 @@ unsigned int windowHeight = 720;
 
 ActaEngine::Application::Application()
 {
-	OglWindow = new OpenGLWindow(windowWidth, windowHeight, "Remorse Render Engine");
+	OglWindow = new OpenGLWindow(windowWidth, windowHeight, "Acta Engine");
 	render = new OpenGLRenderer();
 	Start();
 }

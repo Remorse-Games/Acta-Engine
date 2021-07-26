@@ -14,9 +14,9 @@ namespace ActaEngine
 		virtual void Update();
 
 		void Run();
+		OpenGLWindow* OglWindow;
 
 	private:
-		OpenGLWindow* OglWindow;
 		OpenGLRenderer* render;
 	};
 }

@@ -92,14 +92,14 @@ public:
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        //ImGui::Begin("Camera");
-        //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        //float camPos[] = { mainCamera.transform.GetPosition().x, mainCamera.transform.GetPosition().y, mainCamera.transform.GetPosition().z };
-        //ImGui::InputFloat3("Position", camPos);
-        //mainCamera.transform.SetPosition(camPos[0], camPos[1], camPos[2]);
-        //ImGui::InputFloat("Field of View", &mainCamera.fieldOfView);
-        //ImGui::InputFloat("Camera Speed", &mainCamera.cameraSpeed);
-        //ImGui::End();
+        ImGui::Begin("Camera");
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        float camPos[] = { OglWindow->mainCamera->transform.GetPosition().x, OglWindow->mainCamera->transform.GetPosition().y, OglWindow->mainCamera->transform.GetPosition().z };
+        ImGui::InputFloat3("Position", camPos);
+        OglWindow->mainCamera->transform.SetPosition(camPos[0], camPos[1], camPos[2]);
+        ImGui::InputFloat("Field of View", &OglWindow->mainCamera->fieldOfView);
+        ImGui::InputFloat("Camera Speed", &OglWindow->mainCamera->cameraSpeed);
+        ImGui::End();
 
         ImGui::Begin("Game Object 0");
         float goPos[] = { go.transform.GetPosition().x ,go.transform.GetPosition().y ,go.transform.GetPosition().z };
