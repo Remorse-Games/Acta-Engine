@@ -5,9 +5,6 @@ using namespace ActaEngine;
 class Game : public ActaEngine::Application
 {
 public:
-    //OpenGLShader* shader;
-    //Camera mainCamera;
-
     ActaEngine::GameObject go;
     ActaEngine::GameObject go1;
 
@@ -21,6 +18,9 @@ public:
         go.transform.Identity();
         go.transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
         go.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
+
+        go1.transform.Identity();
+        go1.transform.SetPosition(glm::vec3(1.0f, 0.0f, 0.0f));
     }
 
 	~Game()
@@ -85,7 +85,7 @@ public:
         //go1.transform.Identity();
         //go1.transform.SetPosition(glm::vec3(2.0f, 1.0f, 2.0f));
         //go1.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
-       // go1.Draw();
+        go1.Draw();
 
         // ImGui region
         ImGui_ImplOpenGL3_NewFrame();
@@ -103,11 +103,10 @@ public:
 
         ImGui::Begin("Game Object 0");
         float goPos[] = { go.transform.GetPosition().x ,go.transform.GetPosition().y ,go.transform.GetPosition().z };
-        spdlog::info(goPos[0]);
         ImGui::InputFloat3("Position", goPos);
+        go.transform.Identity();
         go.transform.SetPosition(goPos[0], goPos[1], goPos[2]);
         ImGui::End();
-
         //ImGui::Begin("Rendering");
         //ImGui::Checkbox("Wireframe", &wireframe);
         //Wireframe();

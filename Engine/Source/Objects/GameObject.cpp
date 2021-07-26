@@ -70,7 +70,10 @@ shader("Shader/triangle.vert", "Shader/triangle.frag")
     
     shader.use();
     shader.SetUniformInt("Texture1", 1);
+
+    transform.SetPosition(1.0f, 0.0f, 0.0f);
     shader.SetUniformMat4("model", transform.m_Transform);
+
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
@@ -93,14 +96,13 @@ void ActaEngine::GameObject::Draw()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    // use shader before drawing
-    shader.use();
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture.texture[0]);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture.texture[1]);
 
+    shader.use();
     shader.SetUniformMat4("model", transform.m_Transform);
 
     glBindVertexArray(vao);
