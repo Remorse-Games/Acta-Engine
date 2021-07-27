@@ -1,14 +1,14 @@
 #include "actapch.h"
 #include "glad/glad.h"
 #include "GameObject.h"
+#include "Material.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-ActaEngine::GameObject::GameObject() :
-shader("Shader/triangle.vert", "Shader/triangle.frag")
+ActaEngine::GameObject::GameObject()
 {
     // vertex draw. remove later.
     float vertices[] = {
@@ -67,12 +67,10 @@ shader("Shader/triangle.vert", "Shader/triangle.frag")
     //indexBuffer.SetData(indices, sizeof(indices));
     vertexBuffer.Bind();
     //indexBuffer.Bind();
-    
-    shader.use();
-    shader.SetUniformInt("Texture1", 1);
 
     transform.SetPosition(1.0f, 0.0f, 0.0f);
-    shader.SetUniformMat4("model", transform.m_Transform);
+    material.Init();
+    material.Bind(this);
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
@@ -96,14 +94,12 @@ void ActaEngine::GameObject::Draw()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture.texture[0]);
+    glBindTexture(GL_TEXTURE_2D, material.texture.texture[0]);
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, texture.texture[1]);
+    glBindTexture(GL_TEXTURE_2D, material.texture.texture[1]);
 
-    shader.use();
-    shader.SetUniformMat4("model", transform.m_Transform);
+    material.Bind(this);
 
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 36);

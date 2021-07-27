@@ -41,7 +41,6 @@ void ActaEngine::Application::Run()
 
 		render->Draw();
 		Update();
-
 		OglWindow->UpdateWindow();
 
 		glfwPollEvents();

@@ -27,7 +27,7 @@ namespace ActaEngine
 		glm::vec3 direction;
 
 	private:
-		OpenGLShader* shader;
+		Material material;
 
 	private:
 		glm::mat4 view;

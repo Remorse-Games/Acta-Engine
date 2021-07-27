@@ -17,6 +17,7 @@
 #include "Objects/Camera/Camera.h"
 #include "Objects/GameObject.h"
 #include "Objects/Transform.h"
+#include "Objects/Material.h"
 
 //Renderer
 #include "OpenGL/OpenGLBuffer.h"

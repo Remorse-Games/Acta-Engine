@@ -16,9 +16,8 @@ namespace ActaEngine
 		void Draw();
 
 	public:
-		OpenGLTexture texture;
-		OpenGLShader shader;
 		Transform transform;
+		Material material;
 	private:
 		OpenGLVertexBuffer vertexBuffer;
 		OpenGLIndexBuffer indexBuffer;

@@ -8,6 +8,7 @@
 #include "Core/Events/MouseEvent.h"
 #include "Core/Events/KeyEvent.h"
 #include "System/Time.h"
+#include "Objects/Material.h"
 
 extern unsigned int windowWidth;
 extern unsigned int windowHeight;
@@ -29,12 +30,11 @@ ActaEngine::Camera::Camera() :
 	// Init position
 	yaw = -90.0f;
 	transform.SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-	shader = new OpenGLShader("Shader/triangle.vert", "Shader/triangle.frag");
+	material.Init();
 }
 
 ActaEngine::Camera::~Camera()
 {
-	delete shader;
 }
 
 void ActaEngine::Camera::Draw()
@@ -42,10 +42,10 @@ void ActaEngine::Camera::Draw()
 	transform.UpdateDirection();
 
 	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
-	shader->SetUniformMat4("projection", projection);
+	material.shader->SetUniformMat4("projection", projection);
 
 	view = glm::lookAt(transform.m_position, transform.Forward + transform.m_position, transform.Up);
-	shader->SetUniformMat4("view", view);
+	material.shader->SetUniformMat4("view", view);
 }
 
 void ActaEngine::Camera::Input(GLFWwindow* window)

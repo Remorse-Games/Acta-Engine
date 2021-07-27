@@ -1,5 +1,4 @@
 #include "actapch.h"
-#include "glad/glad.h"
 #include "OpenGLShader.h"
 #include <fstream>
 #include <sstream>
