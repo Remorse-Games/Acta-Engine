@@ -1,5 +1,6 @@
 #include "actapch.h"
 #include "Material.h"
+#include "GameObject.h"
 
 void ActaEngine::Material::Init()
 {

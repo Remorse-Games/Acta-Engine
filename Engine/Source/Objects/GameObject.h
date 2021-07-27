@@ -1,5 +1,6 @@
 #pragma once
 #include "Transform.h"
+#include "Objects/Material.h"
 #include "OpenGL/OpenGLBuffer.h"
 #include "OpenGL/OpenGLTexture.h"
 #include "OpenGL/OpenGLShader.h"

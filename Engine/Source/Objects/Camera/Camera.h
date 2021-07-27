@@ -1,4 +1,5 @@
 #pragma once
+#include "Objects/Material.h"
 #include "Objects/Transform.h"
 #include "OpenGL/OpenGLShader.h"
 #include "Core/Events/KeyEvent.h"

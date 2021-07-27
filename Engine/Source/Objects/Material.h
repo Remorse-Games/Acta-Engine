@@ -1,10 +1,11 @@
 #pragma once
 #include "OpenGL/OpenGLShader.h"
 #include "OpenGL/OpenGLTexture.h"
-#include "Objects/GameObject.h"
 
 namespace ActaEngine
 {
+	class GameObject;
+
 	class Material
 	{
 	public:
