@@ -10,6 +10,8 @@
 
 ActaEngine::GameObject::GameObject()
 {
+    material.Init();
+
     // vertex draw. remove later.
     float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -68,9 +70,9 @@ ActaEngine::GameObject::GameObject()
     vertexBuffer.Bind();
     //indexBuffer.Bind();
 
-    transform.SetPosition(1.0f, 0.0f, 0.0f);
-    material.Init();
-    material.Bind(this);
+    material.shader->use();
+    material.shader->SetUniformInt("Texture1", 1);
+    material.shader->SetUniformMat4("model", transform.m_Transform);
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
@@ -94,12 +96,14 @@ void ActaEngine::GameObject::Draw()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
+   // material.shader->use();
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, material.texture.texture[0]);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, material.texture.texture[1]);
 
-    material.Bind(this);
+    material.shader->SetUniformMat4("model", transform.m_Transform);
 
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 36);

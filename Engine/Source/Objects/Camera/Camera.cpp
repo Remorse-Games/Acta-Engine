@@ -30,7 +30,6 @@ ActaEngine::Camera::Camera() :
 	// Init position
 	yaw = -90.0f;
 	transform.SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-	material.Init();
 }
 
 ActaEngine::Camera::~Camera()
@@ -42,10 +41,13 @@ void ActaEngine::Camera::Draw()
 	transform.UpdateDirection();
 
 	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
-	material.shader->SetUniformMat4("projection", projection);
-
 	view = glm::lookAt(transform.m_position, transform.Forward + transform.m_position, transform.Up);
-	material.shader->SetUniformMat4("view", view);
+}
+
+void ActaEngine::Camera::Bind(Material* material)
+{
+	material->shader->SetUniformMat4("projection", projection);
+	material->shader->SetUniformMat4("view", view);
 }
 
 void ActaEngine::Camera::Input(GLFWwindow* window)
@@ -115,6 +117,7 @@ void ActaEngine::Camera::Input(GLFWwindow* window)
 		});
 
 }
+
 
 void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 {

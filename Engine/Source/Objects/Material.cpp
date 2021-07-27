@@ -1,6 +1,7 @@
 #include "actapch.h"
 #include "Material.h"
 #include "GameObject.h"
+#include "Objects/Camera/Camera.h"
 
 void ActaEngine::Material::Init()
 {
@@ -13,5 +14,3 @@ void ActaEngine::Material::Bind(GameObject* object)
     shader->SetUniformInt("Texture1", 1);
     shader->SetUniformMat4("model", object->transform.m_Transform);
 }
-
-

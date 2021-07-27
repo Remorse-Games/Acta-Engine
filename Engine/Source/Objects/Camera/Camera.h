@@ -17,6 +17,7 @@ namespace ActaEngine
 
 		void Draw();
 		void Input(GLFWwindow* window);
+		void Bind(Material* material);
 
 	public:
 		Transform transform;
@@ -26,9 +27,6 @@ namespace ActaEngine
 		float cameraSpeed = 1.0f;
 		float cameraSprintSpeed = 2.0f;
 		glm::vec3 direction;
-
-	private:
-		Material material;
 
 	private:
 		glm::mat4 view;

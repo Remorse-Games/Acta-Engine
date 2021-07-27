@@ -52,7 +52,6 @@ ActaEngine::OpenGLWindow::~OpenGLWindow()
 
 void ActaEngine::OpenGLWindow::UpdateWindow()
 {
-	mainCamera->Draw();
 	mainCamera->Input(window);
 }
 
