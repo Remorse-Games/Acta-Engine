@@ -3,10 +3,10 @@
 #include "GLFW/glfw3.h"
 #include "Time.h"
 
-float Time::deltaTime;
-float Time::lastFrame;
+float ActaEngine::Time::deltaTime;
+float ActaEngine::Time::lastFrame;
 
-void Time::Update()
+void ActaEngine::Time::Update()
 {
 	float currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;

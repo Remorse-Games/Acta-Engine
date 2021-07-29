@@ -6,6 +6,10 @@
 #include "Core/Application.h"
 #include "System/Time.h"
 
+//Events
+#include "Core/Events/KeyEvent.h"
+#include "Core/Events/MouseEvent.h"
+
 //ImGui
 #include "imgui.h"
 
@@ -13,13 +17,13 @@
 #include "Objects/Camera/Camera.h"
 #include "Objects/GameObject.h"
 #include "Objects/Transform.h"
+#include "Objects/Material.h"
 
 //Renderer
 #include "OpenGL/OpenGLBuffer.h"
 #include "OpenGL/OpenGLRenderer.h"
 #include "OpenGL/OpenGLShader.h"
 #include "OpenGL/OpenGLTexture.h"
-#include "OpenGL/OpenGLInput.h"
 #include "OpenGL/OpenGLWindow.h"
 
 //Entry Point

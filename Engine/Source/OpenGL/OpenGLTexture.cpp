@@ -9,7 +9,7 @@
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-OpenGLTexture::OpenGLTexture()
+ActaEngine::OpenGLTexture::OpenGLTexture()
 {
     stbi_set_flip_vertically_on_load(true);
 
@@ -63,7 +63,7 @@ OpenGLTexture::OpenGLTexture()
 
 }
 
-OpenGLTexture::~OpenGLTexture()
+ActaEngine::OpenGLTexture::~OpenGLTexture()
 {
 
 }

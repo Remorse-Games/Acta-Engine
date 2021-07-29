@@ -7,7 +7,7 @@
 int main(int argc, char** argv)
 {
 	auto app = CreateApplication();
-	app->Update();
+	app->Run();
 	delete app;
 }
 #endif

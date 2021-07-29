@@ -6,51 +6,58 @@ float yaw = 0.0f;
 float pitch = 0.0f;
 float roll = 0.0f;
 
-void Transform::Identity()
+void ActaEngine::Transform::Identity()
 {
-	transform = glm::mat4(1.0f);
+	m_Transform = glm::mat4(1.0f);
 }
 
-void Transform::SetPosition(const glm::vec3& position)
+void ActaEngine::Transform::SetPosition(const glm::vec3& position)
 {
 	m_position = position;
-	transform = glm::translate(transform, m_position);
+	m_Transform = glm::translate(m_Transform, m_position);
 }
 
-void Transform::SetPosition(const float& x, const float& y, const float& z)
+void ActaEngine::Transform::SetPosition(const float& x, const float& y, const float& z)
 {
 	m_position = glm::vec3(x, y, z);
-	transform = glm::translate(transform, m_position);
+	m_Transform = glm::translate(m_Transform, m_position);
 }
 
-glm::vec3 Transform::GetPosition() const
+glm::vec3 ActaEngine::Transform::GetPosition() const
 {
 	return m_position;
 }
 
-void Transform::SetRotation(const float& angle, const glm::vec3& rotation)
+void ActaEngine::Transform::SetRotation(const float& angle, const glm::vec3& rotation)
 {
 	m_rotation = rotation;
-	transform = glm::rotate(transform, glm::radians(angle), m_rotation);
+	m_Transform = glm::rotate(m_Transform, glm::radians(angle), m_rotation);
 }
 
-glm::vec3 Transform::GetRotation() const
+glm::vec3 ActaEngine::Transform::GetRotation() const
 {
 	return m_rotation;
 }
 
-void Transform::SetScale(const glm::vec3& scale)
+void ActaEngine::Transform::SetScale(const glm::vec3& scale)
 {
 	m_scale = scale;
-	transform = glm::scale(transform, m_scale);
+	m_Transform = glm::scale(m_Transform, m_scale);
 }
 
-glm::vec3 Transform::GetScale() const
+void ActaEngine::Transform::SetScale(const float& x, const float& y, const float& z)
+{
+	m_scale = glm::vec3(x, y, z);
+	m_Transform = glm::scale(m_Transform, m_scale);
+}
+
+
+glm::vec3 ActaEngine::Transform::GetScale() const
 {
 	return m_scale;
 }
 
-void Transform::UpdateDirection()
+void ActaEngine::Transform::UpdateDirection()
 {
 	glm::vec3 direction;
 	glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);

@@ -1,8 +1,11 @@
 #pragma once
 
-class OpenGLDebugger
+namespace ActaEngine
 {
-public:
+	class OpenGLDebugger
+	{
+	public:
 
-	static GLenum glCheckError(const char* file, int line);
-};
+		static GLenum glCheckError(const char* file, int line);
+	};
+}

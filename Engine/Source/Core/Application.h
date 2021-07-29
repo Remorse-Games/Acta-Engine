@@ -1,18 +1,24 @@
 #pragma once
 
 #include "OpenGL/OpenGLWindow.h"
-
-class Application
+#include "Objects/Camera/Camera.h"
+namespace ActaEngine
 {
-public:
-	Application();
-	~Application();
+	class Application
+	{
+	public:
+		Application();
+		~Application();
 
-	void Start();
-	void Update();
+		virtual void Start();
+		virtual void Update();
 
-private:
-	OpenGLWindow* window;
-};
+		void Run();
+		OpenGLWindow* OglWindow;
 
-Application* CreateApplication();
+	private:
+		OpenGLRenderer* render;
+	};
+}
+
+ActaEngine::Application* CreateApplication();

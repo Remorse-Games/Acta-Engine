@@ -1,35 +1,40 @@
 #pragma once
+#include "Objects/Material.h"
 #include "Objects/Transform.h"
 #include "OpenGL/OpenGLShader.h"
-#include "OpenGL/OpenGLInput.h"
+#include "Core/Events/KeyEvent.h"
 #include "System/Time.h"
 
 void mouse_callback(GLFWwindow* window, double xPos, double yPos);
 
-class Camera : public Transform
+namespace ActaEngine
 {
-public:
-	Camera();
-	~Camera();
+	class Camera
+	{
+	public:
+		Camera();
+		~Camera();
 
-	void Draw();
-	void Input(GLFWwindow* window);
+		void Draw();
+		void Input(GLFWwindow* window);
+		void Bind(Material* material);
 
-public:
-	float fieldOfView;
-	float cameraSpeed = 1.0f;
-	float cameraSprintSpeed = 2.0f;
-	glm::vec3 direction;
+	public:
+		Transform transform;
 
-private:
-	OpenGLShader shader;
+	public:
+		float fieldOfView;
+		float cameraSpeed = 1.0f;
+		float cameraSprintSpeed = 2.0f;
+		glm::vec3 direction;
 
-private:
-	glm::mat4 view;
-	glm::mat4 projection;
+	private:
+		glm::mat4 view;
+		glm::mat4 projection;
 
-private:
-	bool sprintInit = false;
-	bool moveInit = true;
+	private:
+		bool sprintInit = false;
+		bool moveInit = true;
 
-};
+	};
+}

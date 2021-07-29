@@ -1,10 +1,13 @@
 #pragma once
 
-struct Time
+namespace ActaEngine
 {
-	static float deltaTime;
-	static float lastFrame;
+	class Time
+	{
+	public:
+		static float deltaTime;
+		static float lastFrame;
 
-	static void Update();
-};
-
+		static void Update();
+	};
+}
