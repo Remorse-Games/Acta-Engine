@@ -7,10 +7,7 @@ class Game : public ActaEngine::Application
 public:
     ActaEngine::GameObject go;
     ActaEngine::GameObject go1;
-
-    //std::vector<ActaEngine::GameObject> gameObject;
-    //std::vector<glm::vec3> cubePositions;
-    //std::vector<float> objectPosition;
+    ActaEngine::GameObject go2;
 
 	Game()
 	{
@@ -19,32 +16,35 @@ public:
 
 	~Game()
 	{
-        //delete shader;
-	}
+
+    }
 
 	void Start() override
 	{
         spdlog::info("Start the game!");
         go.transform.Identity();
         go.transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-        go.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
 
         go1.transform.Identity();
         go1.transform.SetPosition(glm::vec3(1.0f, 0.0f, 0.0f));
-	}
+       
+        go2.transform.Identity();
+        go2.transform.SetPosition(glm::vec3(-1.0f, 0.0f, 0.0f));
+    }
 
 	void Update() override
 	{
+        // This should be inside renderer when do draw etc
         OglWindow->mainCamera->Draw();
         
         go.Draw();
-        //go.material.Bind(&go);
-
         go1.Draw();
-        //go1.material.Bind(&go1);
+        go2.Draw();
+
         OglWindow->mainCamera->Bind(&go.material);
 
         go.material.shader->use();
+        // until here
 
         // ImGui region
         ImGui_ImplOpenGL3_NewFrame();
@@ -65,6 +65,8 @@ public:
         ImGui::InputFloat3("Position", goPos);
         go.transform.Identity();
         go.transform.SetPosition(goPos[0], goPos[1], goPos[2]);
+        go.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
+        go.transform.SetScale(glm::vec3(2.0f, 2.0f, 10.0f));
         ImGui::End();
         //ImGui::Begin("Rendering");
         //ImGui::Checkbox("Wireframe", &wireframe);

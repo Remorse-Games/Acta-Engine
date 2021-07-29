@@ -45,6 +45,13 @@ void ActaEngine::Transform::SetScale(const glm::vec3& scale)
 	m_Transform = glm::scale(m_Transform, m_scale);
 }
 
+void ActaEngine::Transform::SetScale(const float& x, const float& y, const float& z)
+{
+	m_scale = glm::vec3(x, y, z);
+	m_Transform = glm::scale(m_Transform, m_scale);
+}
+
+
 glm::vec3 ActaEngine::Transform::GetScale() const
 {
 	return m_scale;
