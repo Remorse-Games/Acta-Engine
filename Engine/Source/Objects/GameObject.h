@@ -10,15 +10,15 @@ namespace ActaEngine
 	class GameObject
 	{
 	public:
-		GameObject();
+		GameObject(Material* material);
 		~GameObject();
 
 	public:
-		void Draw();
+		void Draw(Material* material);
 
 	public:
 		Transform transform;
-		Material material;
+
 	private:
 		OpenGLVertexBuffer vertexBuffer;
 		OpenGLIndexBuffer indexBuffer;
