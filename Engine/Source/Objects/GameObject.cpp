@@ -8,11 +8,10 @@
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-ActaEngine::GameObject::GameObject()
+ActaEngine::GameObject::GameObject(Material* material)
 {
-    material.Init();
+    material->Init();
 
-    // vertex draw. remove later.
     float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -70,9 +69,9 @@ ActaEngine::GameObject::GameObject()
     vertexBuffer.Bind();
     //indexBuffer.Bind();
 
-    material.shader->use();
-    material.shader->SetUniformInt("Texture1", 1);
-    material.shader->SetUniformMat4("model", transform.m_Transform);
+    material->shader->use();
+    material->shader->SetUniformInt("Texture1", 1);
+    material->shader->SetUniformMat4("model", transform.m_Transform);
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
@@ -85,26 +84,23 @@ ActaEngine::GameObject::~GameObject()
 
 }
 
-void ActaEngine::GameObject::Draw()
+void ActaEngine::GameObject::Draw(Material* material)
 {
+    //vertex setup
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.render_ID);
+    vertexBuffer.Bind();
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-   // material.shader->use();
-
+    //texture setup
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, material.texture.texture[0]);
+    glBindTexture(GL_TEXTURE_2D, material->texture.texture[0]);
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, material.texture.texture[1]);
+    glBindTexture(GL_TEXTURE_2D, material->texture.texture[1]);
 
-    material.shader->SetUniformMat4("model", transform.m_Transform);
+    //transform into shader
+    material->shader->SetUniformMat4("model", transform.m_Transform);
 
+    //draw all data that has been setup
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -113,5 +109,4 @@ void ActaEngine::GameObject::Draw()
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
-
 }
