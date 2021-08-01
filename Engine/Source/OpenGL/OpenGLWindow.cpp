@@ -34,6 +34,8 @@ ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, 
 
 	imgui.Init(window);
 	mainCamera = new Camera();
+	glfwSetWindowUserPointer(window, mainCamera);
+
 	int nrAttrib;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttrib);
 	spdlog::info("Maximum number of vertex attributes supported : {0}", nrAttrib);

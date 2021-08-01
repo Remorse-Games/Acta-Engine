@@ -6,15 +6,11 @@ class Game : public ActaEngine::Application
 {
 public:
     ActaEngine::GameObject go;
-    ActaEngine::GameObject go1;
-    ActaEngine::GameObject go2;
 
     ActaEngine::Material mat;
 
 	Game() :
-        go(&mat),
-        go1(&mat),
-        go2(&mat)
+        go(&mat)
 	{
         Start();
     }
@@ -30,21 +26,14 @@ public:
         go.transform.Identity();
         go.transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
-        go1.transform.Identity();
-        go1.transform.SetPosition(glm::vec3(1.0f, 0.0f, 0.0f));
-       
-        go2.transform.Identity();
-        go2.transform.SetPosition(glm::vec3(-1.0f, 0.0f, 0.0f));
-
         mat.Init();
     }
+
 
 	void Update() override
 	{    
         OglWindow->mainCamera->Bind(&mat);
         go.Draw(&mat);
-        go1.Draw(&mat);
-        go2.Draw(&mat);
 
         mat.shader->use();
 
@@ -71,6 +60,7 @@ public:
         go.transform.Identity();
         go.transform.SetPosition(goPos[0], goPos[1], goPos[2]);
         go.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
+        
 
         ImGui::End();
 

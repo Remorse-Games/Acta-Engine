@@ -14,9 +14,6 @@ extern unsigned int windowWidth;
 extern unsigned int windowHeight;
 
 bool firstMouse = true;
-extern float yaw;
-extern float pitch;
-extern float roll;
 
 double lastMousePosX = double(windowWidth / 2);
 double lastMousePosY = double(windowHeight / 2);
@@ -28,7 +25,7 @@ ActaEngine::Camera::Camera() :
 	direction(0.0f)
 {
 	// Init position
-	yaw = -90.0f;
+	transform.yaw = -90.0f;
 	transform.SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 }
 
@@ -108,7 +105,11 @@ void ActaEngine::Camera::Input(GLFWwindow* window)
 	MouseEvent::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, true, [&]()
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-			glfwSetCursorPosCallback(window, mouse_callback);
+			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos)
+				{
+ 					Camera* camera = static_cast<Camera*>(glfwGetWindowUserPointer(window));
+					camera->OnCameraMove(window, xPos, yPos, camera->transform.yaw, camera->transform.pitch);
+				});
 		});
 	MouseEvent::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, false, [&]()
 		{
@@ -118,8 +119,7 @@ void ActaEngine::Camera::Input(GLFWwindow* window)
 
 }
 
-
-void mouse_callback(GLFWwindow* window, double xPos, double yPos)
+ void ActaEngine::Camera::OnCameraMove(GLFWwindow* window, double xPos, double yPos, float& yaw, float& pitch)
 {
 	if (firstMouse)
 	{
@@ -139,7 +139,6 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos)
 
 	yaw += xOffset;
 	pitch += yOffset;
-
 	if (pitch > 89.0f)
 	{
 		pitch = 89.0f;

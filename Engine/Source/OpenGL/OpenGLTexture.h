@@ -9,7 +9,7 @@ namespace ActaEngine
 		~OpenGLTexture();
 
 	public:
-		std::vector<unsigned int> texture;
+		std::vector<unsigned int> textureList;
 
 	private:
 		unsigned char* data;

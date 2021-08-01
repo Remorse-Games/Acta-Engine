@@ -2,10 +2,6 @@
 #include "Transform.h"
 #include "catch.hpp"
 
-float yaw = 0.0f;
-float pitch = 0.0f;
-float roll = 0.0f;
-
 void ActaEngine::Transform::Identity()
 {
 	m_Transform = glm::mat4(1.0f);
