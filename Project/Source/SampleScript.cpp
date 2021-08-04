@@ -37,6 +37,11 @@ public:
 
         mat.shader->use();
 
+        go.transform.Identity();
+        go.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
+
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
+
         // ImGui region
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -59,7 +64,6 @@ public:
         ImGui::InputFloat3("Position", goPos);
         go.transform.Identity();
         go.transform.SetPosition(goPos[0], goPos[1], goPos[2]);
-        go.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
         
 
         ImGui::End();
@@ -73,7 +77,7 @@ public:
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        
+#endif       
 
 	}
 };

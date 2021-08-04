@@ -23,6 +23,8 @@ namespace ActaEngine
 		Camera* mainCamera;
 
 	private:
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
 		ImGui_Main imgui;
+#endif
 	};
 }
