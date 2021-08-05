@@ -12,11 +12,10 @@ namespace ActaEngine
 
 		virtual void Start();
 		virtual void Update();
+		virtual void EditorUpdate();
 
 		void Run();
 		OpenGLWindow* OglWindow;
-
-	private:
 		OpenGLRenderer* render;
 	};
 }

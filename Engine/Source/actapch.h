@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <functional>
+#include <stack>
+
 #include "spdlog/spdlog.h"
 
 #include <glm/glm.hpp>

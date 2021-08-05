@@ -70,7 +70,6 @@ ActaEngine::GameObject::GameObject(Material* material)
     //indexBuffer.Bind();
 
     material->shader->use();
-    material->shader->SetUniformInt("Texture1", 1);
     material->shader->SetUniformMat4("model", transform.m_Transform);
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
@@ -91,14 +90,16 @@ void ActaEngine::GameObject::Draw(Material* material)
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.render_ID);
     vertexBuffer.Bind();
 
-    //texture setup
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, material->texture.texture[0]);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, material->texture.texture[1]);
-
     //transform into shader
     material->shader->SetUniformMat4("model", transform.m_Transform);
+
+    //texture setup
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, material->texture.textureList[0]);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, material->texture.textureList[1]);
+
+    material->shader->SetUniformInt("Texture1", 1);
 
     //draw all data that has been setup
     glBindVertexArray(vao);

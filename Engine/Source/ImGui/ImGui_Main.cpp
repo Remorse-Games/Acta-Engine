@@ -1,6 +1,8 @@
 #include "actapch.h"
 #include "ImGui_Main.h"
 
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
+
 void ImGui_Main::Init(GLFWwindow* window)
 {
 	IMGUI_CHECKVERSION();
@@ -17,3 +19,4 @@ void ImGui_Main::Destroy()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 }
+#endif

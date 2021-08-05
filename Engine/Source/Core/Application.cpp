@@ -9,7 +9,7 @@ unsigned int windowHeight = 720;
 ActaEngine::Application::Application()
 {
 	OglWindow = new OpenGLWindow(windowWidth, windowHeight, "Acta Engine");
-	render = new OpenGLRenderer();
+	render = new OpenGLRenderer(OglWindow->window);
 	Start();
 }
 
@@ -21,10 +21,14 @@ ActaEngine::Application::~Application()
 
 void ActaEngine::Application::Start()
 {
-
+	spdlog::info("Acta Engine v.0.0.1 Start");
 }
 
 void ActaEngine::Application::Update()
+{
+}
+
+void ActaEngine::Application::EditorUpdate()
 {
 }
 
@@ -42,6 +46,8 @@ void ActaEngine::Application::Run()
 		render->Draw();
 		Update();
 		OglWindow->UpdateWindow();
+
+		render->ImGuiRender([=]() {EditorUpdate(); });
 
 		glfwPollEvents();
 		glfwSwapBuffers(OglWindow->window);

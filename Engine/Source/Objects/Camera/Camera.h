@@ -18,7 +18,7 @@ namespace ActaEngine
 		void Draw();
 		void Input(GLFWwindow* window);
 		void Bind(Material* material);
-
+		void OnCameraMove(GLFWwindow* window, double xPos, double yPos, float& yaw, float& pitch);
 	public:
 		Transform transform;
 

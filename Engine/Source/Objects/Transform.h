@@ -36,6 +36,10 @@ namespace ActaEngine
 		glm::vec3 Up;
 		glm::vec3 Right;
 
+		float yaw = 0.0f;
+		float pitch = 0.0f;
+		float roll = 0.0f;
+
 	public:
 		//initialize with (0,0,0)
 		static constexpr glm::vec3 Zero = glm::vec3(0.0f, 0.0f, 0.0f);
