@@ -12,7 +12,7 @@ namespace ActaEngine
 	public:
 		void Draw();
 		void Wireframe();
-		void ImGuiRender();
+		void ImGuiRender(std::function<void()> EditorUpdate);
 
 
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)

@@ -28,8 +28,6 @@ void ActaEngine::OpenGLRenderer::Draw()
     //OglWindow->mainCamera->Bind(&go.material);
 
     //go.material.shader->use();
-
-    //imgui.Render([=]() {ImGuiRender(); });
 }
 
 void ActaEngine::OpenGLRenderer::Wireframe()
@@ -40,12 +38,21 @@ void ActaEngine::OpenGLRenderer::Wireframe()
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void ActaEngine::OpenGLRenderer::ImGuiRender()
+void ActaEngine::OpenGLRenderer::ImGuiRender(std::function<void()> EditorUpdate)
 {
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
     ImGui::Begin("Rendering");
 
     ImGui::Checkbox("Wireframe", &wireframe);
     Wireframe();
 
     ImGui::End();
+
+    EditorUpdate();
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }

@@ -6,7 +6,6 @@ class ImGui_Main
 {
 public:
 	void Init(GLFWwindow* window);
-	void Render(std::function<void()> f);
 	void Destroy();
 };
 

@@ -44,7 +44,7 @@ void ActaEngine::Application::Run()
 		Time::Update();
 
 		render->Draw();
-		//render->imgui.Render([=]() {EditorUpdate(); });
+		render->ImGuiRender([=]() {EditorUpdate(); });
 		Update();
 		OglWindow->UpdateWindow();
 
