@@ -21,7 +21,7 @@ ActaEngine::Application::~Application()
 
 void ActaEngine::Application::Start()
 {
-
+	spdlog::info("Acta Engine v.0.0.1 Start");
 }
 
 void ActaEngine::Application::Update()
@@ -44,9 +44,10 @@ void ActaEngine::Application::Run()
 		Time::Update();
 
 		render->Draw();
-		render->ImGuiRender([=]() {EditorUpdate(); });
 		Update();
 		OglWindow->UpdateWindow();
+
+		render->ImGuiRender([=]() {EditorUpdate(); });
 
 		glfwPollEvents();
 		glfwSwapBuffers(OglWindow->window);

@@ -14,7 +14,6 @@ namespace ActaEngine
 		void Wireframe();
 		void ImGuiRender(std::function<void()> EditorUpdate);
 
-
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
 	public:
 		ImGui_Main imgui;

@@ -40,7 +40,6 @@ public:
         go.transform.Identity();
         go.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
 
-
 	}
 
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
