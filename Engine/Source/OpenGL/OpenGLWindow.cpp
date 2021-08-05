@@ -31,9 +31,6 @@ ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, 
 	}
 
 	glEnable(GL_DEPTH_TEST);
-#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
-	imgui.Init(window);
-#endif
 	mainCamera = new Camera();
 	glfwSetWindowUserPointer(window, mainCamera);
 
@@ -49,9 +46,6 @@ ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, 
 ActaEngine::OpenGLWindow::~OpenGLWindow()
 {
 	delete mainCamera;
-#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
-	imgui.Destroy();
-#endif
 	glfwTerminate();
 }
 

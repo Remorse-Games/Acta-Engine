@@ -9,7 +9,7 @@ unsigned int windowHeight = 720;
 ActaEngine::Application::Application()
 {
 	OglWindow = new OpenGLWindow(windowWidth, windowHeight, "Acta Engine");
-	render = new OpenGLRenderer();
+	render = new OpenGLRenderer(OglWindow->window);
 	Start();
 }
 
@@ -28,6 +28,10 @@ void ActaEngine::Application::Update()
 {
 }
 
+void ActaEngine::Application::EditorUpdate()
+{
+}
+
 void ActaEngine::Application::Run()
 {
 	while (!glfwWindowShouldClose(OglWindow->window))
@@ -40,6 +44,7 @@ void ActaEngine::Application::Run()
 		Time::Update();
 
 		render->Draw();
+		//render->imgui.Render([=]() {EditorUpdate(); });
 		Update();
 		OglWindow->UpdateWindow();
 

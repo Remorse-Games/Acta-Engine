@@ -1,16 +1,25 @@
 #pragma once
+#include "ImGui/ImGui_Main.h"
 
 namespace ActaEngine
 {
 	class OpenGLRenderer
 	{
 	public:
-		OpenGLRenderer();
+		OpenGLRenderer(GLFWwindow* window);
 		~OpenGLRenderer();
 
 	public:
 		void Draw();
 		void Wireframe();
+		void ImGuiRender();
+
+
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
+	public:
+		ImGui_Main imgui;
+		std::function<void()> OnEditorUpdate;
+#endif
 
 	private:
 		bool wireframe;

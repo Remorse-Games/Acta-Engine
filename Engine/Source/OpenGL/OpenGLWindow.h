@@ -4,7 +4,6 @@
 
 #include "Core/Events/KeyEvent.h"
 #include "OpenGL/OpenGLRenderer.h"
-#include "ImGui/ImGui_Main.h"
 #include "Objects/Camera/Camera.h"
 
 void resize_callback(GLFWwindow* window, int width, int height);
@@ -21,10 +20,5 @@ namespace ActaEngine
 		
 		GLFWwindow* window;
 		Camera* mainCamera;
-
-	private:
-#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
-		ImGui_Main imgui;
-#endif
 	};
 }
