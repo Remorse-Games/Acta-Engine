@@ -35,6 +35,10 @@ namespace ActaEngine
 	private:
 		bool sprintInit = false;
 		bool moveInit = true;
+		bool firstMouse = true;
+
+		double lastMousePosX;
+		double lastMousePosY;
 
 	};
 }

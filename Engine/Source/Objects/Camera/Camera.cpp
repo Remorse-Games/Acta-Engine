@@ -13,16 +13,13 @@
 extern unsigned int windowWidth;
 extern unsigned int windowHeight;
 
-bool firstMouse = true;
-
-double lastMousePosX = double(windowWidth / 2);
-double lastMousePosY = double(windowHeight / 2);
-
 ActaEngine::Camera::Camera() :
 	view(glm::mat4(0)), 
 	projection(glm::mat4(0)),
 	fieldOfView(45.0f),
-	direction(0.0f)
+	direction(0.0f),
+	lastMousePosX(windowWidth / 2),
+	lastMousePosY(windowHeight / 2)
 {
 	// Init position
 	transform.yaw = -90.0f;
@@ -114,7 +111,11 @@ void ActaEngine::Camera::Input(GLFWwindow* window)
 	MouseEvent::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, false, [&]()
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) { firstMouse = true; });
+			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) 
+				{ 
+					Camera* camera = static_cast<Camera*>(glfwGetWindowUserPointer(window));
+					camera->firstMouse = true; 
+				});
 		});
 
 }
