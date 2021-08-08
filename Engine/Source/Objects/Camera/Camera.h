@@ -18,6 +18,7 @@ namespace ActaEngine
 		void Draw();
 		void Input(GLFWwindow* window);
 		void Bind(Material* material);
+		void UpdateDirection();
 		void OnCameraMove(GLFWwindow* window, double xPos, double yPos, float& yaw, float& pitch);
 	public:
 		Transform transform;
@@ -26,7 +27,6 @@ namespace ActaEngine
 		float fieldOfView;
 		float cameraSpeed = 1.0f;
 		float cameraSprintSpeed = 2.0f;
-		glm::vec3 direction;
 
 	private:
 		glm::mat4 view;

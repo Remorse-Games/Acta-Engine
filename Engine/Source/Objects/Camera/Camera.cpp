@@ -17,7 +17,6 @@ ActaEngine::Camera::Camera() :
 	view(glm::mat4(0)), 
 	projection(glm::mat4(0)),
 	fieldOfView(45.0f),
-	direction(0.0f),
 	lastMousePosX(windowWidth / 2),
 	lastMousePosY(windowHeight / 2)
 {
@@ -32,7 +31,7 @@ ActaEngine::Camera::~Camera()
 
 void ActaEngine::Camera::Draw()
 {
-	transform.UpdateDirection();
+	UpdateDirection();
 
 	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
 	view = glm::lookAt(transform.m_position, transform.Forward + transform.m_position, transform.Up);
@@ -43,6 +42,19 @@ void ActaEngine::Camera::Bind(Material* material)
 	material->shader->SetUniformMat4("projection", projection);
 	material->shader->SetUniformMat4("view", view);
 }
+
+void ActaEngine::Camera::UpdateDirection()
+{
+	// need implementing roll later
+	transform.direction.x = cos(glm::radians(transform.yaw)) * cos(glm::radians(transform.pitch));
+	transform.direction.y = sin(glm::radians(transform.pitch));
+	transform.direction.z = sin(glm::radians(transform.yaw)) * cos(glm::radians(transform.pitch));
+
+	transform.Forward = glm::normalize(transform.direction);
+	transform.Right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), transform.Forward));
+	transform.Up = glm::cross(transform.Forward, transform.Right);
+}
+
 
 void ActaEngine::Camera::Input(GLFWwindow* window)
 {
