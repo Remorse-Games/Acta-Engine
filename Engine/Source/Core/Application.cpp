@@ -32,6 +32,7 @@ void ActaEngine::Application::EditorUpdate()
 {
 }
 
+// Run the whole application. This won't be showned in Game Project.
 void ActaEngine::Application::Run()
 {
 	while (!glfwWindowShouldClose(OglWindow->window))

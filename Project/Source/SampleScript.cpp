@@ -5,11 +5,12 @@ using namespace ActaEngine;
 class Game : public ActaEngine::Application
 {
 public:
+    ActaEngine::Material mat;
     ActaEngine::GameObject go;
 
-    ActaEngine::Material mat;
 
 	Game() :
+        mat("Shader/triangle.vert", "Shader/triangle.frag"),
         go(&mat)
 	{
         Start();
@@ -25,8 +26,6 @@ public:
         spdlog::info("Start the game!");
         go.transform.Identity();
         go.transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-
-        mat.Init();
     }
 
 
@@ -44,21 +43,19 @@ public:
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
     void EditorUpdate() override
     {
-        // ImGui region
+        // Inspector for Camera
         ImGui::Begin("Camera");
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         float camPos[] = { OglWindow->mainCamera->transform.GetPosition().x, OglWindow->mainCamera->transform.GetPosition().y, OglWindow->mainCamera->transform.GetPosition().z };
         ImGui::InputFloat3("Position", camPos);
         OglWindow->mainCamera->transform.SetPosition(camPos[0], camPos[1], camPos[2]);
-        float camEulerAngles[] = { OglWindow->mainCamera->transform.pitch, OglWindow->mainCamera->transform.yaw, OglWindow->mainCamera->transform.roll };
-        ImGui::InputFloat3("Rotation", camEulerAngles);
-        OglWindow->mainCamera->transform.SetRotationEuler(camEulerAngles[0], camEulerAngles[1], camEulerAngles[2]);
         ImGui::InputFloat("Field of View", &OglWindow->mainCamera->fieldOfView);
         ImGui::InputFloat("Camera Speed", &OglWindow->mainCamera->cameraSpeed);
 
         ImGui::End();
 
+        // Inspector for Game Object 0
         ImGui::Begin("Game Object 0");
 
         float goPos[] = { go.transform.GetPosition().x ,go.transform.GetPosition().y ,go.transform.GetPosition().z };
