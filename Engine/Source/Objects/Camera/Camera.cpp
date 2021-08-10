@@ -3,26 +3,20 @@
 #include "GLFW/glfw3.h"
 #include "Camera.h"
 
-#include "Objects/Transform.h"
-#include "OpenGL/OpenGLShader.h"
-#include "Core/Events/MouseEvent.h"
 #include "Core/Events/KeyEvent.h"
+#include "Core/Events/MouseEvent.h"
 #include "System/Time.h"
 #include "Objects/Material.h"
 
 extern unsigned int windowWidth;
 extern unsigned int windowHeight;
 
-bool firstMouse = true;
-
-double lastMousePosX = double(windowWidth / 2);
-double lastMousePosY = double(windowHeight / 2);
-
 ActaEngine::Camera::Camera() :
 	view(glm::mat4(0)), 
 	projection(glm::mat4(0)),
 	fieldOfView(45.0f),
-	direction(0.0f)
+	lastMousePosX(windowWidth / 2),
+	lastMousePosY(windowHeight / 2)
 {
 	// Init position
 	transform.yaw = -90.0f;
@@ -35,9 +29,10 @@ ActaEngine::Camera::~Camera()
 
 void ActaEngine::Camera::Draw()
 {
-	transform.UpdateDirection();
+	UpdateDirection();
 
-	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(fieldOfView), (float)windowWidth / (float)windowHeight, nearClipping, farClipping);
+	//projection = glm::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight, nearClipping, farClipping);
 	view = glm::lookAt(transform.m_position, transform.Forward + transform.m_position, transform.Up);
 }
 
@@ -46,6 +41,19 @@ void ActaEngine::Camera::Bind(Material* material)
 	material->shader->SetUniformMat4("projection", projection);
 	material->shader->SetUniformMat4("view", view);
 }
+
+void ActaEngine::Camera::UpdateDirection()
+{
+	// need implementing roll later
+	transform.direction.x = (float)cos(glm::radians(transform.yaw)) * cos(glm::radians(transform.pitch));
+	transform.direction.y = (float)sin(glm::radians(transform.pitch));
+	transform.direction.z = (float)sin(glm::radians(transform.yaw)) * cos(glm::radians(transform.pitch));
+
+	transform.Forward = glm::normalize(transform.direction);
+	transform.Right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), transform.Forward));
+	transform.Up = glm::cross(transform.Forward, transform.Right);
+}
+
 
 void ActaEngine::Camera::Input(GLFWwindow* window)
 {
@@ -69,7 +77,6 @@ void ActaEngine::Camera::Input(GLFWwindow* window)
 	KeyEvent::ProcessInputKey(window, GLFW_KEY_A, GLFW_PRESS, true, [&]()
 		{
 			glm::vec3 calcSpeed = transform.Right * cameraSpeed * Time::deltaTime;
-
 			transform.SetPosition(transform.m_position.x + calcSpeed.x, transform.m_position.y + calcSpeed.y, transform.m_position.z + calcSpeed.z);
 		});
 	
@@ -114,12 +121,16 @@ void ActaEngine::Camera::Input(GLFWwindow* window)
 	MouseEvent::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, false, [&]()
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) { firstMouse = true; });
+			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) 
+				{ 
+					Camera* camera = static_cast<Camera*>(glfwGetWindowUserPointer(window));
+					camera->firstMouse = true; 
+				});
 		});
 
 }
 
- void ActaEngine::Camera::OnCameraMove(GLFWwindow* window, double xPos, double yPos, float& yaw, float& pitch)
+ void ActaEngine::Camera::OnCameraMove(GLFWwindow* window, double xPos, double yPos, double& yaw, double& pitch)
 {
 	if (firstMouse)
 	{

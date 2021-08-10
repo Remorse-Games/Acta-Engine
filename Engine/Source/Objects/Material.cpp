@@ -3,9 +3,18 @@
 #include "GameObject.h"
 #include "Objects/Camera/Camera.h"
 
-void ActaEngine::Material::Init()
+ActaEngine::Material::Material(const char* vertexFile, const char* fragmentFile)
 {
-	shader = new OpenGLShader("Shader/triangle.vert", "Shader/triangle.frag");
+    shader = new OpenGLShader(vertexFile, fragmentFile);
+}
+
+ActaEngine::Material::Material(const std::string& vertexFile, const std::string& fragmentFile)
+{
+    shader = new OpenGLShader(vertexFile.c_str(), fragmentFile.c_str());
+}
+
+ActaEngine::Material::~Material()
+{
 }
 
 void ActaEngine::Material::Bind(GameObject* object)
