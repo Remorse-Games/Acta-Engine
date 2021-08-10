@@ -1,14 +1,13 @@
 #pragma once
 
-class Time
+namespace ActaEngine
 {
-public:
-	Time();
-	~Time();
+	class Time
+	{
+	public:
+		static float deltaTime;
+		static float lastFrame;
 
-	void Update();
-
-public:
-	float deltaTime = 0.0f;
-	float lastFrame = 0.0f;
-};
+		static void Update();
+	};
+}

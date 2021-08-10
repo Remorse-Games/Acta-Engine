@@ -1,23 +1,31 @@
 #pragma once
-#include "Object.h"
+#include "Transform.h"
+#include "Objects/Material.h"
 #include "OpenGL/OpenGLBuffer.h"
+#include "OpenGL/OpenGLTexture.h"
+#include "OpenGL/OpenGLShader.h"
 
-class GameObject : public Object
+namespace ActaEngine
 {
-public:
-	GameObject();
-	~GameObject();
+	class GameObject
+	{
+	public:
+		GameObject(Material* material);
+		~GameObject();
 
-public:
-	void Draw();
+	public:
+		void Draw(Material* material);
 
-public:
-	OpenGLTexture texture;
-	OpenGLShader shader;
+	public:
+		Transform transform;
 
-private:
-	OpenGLVertexBuffer vertexBuffer;
-	OpenGLIndexBuffer indexBuffer;
-	unsigned int vao;
-	unsigned int vbo;
-};
+	private:
+		OpenGLVertexBuffer vertexBuffer;
+		OpenGLIndexBuffer indexBuffer;
+		unsigned int vao;
+		unsigned int vbo;
+
+	private:
+		glm::mat4 model;
+	};
+}

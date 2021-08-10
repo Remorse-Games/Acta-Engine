@@ -1,18 +1,21 @@
 #pragma once
 
-class OpenGLTexture
+namespace ActaEngine
 {
-public:
-	OpenGLTexture();
-	~OpenGLTexture();
+	class OpenGLTexture
+	{
+	public:
+		OpenGLTexture();
+		~OpenGLTexture();
 
-public:
-	std::vector<unsigned int> texture;
+	public:
+		std::vector<unsigned int> textureList;
 
-private:
-	unsigned char* data;
-	int width;
-	int height;
-	int nrChannels;
+	private:
+		unsigned char* data;
+		int width;
+		int height;
+		int nrChannels;
 
-};
+	};
+}

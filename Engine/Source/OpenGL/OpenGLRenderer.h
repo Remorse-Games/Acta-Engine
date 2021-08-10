@@ -1,38 +1,27 @@
 #pragma once
-#include "OpenGLShader.h"
-#include "OpenGLTexture.h"
-#include "Objects/GameObject.h"
-#include "Objects/Camera/Camera.h"
-class GameObject;
+#include "ImGui/ImGui_Main.h"
 
-class OpenGLRenderer
+namespace ActaEngine
 {
-public:
-	OpenGLRenderer();
-	~OpenGLRenderer();
+	class OpenGLRenderer
+	{
+	public:
+		OpenGLRenderer(GLFWwindow* window);
+		~OpenGLRenderer();
 
-public:
-	void Draw();
-	void Wireframe();
-	// Camera.
-	// put on private later.
-	Camera camera;
+	public:
+		void Draw();
+		void Wireframe();
+		void ImGuiRender(std::function<void()> EditorUpdate);
 
-private:
-	// temporary shader
-	OpenGLShader* shader;
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
+	public:
+		ImGui_Main imgui;
+		std::function<void()> OnEditorUpdate;
+#endif
 
-	// temp object. Idk why if using object
-	// temp in the TU it cause crashed.
-	// neither the glGetError caught the error
-	// and I will investigate that in the further notice.
-	GameObject go;
+	private:
+		bool wireframe;
 
-	std::vector<GameObject> gameObject;
-	std::vector<glm::vec3> cubePositions;
-
-	bool wireframe;
-
-	// Object
-	std::vector<float> objectPosition;
-};
+	};
+}

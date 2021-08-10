@@ -1,16 +1,12 @@
 #include "actapch.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 #include "Time.h"
 
-Time::Time()
-{
+float ActaEngine::Time::deltaTime;
+float ActaEngine::Time::lastFrame;
 
-}
-
-Time::~Time()
-{
-}
-
-void Time::Update()
+void ActaEngine::Time::Update()
 {
 	float currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;

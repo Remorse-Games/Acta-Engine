@@ -1,32 +1,44 @@
 #pragma once
-#include "Objects/Object.h"
+#include "Objects/Material.h"
+#include "Objects/Transform.h"
 #include "OpenGL/OpenGLShader.h"
-#include "OpenGL/OpenGLInput.h"
-#include "System/Time.h"
 
-class Camera : public Object
+namespace ActaEngine
 {
-public:
-	Camera();
-	~Camera();
+	class Camera
+	{
+	public:
+		Camera();
+		~Camera();
 
-	void Draw();
-	void Input(GLFWwindow* window);
+		void Draw();
+		void Input(GLFWwindow* window);
+		void Bind(Material* material);
+		void UpdateDirection();
+		void OnCameraMove(GLFWwindow* window, double xPos, double yPos, double& yaw, double& pitch);
+	public:
+		Transform transform;
 
-public:
-	float fieldOfView;
-	float cameraSpeed = 1.0f;
+	public:
+		float fieldOfView;
 
-private:
-	OpenGLShader shader;
-	Time time;
+		float nearClipping = 0.1f;
+		float farClipping = 1000.0f;
 
-private:
-	glm::mat4 view;
-	glm::mat4 projection;
+		float cameraSpeed = 1.0f;
+		float cameraSprintSpeed = 2.0f;
 
-	glm::vec3 cameraTarget;
-	glm::vec3 cameraForward;
-	glm::vec3 cameraUp;
-	glm::vec3 cameraRight;
-};
+	private:
+		glm::mat4 view;
+		glm::mat4 projection;
+
+	private:
+		bool sprintInit = false;
+		bool moveInit = true;
+		bool firstMouse = true;
+
+		double lastMousePosX;
+		double lastMousePosY;
+
+	};
+}

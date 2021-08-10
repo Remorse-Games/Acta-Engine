@@ -1,7 +1,7 @@
 workspace "Acta"
 	location ".."
 	architecture "x64"
-	startproject "Acta"
+	startproject "Game"
 	
 	configurations
 	{
@@ -20,6 +20,7 @@ IncludeDir["ImGui"] 	= 	(trunk .. "Externals/imgui")
 IncludeDir["glm"] 		= 	(trunk .. "Externals/glm")
 IncludeDir["stb_image"] = 	(trunk .. "Externals/stb_image")
 IncludeDir["spdlog"] 	= 	(trunk .. "Externals/spdlog/include")
+IncludeDir["catch"] 	= 	(trunk .. "Externals/Catch2")
 
 
 -- output name for bin / obj
@@ -36,7 +37,7 @@ include (trunk .. "Externals/glfw/project")
 
 project "Acta"
 	location (trunk .. "Engine")
-	kind "ConsoleApp"
+	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "on"
@@ -55,7 +56,8 @@ project "Acta"
 		(trunk .. "Externals/stb_image/**.cpp"),
 		(trunk .. "Externals/stb_image/**.h"),
 		(trunk .. "Externals/glm/glm/**.hpp"),		
-		(trunk .. "Externals/glm/glm/**.inl")
+		(trunk .. "Externals/glm/glm/**.inl"),
+		(trunk .. "Externals/Catch2/**.hpp")
 	}
 	
 	defines
@@ -74,7 +76,8 @@ project "Acta"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.catch}"
 	}
 	
 	links
@@ -83,6 +86,76 @@ project "Acta"
 		"Glad",
 		"ImGui",
 		"opengl32.lib"
+	}
+	
+	filter "system:windows"
+		systemversion "latest"
+		
+		-- preprocessor definition
+	defines
+	{
+		--"_CRT_SECURE_NO_WARNINGS"
+	}
+	
+	filter "configurations:Debug"
+		defines "ACTA_DEBUG"
+		runtime "Debug"
+		symbols "on"
+	
+	filter "configurations:Develop"
+		defines "ACTA_DEV"
+		runtime "Release"
+		optimize "on"	
+
+	filter "configurations:Release"
+		defines "ACTA_RELEASE"
+		runtime "Release"
+		optimize "on"
+		
+-------------------------------------------------------------------------------------
+------------------------ Game project ---------------------------------------------	
+-------------------------------------------------------------------------------------
+
+project "Game"
+	location (trunk .. "Project")
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+	
+	targetdir (trunk .. "%{prj.name}/bin/" .. outputName)
+	objdir (trunk .. "%{prj.name}/obj/" .. outputName)
+	
+	files
+	{
+		(trunk .. "Project/Source/**.h"),
+		(trunk .. "Project/Source/**.cpp"),
+		(trunk .. "Externals/Catch2/**.hpp")
+	}
+	
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
+	
+	includedirs
+	{
+		(trunk .. "Engine/Source"),
+		(trunk .. "Externals"),
+		(trunk .. "Externals/spdlog/include"),
+        --(trunk .. "Externals/assimp/include",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.catch}"
+	}
+	
+	links
+	{
+		"Acta"
 	}
 	
 	filter "system:windows"

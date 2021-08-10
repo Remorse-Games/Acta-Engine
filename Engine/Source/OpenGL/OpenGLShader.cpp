@@ -1,12 +1,16 @@
 #include "actapch.h"
 #include "OpenGLShader.h"
+#include <fstream>
+#include <sstream>
+#include <string>
+#include "glm/glm.hpp"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-OpenGLShader::OpenGLShader(const char* vertexPath, const char* fragmentPath)
+ActaEngine::OpenGLShader::OpenGLShader(const char* vertexPath, const char* fragmentPath)
 {
     // filestream start where project location started.
     std::ifstream vertexShaderFile(vertexPath);
@@ -71,11 +75,11 @@ OpenGLShader::OpenGLShader(const char* vertexPath, const char* fragmentPath)
 
 }
 
-OpenGLShader::~OpenGLShader()
+ActaEngine::OpenGLShader::~OpenGLShader()
 {
 }
 
-void OpenGLShader::use()
+void ActaEngine::OpenGLShader::use()
 {
     glUseProgram(shaderProgram);
 #if (defined(ACTA_DEBUG) || (_DEBUG))
@@ -84,62 +88,62 @@ void OpenGLShader::use()
 
 }
 
-void OpenGLShader::SetUniformBool(const std::string& name, bool value) const
+void ActaEngine::OpenGLShader::SetUniformBool(const std::string& name, bool value) const
 {
     glUniform1i(glGetUniformLocation(shaderProgram, name.c_str()), (int)value);
 }
 
-void OpenGLShader::SetUniformInt(const std::string& name, int value) const
+void ActaEngine::OpenGLShader::SetUniformInt(const std::string& name, int value) const
 {
     glUniform1i(glGetUniformLocation(shaderProgram, name.c_str()), value);
 }
 
-void OpenGLShader::SetUniformFloat(const std::string& name, float value) const
+void ActaEngine::OpenGLShader::SetUniformFloat(const std::string& name, float value) const
 {
     glUniform1f(glGetUniformLocation(shaderProgram, name.c_str()), value);
 }
 
-void OpenGLShader::SetUniformVec2(const std::string& name, const glm::vec2& value) const
+void ActaEngine::OpenGLShader::SetUniformVec2(const std::string& name, const glm::vec2& value) const
 {
     glUniform2fv(glGetUniformLocation(shaderProgram, name.c_str()), 2 * sizeof(float), &value[0]);
 }
 
-void OpenGLShader::SetUniformVec2(const std::string& name, float x, float y) const
+void ActaEngine::OpenGLShader::SetUniformVec2(const std::string& name, float x, float y) const
 {
     glUniform2f(glGetUniformLocation(shaderProgram, name.c_str()), x, y);
 }
 
-void OpenGLShader::SetUniformVec3(const std::string& name, const glm::vec3& value) const
+void ActaEngine::OpenGLShader::SetUniformVec3(const std::string& name, const glm::vec3& value) const
 {
     glUniform3fv(glGetUniformLocation(shaderProgram, name.c_str()), 3 * sizeof(float), &value[0]);
 }
 
-void OpenGLShader::SetUniformVec3(const std::string& name, float x, float y, float z) const
+void ActaEngine::OpenGLShader::SetUniformVec3(const std::string& name, float x, float y, float z) const
 {
     glUniform3f(glGetUniformLocation(shaderProgram, name.c_str()), x, y, z);
 }
 
-void OpenGLShader::SetUniformVec4(const std::string& name, const glm::vec4& value) const
+void ActaEngine::OpenGLShader::SetUniformVec4(const std::string& name, const glm::vec4& value) const
 {
     glUniform4fv(glGetUniformLocation(shaderProgram, name.c_str()), 4 * sizeof(float), &value[0]);
 }
 
-void OpenGLShader::SetUniformVec4(const std::string& name, float x, float y, float z, float w) const
+void ActaEngine::OpenGLShader::SetUniformVec4(const std::string& name, float x, float y, float z, float w) const
 {
     glUniform4f(glGetUniformLocation(shaderProgram, name.c_str()), x, y, z, w);
 }
 
-void OpenGLShader::SetUniformMat2(const std::string& name, const glm::mat2& value) const
+void ActaEngine::OpenGLShader::SetUniformMat2(const std::string& name, const glm::mat2& value) const
 {
     glUniformMatrix2fv(glGetUniformLocation(shaderProgram, name.c_str()), 1, GL_FALSE, &value[0][0]);
 }
 
-void OpenGLShader::SetUniformMat3(const std::string& name, const glm::mat3& value) const
+void ActaEngine::OpenGLShader::SetUniformMat3(const std::string& name, const glm::mat3& value) const
 {
     glUniformMatrix3fv(glGetUniformLocation(shaderProgram, name.c_str()), 1, GL_FALSE, &value[0][0]);
 }
 
-void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& value) const
+void ActaEngine::OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& value) const
 {
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, name.c_str()), 1, GL_FALSE, &value[0][0]);
 #if (defined(ACTA_DEBUG) || (_DEBUG))
@@ -147,7 +151,7 @@ void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& valu
 #endif
 }
 
-void OpenGLShader::ShaderAssert(GLuint shader, const std::string& type)
+void ActaEngine::OpenGLShader::ShaderAssert(GLuint shader, const std::string& type)
 {
     GLint success;
     GLchar infoLog[1024];

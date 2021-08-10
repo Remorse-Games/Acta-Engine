@@ -1,7 +1,8 @@
 #include "actapch.h"
+#include "glad/glad.h"
 #include "OpenGLDebugger.h"
 
-GLenum OpenGLDebugger::glCheckError(const char* file, int line)
+GLenum ActaEngine::OpenGLDebugger::glCheckError(const char* file, int line)
 {
     GLenum errorCode;
     while ((errorCode = glGetError()) != GL_NO_ERROR)

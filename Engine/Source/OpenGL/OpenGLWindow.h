@@ -1,19 +1,24 @@
 #pragma once
-#include "OpenGL/OpenGLInput.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
+#include "Core/Events/KeyEvent.h"
 #include "OpenGL/OpenGLRenderer.h"
-#include "ImGui/ImGui_Main.h"
+#include "Objects/Camera/Camera.h"
 
-class OpenGLWindow
+void resize_callback(GLFWwindow* window, int width, int height);
+
+namespace ActaEngine
 {
-public:
-	OpenGLWindow(unsigned int&& width, unsigned int&& height, std::string&& title);
-	~OpenGLWindow();
+	class OpenGLWindow
+	{
+	public:
+		OpenGLWindow(unsigned int width, unsigned int height, std::string&& title);
+		~OpenGLWindow();
 
-	void UpdateWindow();
-
-private:
-	GLFWwindow* window;
-	ImGui_Main imgui;
-	OpenGLRenderer* render;
-};
-
+		void UpdateWindow();
+		
+		GLFWwindow* window;
+		Camera* mainCamera;
+	};
+}

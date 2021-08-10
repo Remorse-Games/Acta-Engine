@@ -1,5 +1,8 @@
 #include "actapch.h"
+#include "glad/glad.h"
 #include "OpenGLBuffer.h"
+#include "OpenGL/OpenGLShader.h"
+#include "OpenGL/OpenGLTexture.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"
@@ -10,7 +13,7 @@
 ////////////////////////  VERTEX BUFFER //////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
-OpenGLVertexBuffer::OpenGLVertexBuffer()
+ActaEngine::OpenGLVertexBuffer::OpenGLVertexBuffer()
     : render_ID(0)
 {
     glGenBuffers(1, &render_ID);
@@ -20,12 +23,12 @@ OpenGLVertexBuffer::OpenGLVertexBuffer()
 #endif
 }
 
-OpenGLVertexBuffer::~OpenGLVertexBuffer()
+ActaEngine::OpenGLVertexBuffer::~OpenGLVertexBuffer()
 {
     glDeleteBuffers(1, &render_ID);
 }
 
-void OpenGLVertexBuffer::SetData(void* vertices, const unsigned int& vertSize)
+void ActaEngine::OpenGLVertexBuffer::SetData(void* vertices, const unsigned int& vertSize)
 {
     glBindBuffer(GL_ARRAY_BUFFER, render_ID);
 
@@ -36,7 +39,7 @@ void OpenGLVertexBuffer::SetData(void* vertices, const unsigned int& vertSize)
 #endif
 }
 
-void OpenGLVertexBuffer::Bind() const
+void ActaEngine::OpenGLVertexBuffer::Bind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, render_ID);
 
@@ -52,7 +55,7 @@ void OpenGLVertexBuffer::Bind() const
 
 }
 
-void OpenGLVertexBuffer::Unbind() const
+void ActaEngine::OpenGLVertexBuffer::Unbind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -61,7 +64,7 @@ void OpenGLVertexBuffer::Unbind() const
 ////////////////////////  INDEX BUFFER ///////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 
-OpenGLIndexBuffer::OpenGLIndexBuffer()
+ActaEngine::OpenGLIndexBuffer::OpenGLIndexBuffer()
     : render_ID(0)
 {
     glGenBuffers(1, &render_ID);
@@ -70,12 +73,12 @@ OpenGLIndexBuffer::OpenGLIndexBuffer()
 #endif
 }
 
-OpenGLIndexBuffer::~OpenGLIndexBuffer()
+ActaEngine::OpenGLIndexBuffer::~OpenGLIndexBuffer()
 {
     glDeleteBuffers(1, &render_ID);
 }
 
-void OpenGLIndexBuffer::SetData(void* indices, const unsigned int& indiSize)
+void ActaEngine::OpenGLIndexBuffer::SetData(void* indices, const unsigned int& indiSize)
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, render_ID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indiSize, indices, GL_STATIC_DRAW);
@@ -84,7 +87,7 @@ void OpenGLIndexBuffer::SetData(void* indices, const unsigned int& indiSize)
 #endif
 }
 
-void OpenGLIndexBuffer::Bind() const
+void ActaEngine::OpenGLIndexBuffer::Bind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, render_ID);
 #if (defined(ACTA_DEBUG) || (_DEBUG))
@@ -92,7 +95,7 @@ void OpenGLIndexBuffer::Bind() const
 #endif
 }
 
-void OpenGLIndexBuffer::Unbind() const
+void ActaEngine::OpenGLIndexBuffer::Unbind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

@@ -1,9 +1,8 @@
 #include "actapch.h"
 #include "OpenGLWindow.h"
+#include "System/Time.h"
 
-void resize_callback(GLFWwindow* window, int width, int height);
-
-OpenGLWindow::OpenGLWindow(unsigned int&& width, unsigned int&& height, std::string&& title) : window(NULL)
+ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, std::string&& title)
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -32,10 +31,8 @@ OpenGLWindow::OpenGLWindow(unsigned int&& width, unsigned int&& height, std::str
 	}
 
 	glEnable(GL_DEPTH_TEST);
-
-	imgui.Init(window);
-	
-	render = new OpenGLRenderer();
+	mainCamera = new Camera();
+	glfwSetWindowUserPointer(window, mainCamera);
 
 	int nrAttrib;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttrib);
@@ -46,35 +43,20 @@ OpenGLWindow::OpenGLWindow(unsigned int&& width, unsigned int&& height, std::str
 	spdlog::info("Version	: {0}", glGetString(GL_VERSION));
 }
 
-OpenGLWindow::~OpenGLWindow()
+ActaEngine::OpenGLWindow::~OpenGLWindow()
 {
-	delete render;
-	imgui.Destroy();
+	delete mainCamera;
 	glfwTerminate();
 }
 
-
-void OpenGLWindow::UpdateWindow()
+void ActaEngine::OpenGLWindow::UpdateWindow()
 {
-	while (!glfwWindowShouldClose(window))
-	{
-		OpenGLInput::ProcessInput(window);
-
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
-		// TODO: this is so bad. will fix it later.
-		render->camera.Input(window);
-
-		render->Draw();
-
-		glfwPollEvents();
-		glfwSwapBuffers(window);
-
-	}
+	mainCamera->Draw();
+	mainCamera->Input(window);
 }
 
 void resize_callback(GLFWwindow* window, int width, int height)
 {
-	glViewport(width, height, width, height);
+	glViewport(0, 0, width, height);
 }
+

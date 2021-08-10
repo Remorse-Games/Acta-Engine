@@ -1,8 +1,9 @@
 #pragma once
 
 #include <vector>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <functional>
+#include <stack>
+
 #include "spdlog/spdlog.h"
 
 #include <glm/glm.hpp>
@@ -13,4 +14,10 @@
 #include "imgui.h"
 #include "ImGui/imgui_impl_glfw.h"
 #include "ImGui/imgui_impl_opengl3.h"
+
+	#define UNIT_TESTING false
+		#if UNIT_TESTING
+		#define CATCH_CONFIG_MAIN
+		#include "catch.hpp"
+	#endif
 #endif

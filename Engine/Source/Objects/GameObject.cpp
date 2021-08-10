@@ -1,15 +1,15 @@
 #include "actapch.h"
+#include "glad/glad.h"
 #include "GameObject.h"
+#include "Material.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-GameObject::GameObject() :
-shader("Shader/triangle.vert", "Shader/triangle.frag")
+ActaEngine::GameObject::GameObject(Material* material)
 {
-    // vertex draw. remove later.
     float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -66,43 +66,40 @@ shader("Shader/triangle.vert", "Shader/triangle.frag")
     //indexBuffer.SetData(indices, sizeof(indices));
     vertexBuffer.Bind();
     //indexBuffer.Bind();
-    
-    shader.use();
-    shader.SetUniformInt("Texture1", 1);
 
-    shader.SetUniformMat4("model", transform);
+    material->shader->use();
+    material->shader->SetUniformMat4("model", transform.m_Transform);
+
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 
 }
 
-GameObject::~GameObject()
+ActaEngine::GameObject::~GameObject()
 {
 
 }
 
-void GameObject::Draw()
+void ActaEngine::GameObject::Draw(Material* material)
 {
+    //vertex setup
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.render_ID);
+    vertexBuffer.Bind();
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    //transform into shader
+    material->shader->SetUniformMat4("model", transform.m_Transform);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    // use shader before drawing
-    shader.use();
-
+    //texture setup
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture.texture[0]);
+    glBindTexture(GL_TEXTURE_2D, material->texture.textureList[0]);
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, texture.texture[1]);
+    glBindTexture(GL_TEXTURE_2D, material->texture.textureList[1]);
 
-    shader.SetUniformMat4("model", transform);
+    material->shader->SetUniformInt("Texture1", 1);
 
+    //draw all data that has been setup
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -111,5 +108,4 @@ void GameObject::Draw()
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
-
 }

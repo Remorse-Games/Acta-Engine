@@ -1,69 +1,161 @@
 #include "actapch.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 #include "Camera.h"
 
-Camera::Camera() :
+#include "Core/Events/KeyEvent.h"
+#include "Core/Events/MouseEvent.h"
+#include "System/Time.h"
+#include "Objects/Material.h"
+
+extern unsigned int windowWidth;
+extern unsigned int windowHeight;
+
+ActaEngine::Camera::Camera() :
 	view(glm::mat4(0)), 
 	projection(glm::mat4(0)),
-	fieldOfView(45.0f), 
-	shader("Shader/triangle.vert", "Shader/triangle.frag")
+	fieldOfView(45.0f),
+	lastMousePosX(windowWidth / 2),
+	lastMousePosY(windowHeight / 2)
 {
 	// Init position
-	SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-
-	cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	cameraForward = glm::normalize(cameraTarget - position);
-	
-	// world up when init
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	
-	cameraRight = glm::normalize(glm::cross(up, cameraForward));
-
-	cameraUp = glm::cross(cameraForward, cameraRight);
-
+	transform.yaw = -90.0f;
+	transform.SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 }
 
-Camera::~Camera()
+ActaEngine::Camera::~Camera()
 {
 }
 
-void Camera::Draw()
+void ActaEngine::Camera::Draw()
 {
-	time.Update();
+	UpdateDirection();
 
-	projection = glm::perspective(glm::radians(fieldOfView), 1280.0f / 720.0f, 0.1f, 100.0f);
-	shader.SetUniformMat4("projection", projection);
-
-	view = glm::lookAt(position, cameraForward + position, cameraUp);
-	shader.SetUniformMat4("view", view);
+	projection = glm::perspective(glm::radians(fieldOfView), (float)windowWidth / (float)windowHeight, nearClipping, farClipping);
+	//projection = glm::ortho(0.0f, (float)windowWidth, 0.0f, (float)windowHeight, nearClipping, farClipping);
+	view = glm::lookAt(transform.m_position, transform.Forward + transform.m_position, transform.Up);
 }
 
-void Camera::Input(GLFWwindow* window)
+void ActaEngine::Camera::Bind(Material* material)
 {
+	material->shader->SetUniformMat4("projection", projection);
+	material->shader->SetUniformMat4("view", view);
+}
+
+void ActaEngine::Camera::UpdateDirection()
+{
+	// need implementing roll later
+	transform.direction.x = (float)cos(glm::radians(transform.yaw)) * cos(glm::radians(transform.pitch));
+	transform.direction.y = (float)sin(glm::radians(transform.pitch));
+	transform.direction.z = (float)sin(glm::radians(transform.yaw)) * cos(glm::radians(transform.pitch));
+
+	transform.Forward = glm::normalize(transform.direction);
+	transform.Right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), transform.Forward));
+	transform.Up = glm::cross(transform.Forward, transform.Right);
+}
+
+
+void ActaEngine::Camera::Input(GLFWwindow* window)
+{
+	//////////////////////////////KEYBOARD CAMERA INPUT////////////////////////////////////////////
+
 	// forward
-	OpenGLInput::ProcessInput(window, GLFW_KEY_W, GLFW_PRESS, [&]()
+	KeyEvent::ProcessInputKey(window, GLFW_KEY_W, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
-			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
+			glm::vec3 calcSpeed = transform.Forward * cameraSpeed * Time::deltaTime;
+			transform.SetPosition(transform.m_position.x + calcSpeed.x, transform.m_position.y + calcSpeed.y, transform.m_position.z + calcSpeed.z);
 		});
 	
 	// backward
-	OpenGLInput::ProcessInput(window, GLFW_KEY_S, GLFW_PRESS, [&]()
+	KeyEvent::ProcessInputKey(window, GLFW_KEY_S, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = cameraForward * cameraSpeed * time.deltaTime;
-			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
+			glm::vec3 calcSpeed = transform.Forward * cameraSpeed * Time::deltaTime;
+			transform.SetPosition(transform.m_position.x - calcSpeed.x, transform.m_position.y - calcSpeed.y, transform.m_position.z - calcSpeed.z);
 		});
 	
 	// left
-	OpenGLInput::ProcessInput(window, GLFW_KEY_A, GLFW_PRESS, [&]()
+	KeyEvent::ProcessInputKey(window, GLFW_KEY_A, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
-			SetPosition(position.x + calcSpeed.x, position.y + calcSpeed.y, position.z + calcSpeed.z);
+			glm::vec3 calcSpeed = transform.Right * cameraSpeed * Time::deltaTime;
+			transform.SetPosition(transform.m_position.x + calcSpeed.x, transform.m_position.y + calcSpeed.y, transform.m_position.z + calcSpeed.z);
 		});
 	
 	// right
-	OpenGLInput::ProcessInput(window, GLFW_KEY_D, GLFW_PRESS, [&]()
+	KeyEvent::ProcessInputKey(window, GLFW_KEY_D, GLFW_PRESS, true, [&]()
 		{
-			glm::vec3 calcSpeed = cameraRight * cameraSpeed * time.deltaTime;
-			SetPosition(position.x - calcSpeed.x, position.y - calcSpeed.y, position.z - calcSpeed.z);
+			glm::vec3 calcSpeed = transform.Right * cameraSpeed * Time::deltaTime;
+			transform.SetPosition(transform.m_position.x - calcSpeed.x, transform.m_position.y - calcSpeed.y, transform.m_position.z - calcSpeed.z);
 		});
+
+	//////////////////////////////RUN CAMERA INPUT////////////////////////////////////////////
+	KeyEvent::ProcessInputKey(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, true, [&]()
+		{
+			if (!sprintInit)
+			{
+				cameraSpeed += cameraSprintSpeed;
+				sprintInit = true;
+				moveInit = false;
+			}
+		});
+
+	KeyEvent::ProcessInputKey(window, GLFW_KEY_LEFT_SHIFT, GLFW_PRESS, false, [&]()
+		{
+			if (!moveInit)
+			{
+				cameraSpeed -= cameraSprintSpeed;
+				sprintInit = false;
+				moveInit = true;
+			}
+		});
+
+	//////////////////////////////MOUSE INPUT////////////////////////////////////////////
+	MouseEvent::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, true, [&]()
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos)
+				{
+ 					Camera* camera = static_cast<Camera*>(glfwGetWindowUserPointer(window));
+					camera->OnCameraMove(window, xPos, yPos, camera->transform.yaw, camera->transform.pitch);
+				});
+		});
+	MouseEvent::ProcessInputMouse(window, GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, false, [&]()
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) 
+				{ 
+					Camera* camera = static_cast<Camera*>(glfwGetWindowUserPointer(window));
+					camera->firstMouse = true; 
+				});
+		});
+
+}
+
+ void ActaEngine::Camera::OnCameraMove(GLFWwindow* window, double xPos, double yPos, double& yaw, double& pitch)
+{
+	if (firstMouse)
+	{
+		lastMousePosX = xPos;
+		lastMousePosY = yPos;
+		firstMouse = false;
+	}
+
+	double xOffset = xPos - lastMousePosX;
+	double yOffset = lastMousePosY - yPos;
+	lastMousePosX = xPos;
+	lastMousePosY = yPos;
+
+	const float mouseSensitivity = 0.1f;
+	xOffset *= mouseSensitivity;
+	yOffset *= mouseSensitivity;
+
+	yaw += xOffset;
+	pitch += yOffset;
+	if (pitch > 89.0f)
+	{
+		pitch = 89.0f;
+	}
+	else if (pitch < -89.0f)
+	{
+		pitch = -89.0f;
+	}
 }
