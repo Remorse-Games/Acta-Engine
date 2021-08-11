@@ -17,7 +17,7 @@ ActaEngine::Material::~Material()
 {
 }
 
-void ActaEngine::Material::Bind(GameObject* object)
+void ActaEngine::Material::BindShader(GameObject* object)
 {
     shader->use();
     shader->SetUniformInt("Texture1", 1);

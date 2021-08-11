@@ -24,6 +24,8 @@ public:
 	void Start() override
 	{
         spdlog::info("Start the game!");
+        mat.texture.push_texture("Texture/container.jpg", GL_RGB);
+        mat.texture.push_texture("Texture/awesomeface.png", GL_RGBA);
         go.transform.Identity();
         go.transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
     }
