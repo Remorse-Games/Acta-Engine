@@ -30,6 +30,17 @@ void ActaEngine::Application::Update()
 
 void ActaEngine::Application::EditorUpdate()
 {
+	ImGui::Begin("Information");
+		
+	ImGui::Text("Acta Engine v.0.0.1");	
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::Text("Vendor  : %s", glGetString(GL_VENDOR));
+	ImGui::Text("Renderer: %s", glGetString(GL_RENDERER));
+	ImGui::Text("Version : %s", glGetString(GL_VERSION));
+
+	ImGui::End();
 }
 
 // Run the whole application. This won't be showned in Game Project.

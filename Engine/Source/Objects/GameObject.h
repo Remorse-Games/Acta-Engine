@@ -22,10 +22,10 @@ namespace ActaEngine
 	private:
 		OpenGLVertexBuffer vertexBuffer;
 		OpenGLIndexBuffer indexBuffer;
-		unsigned int vao;
-		unsigned int vbo;
+		unsigned int vao = 0;
+		unsigned int vbo = 0;
 
 	private:
-		glm::mat4 model;
+		glm::mat4 model = glm::mat4(0.0f);
 	};
 }

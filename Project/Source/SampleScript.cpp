@@ -45,10 +45,11 @@ public:
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
     void EditorUpdate() override
     {
+        Application::EditorUpdate();
+
         // Inspector for Camera
         ImGui::Begin("Camera");
 
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         float camPos[] = { OglWindow->mainCamera->transform.GetPosition().x, OglWindow->mainCamera->transform.GetPosition().y, OglWindow->mainCamera->transform.GetPosition().z };
         ImGui::InputFloat3("Position", camPos);
         OglWindow->mainCamera->transform.SetPosition(camPos[0], camPos[1], camPos[2]);
