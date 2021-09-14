@@ -7,11 +7,13 @@ class Game : public ActaEngine::Application
 public:
     ActaEngine::Material mat;
     ActaEngine::GameObject go;
+    ActaEngine::GameObject go1;
 
 
 	Game() :
         mat("Shader/triangle.vert", "Shader/triangle.frag"),
-        go(&mat)
+        go(&mat),
+        go1(&mat)
 	{
         Start();
     }
@@ -28,6 +30,8 @@ public:
         mat.texture.push_texture("Texture/awesomeface.png", GL_RGBA);
         go.transform.Identity();
         go.transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+        go1.transform.Identity();
+        go1.transform.SetPosition(glm::vec3(1.0f, 0.0f, 0.0f));
     }
 
 
@@ -35,10 +39,11 @@ public:
 	{    
         OglWindow->mainCamera->Bind(&mat);
         go.Draw(&mat);
-
+        go1.Draw(&mat);
         mat.shader->use();
 
         go.transform.Identity();
+        go1.transform.Identity();
 
 	}
 

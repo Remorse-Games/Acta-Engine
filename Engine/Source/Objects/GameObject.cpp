@@ -69,6 +69,8 @@ ActaEngine::GameObject::GameObject(Material* material)
 
     material->shader->use();
     material->shader->SetUniformMat4("model", transform.m_Transform);
+    material->shader->SetUniformInt("Texture", 0);
+    material->shader->SetUniformInt("Texture1", 1);
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
@@ -94,9 +96,7 @@ void ActaEngine::GameObject::Draw(Material* material)
     //texture setup
     material->texture.use_texture(0, GL_TEXTURE0);
     material->texture.use_texture(1, GL_TEXTURE1);
-
-    material->shader->SetUniformInt("Texture1", 1);
-
+  
     //draw all data that has been setup
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 36);

@@ -26,8 +26,8 @@ void ActaEngine::OpenGLTexture::push_texture(const char* textureFile, GLint colo
     glGenTextures(1, &textureList[texture_index]);
     glBindTexture(GL_TEXTURE_2D, textureList[texture_index]);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -40,7 +40,7 @@ void ActaEngine::OpenGLTexture::push_texture(const char* textureFile, GLint colo
     }
     else
     {
-        spdlog::error("Failed to load Texture 1");
+        spdlog::error("Failed to load Texture {0}", texture_index);
     }
 
     ++texture_index;
