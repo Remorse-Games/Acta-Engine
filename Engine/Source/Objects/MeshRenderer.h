@@ -7,13 +7,14 @@
 
 namespace ActaEngine
 {
-	class GameObject
+	class MeshRenderer
 	{
 	public:
-		GameObject(Material* material);
-		~GameObject();
+		MeshRenderer();
+		~MeshRenderer();
 
 	public:
+		void Init(Material* material);
 		void Draw(Material* material);
 
 	public:
@@ -24,6 +25,10 @@ namespace ActaEngine
 		OpenGLIndexBuffer indexBuffer;
 		unsigned int vao;
 		unsigned int vbo;
+
+	public:
+		std::vector<float> vertices;
+		std::vector<float> indices;
 
 	private:
 		glm::mat4 model;

@@ -29,9 +29,9 @@ namespace ActaEngine
 	public:
 		glm::mat4 m_Transform;
 
-		glm::vec3 m_position;
-		glm::vec3 m_rotation;
-		glm::vec3 m_scale;
+		glm::vec3 m_position = glm::vec3(0.0f);
+		glm::vec3 m_rotation = glm::vec3(0.0f);
+		glm::vec3 m_scale = glm::vec3(1.0f);
 
 		glm::vec3 Forward;
 		glm::vec3 Up;

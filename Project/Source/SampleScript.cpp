@@ -1,12 +1,13 @@
 #include "ActaEngine.h"
+#include <limits>
 
 using namespace ActaEngine;
 
 class Game : public ActaEngine::Application
 {
 public:
-    ActaEngine::Material mat;
-    ActaEngine::GameObject go;
+    Material mat;
+    Box go;
 
 
 	Game() :
@@ -25,7 +26,6 @@ public:
 	{
         spdlog::info("Start the game!");
         go.transform.Identity();
-        go.transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
     }
 
 
@@ -59,10 +59,18 @@ public:
         ImGui::Begin("Game Object 0");
 
         float goPos[] = { go.transform.GetPosition().x ,go.transform.GetPosition().y ,go.transform.GetPosition().z };
+        float goRot[] = { go.transform.GetRotation().x , go.transform.GetRotation().y , go.transform.GetRotation().z };
+        float goSca[] = { go.transform.GetScale().x , go.transform.GetScale().y , go.transform.GetScale().z };
+
+        //ImGui::DragFloat3("Position", goPos);
         ImGui::InputFloat3("Position", goPos);
+        ImGui::InputFloat3("Rotation", goRot);
+        ImGui::InputFloat3("Scale", goSca);
+
         go.transform.Identity();
         go.transform.SetPosition(goPos[0], goPos[1], goPos[2]);
-        go.transform.SetRotation(20.0f, glm::vec3(0.5f, 1.0f, 0.0f));
+        go.transform.SetRotationEuler(goRot[0], goRot[1], goRot[2]);
+        go.transform.SetScale(goSca[0], goSca[1], goSca[2]);
 
         ImGui::End();
 

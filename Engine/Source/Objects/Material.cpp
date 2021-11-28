@@ -1,6 +1,6 @@
 #include "actapch.h"
 #include "Material.h"
-#include "GameObject.h"
+#include "MeshRenderer.h"
 #include "Objects/Camera/Camera.h"
 
 ActaEngine::Material::Material(const char* vertexFile, const char* fragmentFile)
@@ -17,7 +17,7 @@ ActaEngine::Material::~Material()
 {
 }
 
-void ActaEngine::Material::Bind(GameObject* object)
+void ActaEngine::Material::Bind(MeshRenderer* object)
 {
     shader->use();
     shader->SetUniformInt("Texture1", 1);

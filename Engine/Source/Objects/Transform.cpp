@@ -1,6 +1,8 @@
 #include "actapch.h"
 #include "Transform.h"
 #include "catch.hpp"
+#include "glm/gtx/quaternion.hpp"
+#include "glm/gtx/euler_angles.hpp"
 
 void ActaEngine::Transform::Identity()
 {
@@ -32,17 +34,14 @@ void ActaEngine::Transform::SetRotation(const float& angle, const glm::vec3& rot
 
 void ActaEngine::Transform::SetRotationEuler(const glm::vec3& rot)
 {
-	float m_pitch = rot[0];
-	m_pitch = rot[0] / 360.0f;
-	glm::rotate(m_Transform, 360.0f, glm::vec3(rot[0], rot[1], rot[2]));
+	m_rotation = glm::vec3(rot[0], rot[1], rot[2]);
+	m_Transform *= glm::eulerAngleYXZ(rot[0], rot[1], rot[2]);
 }
 
 void ActaEngine::Transform::SetRotationEuler(const float& x, const float& y, const float& z)
 {
-	float m_pitch = x;
-	m_pitch = x / 360.0f;
-	glm::rotate(m_Transform, 360.0f, glm::vec3(0.2f,0.2f, z));
-	pitch = m_pitch;
+	m_rotation = glm::vec3(x, y, z);
+	m_Transform *= glm::eulerAngleYXZ(m_rotation.y, m_rotation.x, m_rotation.z);
 }
 
 glm::vec3 ActaEngine::Transform::GetRotation() const
