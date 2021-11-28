@@ -8,11 +8,13 @@ namespace ActaEngine
 
 	class Material
 	{
+
 	public:
 		Material(const char* vertexFile, const char* fragmentFile);
 		Material(const std::string& vertexFile, const std::string& fragmentFile);
 		~Material();
-		void Bind(MeshRenderer* object);
+		void BindShader(MeshRenderer* object);
+
 	public:
 		OpenGLShader* shader;
 		OpenGLTexture texture;

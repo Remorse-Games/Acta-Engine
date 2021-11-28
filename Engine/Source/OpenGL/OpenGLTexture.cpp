@@ -11,11 +11,20 @@
 
 ActaEngine::OpenGLTexture::OpenGLTexture()
 {
+   
+}
+
+ActaEngine::OpenGLTexture::~OpenGLTexture()
+{
+}
+
+void ActaEngine::OpenGLTexture::push_texture(const char* textureFile, GLint colorFormat)
+{
     stbi_set_flip_vertically_on_load(true);
 
     textureList.push_back(0);
-    glGenTextures(1, &textureList[0]);
-    glBindTexture(GL_TEXTURE_2D, textureList[0]);
+    glGenTextures(1, &textureList[texture_index]);
+    glBindTexture(GL_TEXTURE_2D, textureList[texture_index]);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -23,47 +32,28 @@ ActaEngine::OpenGLTexture::OpenGLTexture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    data = stbi_load("Texture/container.jpg", &width, &height, &nrChannels, 0);
+    data = stbi_load(textureFile, &width, &height, &nrChannels, 0);
     if (data)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
     }
     else
     {
-        spdlog::error("Failed to load Texture 1");
+        spdlog::error("Failed to load Texture %d", texture_index);
     }
 
-    textureList.push_back(0);
-    glGenTextures(1, &textureList[1]);
-    glBindTexture(GL_TEXTURE_2D, textureList[1]);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    data = stbi_load("Texture/awesomeface.png", &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        spdlog::error("Failed to load Texture 2");
-    }
+    texture_index++;
 
     stbi_image_free(data);
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
-
 }
 
-ActaEngine::OpenGLTexture::~OpenGLTexture()
+void ActaEngine::OpenGLTexture::use_texture(unsigned int index, GLenum glTextureNum)
 {
-
+    glActiveTexture(glTextureNum);
+    glBindTexture(GL_TEXTURE_2D, textureList[index]);
 }

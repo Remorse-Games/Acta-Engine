@@ -17,7 +17,7 @@ ActaEngine::Material::~Material()
 {
 }
 
-void ActaEngine::Material::Bind(MeshRenderer* object)
+void ActaEngine::Material::BindShader(MeshRenderer* object)
 {
     shader->use();
     shader->SetUniformInt("Texture1", 1);

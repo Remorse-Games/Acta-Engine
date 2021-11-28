@@ -52,16 +52,14 @@ void ActaEngine::MeshRenderer::Draw(Material* material)
     material->shader->SetUniformMat4("model", transform.m_Transform);
 
     //texture setup
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, material->texture.textureList[0]);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, material->texture.textureList[1]);
+    material->texture.use_texture(0, GL_TEXTURE0);
+    material->texture.use_texture(1, GL_TEXTURE1);
 
     material->shader->SetUniformInt("Texture1", 1);
 
     //draw all data that has been setup
     glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
     // only need declared once, it will populate all errors happened in
     // one block.
