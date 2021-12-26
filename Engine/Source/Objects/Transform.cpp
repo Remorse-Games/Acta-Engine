@@ -11,60 +11,64 @@ void ActaEngine::Transform::Identity()
 
 void ActaEngine::Transform::SetPosition(const glm::vec3& position)
 {
-	m_position = position;
-	m_Transform = glm::translate(m_Transform, m_position);
+	m_Position = position;
+	m_Transform = glm::translate(m_Transform, m_Position);
 }
 
 void ActaEngine::Transform::SetPosition(const float& x, const float& y, const float& z)
 {
-	m_position = glm::vec3(x, y, z);
-	m_Transform = glm::translate(m_Transform, m_position);
+	m_Position = glm::vec3(x, y, z);
+	m_Transform = glm::translate(m_Transform, m_Position);
 }
 
 glm::vec3 ActaEngine::Transform::GetPosition() const
 {
-	return m_position;
+	return m_Position;
 }
 
 void ActaEngine::Transform::SetRotation(const float& angle, const glm::vec3& rotation)
 {
-	m_rotation = rotation;
-	m_Transform = glm::rotate(m_Transform, glm::radians(angle), m_rotation);
+	m_Rotation = rotation;
+	m_Transform = glm::rotate(m_Transform, glm::radians(angle), m_Rotation);
 }
 
 void ActaEngine::Transform::SetRotationEuler(const glm::vec3& rot)
 {
-	m_rotation = glm::vec3(rot[0], rot[1], rot[2]);
+	m_Rotation = glm::vec3(rot[0], rot[1], rot[2]);
 	m_Transform *= glm::eulerAngleYXZ(rot[0], rot[1], rot[2]);
 }
 
 void ActaEngine::Transform::SetRotationEuler(const float& x, const float& y, const float& z)
 {
-	m_rotation = glm::vec3(x, y, z);
-	m_Transform *= glm::eulerAngleYXZ(m_rotation.y, m_rotation.x, m_rotation.z);
+	m_Rotation = glm::vec3(x, y, z);
+	m_Transform *= glm::eulerAngleYXZ(m_Rotation.y, m_Rotation.x, m_Rotation.z);
 }
 
 glm::vec3 ActaEngine::Transform::GetRotation() const
 {
-	return m_rotation;
+	return m_Rotation;
 }
 
 void ActaEngine::Transform::SetScale(const glm::vec3& scale)
 {
-	m_scale = scale;
-	m_Transform = glm::scale(m_Transform, m_scale);
+	m_Scale = scale;
+	m_Transform = glm::scale(m_Transform, m_Scale);
 }
 
 void ActaEngine::Transform::SetScale(const float& x, const float& y, const float& z)
 {
-	m_scale = glm::vec3(x, y, z);
-	m_Transform = glm::scale(m_Transform, m_scale);
+	m_Scale = glm::vec3(x, y, z);
+	m_Transform = glm::scale(m_Transform, m_Scale);
 }
-
 
 glm::vec3 ActaEngine::Transform::GetScale() const
 {
-	return m_scale;
+	return m_Scale;
+}
+
+glm::mat4 ActaEngine::Transform::GetTransformMatrix()
+{
+	return m_Transform;
 }
 
 

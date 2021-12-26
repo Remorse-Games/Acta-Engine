@@ -25,8 +25,8 @@ public:
 	void Start() override
 	{
         spdlog::info("Start the game!");
-        mat.texture.push_texture("Texture/container.jpg", GL_RGB);
-        mat.texture.push_texture("Texture/awesomeface.png", GL_RGBA);
+        mat.textureGL.push_texture("Texture/container.jpg", GL_RGB);
+        mat.textureGL.push_texture("Texture/awesomeface.png", GL_RGBA);
         go.transform.Identity();
     }
 
@@ -36,7 +36,7 @@ public:
         OglWindow->mainCamera->Bind(&mat);
         go.Draw(&mat);
 
-        mat.shader->use();
+        mat.shaderGL->use();
 
         go.transform.Identity();
 

@@ -33,8 +33,8 @@ void ActaEngine::MeshRenderer::Init(Material* material)
     vertexBuffer.Bind();
     //indexBuffer.Bind();
 
-    material->shader->use();
-    material->shader->SetUniformMat4("model", transform.m_Transform);
+    material->shaderGL->use();
+    material->shaderGL->SetUniformMat4("model", transform.GetTransformMatrix());
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
@@ -49,13 +49,13 @@ void ActaEngine::MeshRenderer::Draw(Material* material)
     vertexBuffer.Bind();
 
     //transform into shader
-    material->shader->SetUniformMat4("model", transform.m_Transform);
+    material->shaderGL->SetUniformMat4("model", transform.GetTransformMatrix());
 
     //texture setup
-    material->texture.use_texture(0, GL_TEXTURE0);
-    material->texture.use_texture(1, GL_TEXTURE1);
+    material->textureGL.use_texture(0, GL_TEXTURE0);
+    material->textureGL.use_texture(1, GL_TEXTURE1);
 
-    material->shader->SetUniformInt("Texture1", 1);
+    material->shaderGL->SetUniformInt("Texture1", 1);
 
     //draw all data that has been setup
     glBindVertexArray(vao);

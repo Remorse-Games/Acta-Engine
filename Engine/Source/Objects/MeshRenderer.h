@@ -14,23 +14,29 @@ namespace ActaEngine
 		~MeshRenderer();
 
 	public:
+		/*! Initialize VBO, VAO and EBO, shader to start creating the object. */
 		void Init(Material* material);
+		/*! Drawing object inside renderer. */
 		void Draw(Material* material);
 
 	public:
+		/*! Transform object to manipulate object transform. */
 		Transform transform;
 
 	private:
+		/*! Vertex Buffer process. */
 		OpenGLVertexBuffer vertexBuffer;
+		/*! Index Buffer process. */
 		OpenGLIndexBuffer indexBuffer;
+		/*! Vertex Array Object data. */
 		unsigned int vao;
+		/*! Vertex Buffer Object data. */
 		unsigned int vbo;
 
-	public:
+	protected:
+		/*! Storing the vertices inside vector. */
 		std::vector<float> vertices;
+		/*! Storing indices inside vector. */
 		std::vector<float> indices;
-
-	private:
-		glm::mat4 model;
 	};
 }
