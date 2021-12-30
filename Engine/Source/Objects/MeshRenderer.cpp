@@ -18,7 +18,7 @@ ActaEngine::MeshRenderer::~MeshRenderer()
 
 }
 
-void ActaEngine::MeshRenderer::Init(Material* material)
+void ActaEngine::MeshRenderer::Init(Material& material)
 {
     //unsigned int indices[] = {
     //    0, 1, 3, // first triangle
@@ -28,34 +28,39 @@ void ActaEngine::MeshRenderer::Init(Material* material)
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
+    //vertex setup
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.render_ID);
+
     vertexBuffer.SetData(vertices.data(), vertices.size() * sizeof(float));
     //indexBuffer.SetData(indices, sizeof(indices));
     vertexBuffer.Bind();
     //indexBuffer.Bind();
 
-    material->shaderGL->use();
-    material->shaderGL->SetUniformMat4("model", transform.GetTransformMatrix());
+    material.shaderGL->use();
+    material.shaderGL->SetUniformMat4("model", transform.GetTransformMatrix());
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
 }
 
-void ActaEngine::MeshRenderer::Draw(Material* material)
+void ActaEngine::MeshRenderer::Draw(Material& material)
 {
-    //vertex setup
-    glBindVertexArray(vao);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer.render_ID);
-    vertexBuffer.Bind();
-
     //transform into shader
-    material->shaderGL->SetUniformMat4("model", transform.GetTransformMatrix());
+    material.shaderGL->use();
+    material.shaderGL->SetUniformMat4("model", transform.GetTransformMatrix());
 
     //texture setup
-    material->textureGL.use_texture(0, GL_TEXTURE0);
-    material->textureGL.use_texture(1, GL_TEXTURE1);
+    if (material.textureGL != nullptr)
+    {
+        for (int i = 0; i < material.textureGL->textureList.size(); ++i)
+        {
+            material.textureGL->use_texture(i);
+        }
 
-    material->shaderGL->SetUniformInt("Texture1", 1);
+        material.shaderGL->SetUniformInt("Texture1", 1);
+    }
 
     //draw all data that has been setup
     glBindVertexArray(vao);

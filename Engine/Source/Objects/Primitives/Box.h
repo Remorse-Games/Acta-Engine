@@ -7,6 +7,9 @@ namespace ActaEngine
 	class Box : public MeshRenderer
 	{
 	public:
-		Box(Material* material);
+		Box(Material& material, const std::string& objectName);
+
+	private:
+		std::string m_ObjectName;
 	};
 }

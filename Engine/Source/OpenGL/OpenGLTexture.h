@@ -5,10 +5,6 @@ namespace ActaEngine
 	class OpenGLTexture
 	{
 	public:
-		OpenGLTexture();
-		~OpenGLTexture();
-
-	public:
 		/*! List of texture registered. */
 		std::vector<unsigned int> textureList;
 		/*! Push new texture. 
@@ -18,7 +14,8 @@ namespace ActaEngine
 		/*! use registered texture.
 		* \param index texture index in the vector textureList.
 		* \param glTextureNum OpenGL texture index register i.e (GL_TEXTURE0) */
-		void use_texture(unsigned int index, GLenum glTextureNum);
+		void use_texture(unsigned int index);
+		float mix = 0.5f;
 
 	private:
 		/*! data of baked texture by stbi_load. */
@@ -33,5 +30,6 @@ namespace ActaEngine
 
 		//! texture index.
 		unsigned char texture_index = 0;
+
 	};
 }

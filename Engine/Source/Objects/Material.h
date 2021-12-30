@@ -12,14 +12,13 @@ namespace ActaEngine
 	public:
 		Material(const char* vertexFile, const char* fragmentFile);
 		Material(const std::string& vertexFile, const std::string& fragmentFile);
+		Material() = delete;
 		~Material();
-		/*! Bind Shader to the mesh renderer. */
-		void BindShader(MeshRenderer* object);
 
 	public:
 		/*! Shader container using OpenGL. */
-		OpenGLShader* shaderGL;
+		std::unique_ptr<OpenGLShader> shaderGL;
 		/*! Texture container using OpenGL. */
-		OpenGLTexture textureGL;
+		std::unique_ptr <OpenGLTexture> textureGL;
 	};
 }

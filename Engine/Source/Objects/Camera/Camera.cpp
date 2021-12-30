@@ -38,6 +38,7 @@ void ActaEngine::Camera::Draw()
 
 void ActaEngine::Camera::Bind(Material* material)
 {
+	material->shaderGL->use();
 	material->shaderGL->SetUniformMat4("projection", projection);
 	material->shaderGL->SetUniformMat4("view", view);
 }
