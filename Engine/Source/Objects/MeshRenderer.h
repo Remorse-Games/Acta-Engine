@@ -15,9 +15,9 @@ namespace ActaEngine
 
 	public:
 		/*! Initialize VBO, VAO and EBO, shader to start creating the object. */
-		void Init(Material* material);
+		void Init(Material& material);
 		/*! Drawing object inside renderer. */
-		void Draw(Material* material);
+		void Draw(Material& material);
 
 	public:
 		/*! Transform object to manipulate object transform. */

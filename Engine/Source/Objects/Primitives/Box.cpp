@@ -1,7 +1,7 @@
 #include "actapch.h"
 #include "Box.h"
 
-ActaEngine::Box::Box(Material* material)
+ActaEngine::Box::Box(Material& material, const std::string& objectName)
 {
     float vert[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -51,6 +51,8 @@ ActaEngine::Box::Box(Material* material)
     {
         vertices.push_back(v);
     }
+
+    m_ObjectName = objectName;
 
     Init(material);
 }
