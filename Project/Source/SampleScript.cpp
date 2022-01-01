@@ -14,7 +14,7 @@ public:
 
 	Game() :
         box_mat("Shader/triangle.vert", "Shader/triangle.frag"),
-        light_mat("Shader/lighting.vert", "Shader/lighting.frag"),
+        light_mat("Shader/triangle.vert", "Shader/triangle.frag"),
         box(box_mat, "Box"),
         light(light_mat, "Light")
 	{
@@ -36,9 +36,9 @@ public:
 
         //testing with triangle shader 2 instance with texture.
         
-        //light_mat.textureGL = std::make_unique<OpenGLTexture>();
-        //light_mat.textureGL->push_texture("Texture/wall.jpg", GL_RGB);
-        //light_mat.textureGL->push_texture("Texture/awesomeface.png", GL_RGBA);
+        light_mat.textureGL = std::make_unique<OpenGLTexture>();
+        light_mat.textureGL->push_texture("Texture/wall.jpg", GL_RGB);
+        light_mat.textureGL->push_texture("Texture/madrid.png", GL_RGBA);
 
     }
 
@@ -50,7 +50,7 @@ public:
         //TODO: if box binded first, the 2nd texture will be missing.
         OglWindow->mainCamera->Bind(&light_mat);
         OglWindow->mainCamera->Bind(&box_mat);
-	}
+    }
 
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
     void EditorUpdate() override
