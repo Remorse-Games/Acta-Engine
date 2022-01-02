@@ -14,7 +14,7 @@ public:
 
 	Game() :
         box_mat("Shader/triangle.vert", "Shader/triangle.frag"),
-        light_mat("Shader/triangle.vert", "Shader/triangle.frag"),
+        light_mat("Shader/lighting.vert", "Shader/lighting.frag"),
         box(box_mat, "Box"),
         light(light_mat, "Light")
 	{
@@ -31,15 +31,13 @@ public:
         spdlog::info("Start the game!");     
 
         box_mat.textureGL = std::make_unique<OpenGLTexture>();
-        box_mat.textureGL->push_texture("Texture/container.jpg", GL_RGB);
-        box_mat.textureGL->push_texture("Texture/awesomeface.png", GL_RGBA);
+        box_mat.textureGL->push_texture("Texture/container.jpg", GL_RGB);    
 
-        //testing with triangle shader 2 instance with texture.
-        
-        light_mat.textureGL = std::make_unique<OpenGLTexture>();
-        light_mat.textureGL->push_texture("Texture/wall.jpg", GL_RGB);
-        light_mat.textureGL->push_texture("Texture/madrid.png", GL_RGBA);
+        light_mat.shaderGL->use();
+        light_mat.shaderGL->SetUniformVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        light_mat.shaderGL->SetUniformVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
+        light.transform.SetPosition(1.0f, -1.0f, 5.0f);
     }
 
 	void Update() override
@@ -48,8 +46,11 @@ public:
         light.Draw(light_mat);
 
         //TODO: if box binded first, the 2nd texture will be missing.
+        //make sure if we want to reproduce this problem we need activate the 2nd object with 2 texture.
+
         OglWindow->mainCamera->Bind(&light_mat);
         OglWindow->mainCamera->Bind(&box_mat);
+   
     }
 
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
@@ -84,6 +85,7 @@ public:
         box.transform.SetPosition(goPos[0], goPos[1], goPos[2]);
         box.transform.SetRotationEuler(goRot[0], goRot[1], goRot[2]);
         box.transform.SetScale(goSca[0], goSca[1], goSca[2]);
+        light.transform.SetPosition(2.0f, -1.0f, -5.0f);
 
         float mixVal = box_mat.textureGL->mix;
         ImGui::SliderFloat("Mix", &mixVal, 0, 1);
