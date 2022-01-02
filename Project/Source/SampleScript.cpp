@@ -13,7 +13,7 @@ public:
 
 
 	Game() :
-        box_mat("Shader/triangle.vert", "Shader/triangle.frag"),
+        box_mat("Shader/object.vert", "Shader/object.frag"),
         light_mat("Shader/lighting.vert", "Shader/lighting.frag"),
         box(box_mat, "Box"),
         light(light_mat, "Light")
@@ -30,18 +30,21 @@ public:
 	{
         spdlog::info("Start the game!");     
 
-        box_mat.textureGL = std::make_unique<OpenGLTexture>();
-        box_mat.textureGL->push_texture("Texture/container.jpg", GL_RGB);    
+        //box_mat.textureGL = std::make_unique<OpenGLTexture>();
+        //box_mat.textureGL->push_texture("Texture/container.jpg", GL_RGB);    
 
-        light_mat.shaderGL->use();
-        light_mat.shaderGL->SetUniformVec3("objectColor", 1.0f, 0.5f, 0.31f);
-        light_mat.shaderGL->SetUniformVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        light.transform.SetPosition(1.0f, 1.0f, 1.0f);
 
-        light.transform.SetPosition(1.0f, -1.0f, 5.0f);
+
     }
 
 	void Update() override
-	{    
+	{
+        box_mat.shaderGL->use();
+        box_mat.shaderGL->SetUniformVec3("lightPos", light.transform.GetPosition());
+        box_mat.shaderGL->SetUniformVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        box_mat.shaderGL->SetUniformVec3("lightColor", 1.0f, 1.0f, 1.0f);
+
         box.Draw(box_mat);
         light.Draw(light_mat);
 
@@ -79,18 +82,18 @@ public:
         ImGui::InputFloat3("Position", goPos);
         ImGui::InputFloat3("Rotation", goRot);
         ImGui::InputFloat3("Scale", goSca);
-
+        
         box.transform.Identity();
         light.transform.Identity();
         box.transform.SetPosition(goPos[0], goPos[1], goPos[2]);
         box.transform.SetRotationEuler(goRot[0], goRot[1], goRot[2]);
         box.transform.SetScale(goSca[0], goSca[1], goSca[2]);
-        light.transform.SetPosition(2.0f, -1.0f, -5.0f);
+        light.transform.SetPosition(1.0f, 1.0f, 1.0f);
 
-        float mixVal = box_mat.textureGL->mix;
-        ImGui::SliderFloat("Mix", &mixVal, 0, 1);
-        box_mat.shaderGL->SetUniformFloat("mixer", mixVal);
-        box_mat.textureGL->mix = mixVal;
+        //float mixVal = box_mat.textureGL->mix;
+        //ImGui::SliderFloat("Mix", &mixVal, 0, 1);
+        //box_mat.shaderGL->SetUniformFloat("mixer", mixVal);
+        //box_mat.textureGL->mix = mixVal;
 
 
         ImGui::End();
