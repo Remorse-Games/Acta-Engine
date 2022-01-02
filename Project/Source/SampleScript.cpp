@@ -11,7 +11,11 @@ public:
     Box box;
     Box light;
 
+private:
+    float ambient = 0.1f;
+    float specular = 0.5f;
 
+public:
 	Game() :
         box_mat("Shader/object.vert", "Shader/object.frag"),
         light_mat("Shader/lighting.vert", "Shader/lighting.frag"),
@@ -34,7 +38,9 @@ public:
         //box_mat.textureGL->push_texture("Texture/container.jpg", GL_RGB);    
 
         light.transform.SetPosition(1.0f, 1.0f, 1.0f);
-
+        box_mat.shaderGL->use();
+        box_mat.shaderGL->SetUniformVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        box_mat.shaderGL->SetUniformVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
     }
 
@@ -42,9 +48,7 @@ public:
 	{
         box_mat.shaderGL->use();
         box_mat.shaderGL->SetUniformVec3("lightPos", light.transform.GetPosition());
-        box_mat.shaderGL->SetUniformVec3("objectColor", 1.0f, 0.5f, 0.31f);
-        box_mat.shaderGL->SetUniformVec3("lightColor", 1.0f, 1.0f, 1.0f);
-
+        box_mat.shaderGL->SetUniformVec3("viewPos", OglWindow->mainCamera->transform.GetPosition());
         box.Draw(box_mat);
         light.Draw(light_mat);
 
@@ -98,6 +102,14 @@ public:
 
         ImGui::End();
 
+        ImGui::Begin("Shader Object 0");
+
+        ImGui::SliderFloat("Ambient", &ambient, 0.0f, 1.0f);
+        ImGui::SliderFloat("Specular", &specular, 0.0f, 1.0f);
+        box_mat.shaderGL->SetUniformFloat("ambientStrength", ambient);
+        box_mat.shaderGL->SetUniformFloat("specularStrength", specular);
+
+        ImGui::End();
     }
 #endif       
 
