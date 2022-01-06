@@ -14,7 +14,11 @@ public:
 private:
     float ambient = 0.1f;
     float specular = 0.5f;
+    int shininess = 32;
 
+    float radius = 2.0f;
+
+    float rgba[4] = {0,0,0,0};
 public:
 	Game() :
         box_mat("Shader/object.vert", "Shader/object.frag"),
@@ -39,13 +43,25 @@ public:
 
         light.transform.SetPosition(1.0f, 1.0f, 1.0f);
         box_mat.shaderGL->use();
-        box_mat.shaderGL->SetUniformVec3("objectColor", 1.0f, 0.5f, 0.31f);
         box_mat.shaderGL->SetUniformVec3("lightColor", 1.0f, 1.0f, 1.0f);
-
     }
 
 	void Update() override
 	{
+
+        box.transform.Identity();
+        light.transform.Identity();
+
+        // box pos
+        box.transform.SetPosition(0.0f, 0.0f, 0.0f);
+        box_mat.shaderGL->SetUniformVec3("objectColor", rgba[0], rgba[1], rgba[2]);
+
+        // light pos
+        float lightx = sin(glfwGetTime() / 2.0f) * radius;
+        float lightz = cos(glfwGetTime() / 2.0f) * radius;
+
+        light.transform.SetPosition(lightx, 0.0f, lightz);
+
         box_mat.shaderGL->use();
         box_mat.shaderGL->SetUniformVec3("lightPos", light.transform.GetPosition());
         box_mat.shaderGL->SetUniformVec3("viewPos", OglWindow->mainCamera->transform.GetPosition());
@@ -57,7 +73,8 @@ public:
 
         OglWindow->mainCamera->Bind(&light_mat);
         OglWindow->mainCamera->Bind(&box_mat);
-   
+
+
     }
 
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
@@ -87,18 +104,14 @@ public:
         ImGui::InputFloat3("Rotation", goRot);
         ImGui::InputFloat3("Scale", goSca);
         
-        box.transform.Identity();
-        light.transform.Identity();
         box.transform.SetPosition(goPos[0], goPos[1], goPos[2]);
         box.transform.SetRotationEuler(goRot[0], goRot[1], goRot[2]);
         box.transform.SetScale(goSca[0], goSca[1], goSca[2]);
-        light.transform.SetPosition(1.0f, 1.0f, 1.0f);
 
         //float mixVal = box_mat.textureGL->mix;
         //ImGui::SliderFloat("Mix", &mixVal, 0, 1);
         //box_mat.shaderGL->SetUniformFloat("mixer", mixVal);
         //box_mat.textureGL->mix = mixVal;
-
 
         ImGui::End();
 
@@ -106,9 +119,12 @@ public:
 
         ImGui::SliderFloat("Ambient", &ambient, 0.0f, 1.0f);
         ImGui::SliderFloat("Specular", &specular, 0.0f, 1.0f);
+        ImGui::SliderInt("shininess", &shininess, 2, 256);
+        ImGui::SliderFloat("Light Distance", &radius, 1, 50);
         box_mat.shaderGL->SetUniformFloat("ambientStrength", ambient);
         box_mat.shaderGL->SetUniformFloat("specularStrength", specular);
-
+        box_mat.shaderGL->SetUniformInt("shininessStrength", shininess);
+        ImGui::ColorPicker4("Box Color", rgba);
         ImGui::End();
     }
 #endif       
