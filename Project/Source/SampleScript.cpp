@@ -12,13 +12,14 @@ public:
     Box light;
 
 private:
-    float ambient = 0.1f;
-    float specular = 0.5f;
-    int shininess = 32;
+    glm::vec3 ambient = glm::vec3(0.1f, 0.0f, 1.0f);
+    glm::vec3 diffuse = glm::vec3(0.5f, 0.0f, 1.0f);
+    glm::vec3 specular = glm::vec3(0.5f, 0.0f, 1.0f);
+    float shininess = 32.0f;
 
     float radius = 2.0f;
 
-    float rgba[4] = {0,0,0,0};
+    float rgba[4] = {0.5f,0.5f,0.5f,1};
 public:
 	Game() :
         box_mat("Shader/object.vert", "Shader/object.frag"),
@@ -54,12 +55,13 @@ public:
 
         // box pos
         box.transform.SetPosition(0.0f, 0.0f, 0.0f);
-        box_mat.shaderGL->SetUniformVec3("objectColor", rgba[0], rgba[1], rgba[2]);
+        box_mat.shaderGL->SetUniformVec3("objectColor", 0.5f, 0.5f, 0.5f);
+
+        // rotate the cube box
+        float lightx = sin(glfwGetTime() / 8.0f) * radius;
+        float lightz = cos(glfwGetTime() / 8.0f) * radius;
 
         // light pos
-        float lightx = sin(glfwGetTime() / 2.0f) * radius;
-        float lightz = cos(glfwGetTime() / 2.0f) * radius;
-
         light.transform.SetPosition(lightx, 0.0f, lightz);
 
         box_mat.shaderGL->use();
@@ -116,14 +118,25 @@ public:
         ImGui::End();
 
         ImGui::Begin("Shader Object 0");
+        
+        float amb[] = { ambient.x, ambient.y, ambient.z };
+        float diff[] = { diffuse.x, diffuse.y, diffuse.z };
+        float spec[] = { specular.x, specular.y, specular.z };
 
-        ImGui::SliderFloat("Ambient", &ambient, 0.0f, 1.0f);
-        ImGui::SliderFloat("Specular", &specular, 0.0f, 1.0f);
-        ImGui::SliderInt("shininess", &shininess, 2, 256);
+        ImGui::SliderFloat3("Ambient", amb, 0.0f, 1.0f);
+        ImGui::SliderFloat3("Diffuse", diff, 0.0f, 1.0f);
+        ImGui::SliderFloat3("Specular", spec, 0.0f, 1.0f);
+
+        ambient = glm::vec3(amb[0], amb[1], amb[2]);
+        diffuse = glm::vec3(diff[0], diff[1], diff[2]);
+        specular = glm::vec3(spec[0], spec[1], spec[2]);
+
+        ImGui::SliderFloat("shininess", &shininess, 2, 256);
         ImGui::SliderFloat("Light Distance", &radius, 1, 50);
-        box_mat.shaderGL->SetUniformFloat("ambientStrength", ambient);
-        box_mat.shaderGL->SetUniformFloat("specularStrength", specular);
-        box_mat.shaderGL->SetUniformInt("shininessStrength", shininess);
+        box_mat.shaderGL->SetUniformVec3("material.ambient", ambient);
+        box_mat.shaderGL->SetUniformVec3("material.diffuse", diffuse);
+        box_mat.shaderGL->SetUniformVec3("material.specular", specular);
+        box_mat.shaderGL->SetUniformFloat("material.shininess", shininess);
         ImGui::ColorPicker4("Box Color", rgba);
         ImGui::End();
     }
