@@ -2,6 +2,9 @@
 #include "Objects/Material.h"
 #include "Objects/Transform.h"
 #include "OpenGL/OpenGLShader.h"
+#if defined(ACTA_RELEASE)
+#include "GLFW/glfw3.h"
+#endif
 
 namespace ActaEngine
 {

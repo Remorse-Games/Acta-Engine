@@ -1,6 +1,5 @@
 #include "actapch.h"
 #include "glad/glad.h"
-#include "GLFW/glfw3.h"
 #include "Camera.h"
 
 #include "Core/Events/KeyEvent.h"

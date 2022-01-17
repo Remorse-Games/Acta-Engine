@@ -1,6 +1,7 @@
 #pragma once
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
 #include "ImGui/ImGui_Main.h"
-
+#endif
 namespace ActaEngine
 {
 	class OpenGLRenderer
