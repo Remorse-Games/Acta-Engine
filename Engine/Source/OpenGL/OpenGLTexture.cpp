@@ -1,6 +1,7 @@
 #include "actapch.h"
 #include "glad/glad.h"
 #include "OpenGLTexture.h"
+#include "OpenGLShader.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 

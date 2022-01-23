@@ -2,6 +2,8 @@
 
 namespace ActaEngine
 {
+	class OpenGLShader;
+
 	class OpenGLTexture
 	{
 	public:

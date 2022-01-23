@@ -12,14 +12,13 @@ public:
     Box light;
 
 private:
-    glm::vec3 ambientObject = glm::vec3(0.1f, 0.0f, 1.0f);
-    glm::vec3 diffuseObject = glm::vec3(0.5f, 0.0f, 1.0f);
-    glm::vec3 specularObject = glm::vec3(0.5f, 0.0f, 1.0f);
+    glm::vec3 diffuseObject = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 specularObject = glm::vec3(1.0f, 1.0f, 1.0f);
     float shininess = 32.0f;
 
-    glm::vec3 ambientLight = glm::vec3(0.1f, 0.0f, 1.0f);
+    glm::vec3 ambientLight = glm::vec3(1.0f, 1.0f, 1.0f);
     glm::vec3 diffuseLight = glm::vec3(0.5f, 0.0f, 1.0f);
-    glm::vec3 specularLight = glm::vec3(0.5f, 0.0f, 1.0f);
+    glm::vec3 specularLight = glm::vec3(1.0f, 1.0f, 1.0f);
 
     float radius = 2.0f;
 
@@ -42,8 +41,9 @@ public:
 	{
         spdlog::info("Start the game!");     
 
-        //box_mat.textureGL = std::make_unique<OpenGLTexture>();
-        //box_mat.textureGL->push_texture("Texture/container.jpg", GL_RGB);    
+        box_mat.textureGL = std::make_unique<OpenGLTexture>();
+        box_mat.textureGL->push_texture("Texture/container2.png", GL_RGBA);
+        box_mat.textureGL->push_texture("Texture/container2_specular.png", GL_RGBA);
     }
 
 	void Update() override
@@ -64,19 +64,12 @@ public:
 
         box_mat.shaderGL->use();
         box_mat.shaderGL->SetUniformVec3("lightPos", light.transform.GetPosition());
-        box_mat.shaderGL->SetUniformVec3("viewPos", OglWindow->mainCamera->transform.GetPosition());
 
-        box_mat.shaderGL->SetUniformVec3("material.ambient", ambientObject);
-        box_mat.shaderGL->SetUniformVec3("material.diffuse", diffuseObject);
-        box_mat.shaderGL->SetUniformVec3("material.specular", specularObject);
         box_mat.shaderGL->SetUniformFloat("material.shininess", shininess);
 
         box_mat.shaderGL->SetUniformVec3("light.ambient", ambientLight);
         box_mat.shaderGL->SetUniformVec3("light.diffuse", diffuseLight);
         box_mat.shaderGL->SetUniformVec3("light.specular", specularLight);
-
-        light_mat.shaderGL->use();
-        light_mat.shaderGL->SetUniformVec3("lightColor", ambientLight);
 
         box.Draw(box_mat);
         light.Draw(light_mat);
@@ -126,16 +119,12 @@ public:
         //box_mat.shaderGL->SetUniformFloat("mixer", mixVal);
         //box_mat.textureGL->mix = mixVal;
         
-        float amb[] = { ambientObject.x, ambientObject.y, ambientObject.z, 0.0f };
         float diff[] = { diffuseObject.x, diffuseObject.y, diffuseObject.z };
         float spec[] = { specularObject.x, specularObject.y, specularObject.z };
 
-        ImGui::ColorPicker4("Ambient", amb);
         ImGui::ColorPicker4("Diffuse", diff);
-        //ImGui::SliderFloat3("Diffuse", diff, 0.0f, 1.0f);
         ImGui::SliderFloat3("Specular", spec, 0.0f, 1.0f);
 
-        ambientObject = glm::vec3(amb[0], amb[1], amb[2]);
         diffuseObject = glm::vec3(diff[0], diff[1], diff[2]);
         specularObject = glm::vec3(spec[0], spec[1], spec[2]);
 
@@ -146,16 +135,12 @@ public:
 
         ImGui::Begin("Directional Light");
 
-        float ambL[] = { ambientLight.x, ambientLight.y, ambientLight.z, 0.0f };
         float diffL[] = { diffuseLight.x, diffuseLight.y, diffuseLight.z };
         float specL[] = { specularLight.x, specularLight.y, specularLight.z };
 
-        ImGui::ColorPicker4("Ambient", ambL);
         ImGui::ColorPicker4("Diffuse", diffL);
-       // ImGui::SliderFloat3("Diffuse", diffL, 0.0f, 1.0f);
         ImGui::SliderFloat3("Specular", specL, 0.0f, 1.0f);
 
-        ambientLight = glm::vec3(ambL[0], ambL[1], ambL[2]);
         diffuseLight = glm::vec3(diffL[0], diffL[1], diffL[2]);
         specularLight = glm::vec3(specL[0], specL[1], specL[2]);
 
