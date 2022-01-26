@@ -42,12 +42,15 @@ void ActaEngine::OpenGLVertexBuffer::SetData(void* vertices, const unsigned int&
 void ActaEngine::OpenGLVertexBuffer::Bind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, render_ID);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    // vertex
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    //normal
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    //texture coordinate
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();

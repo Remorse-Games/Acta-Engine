@@ -9,7 +9,7 @@ namespace ActaEngine
 	public:
 		Box(Material& material, const std::string& objectName);
 
-	private:
+	//private:
 		std::string m_ObjectName;
 	};
 }

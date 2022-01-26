@@ -48,8 +48,9 @@ void ActaEngine::Application::Run()
 		Update();
 		OglWindow->UpdateWindow();
 
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
 		render->ImGuiRender([=]() {EditorUpdate(); });
-
+#endif
 		glfwPollEvents();
 		glfwSwapBuffers(OglWindow->window);
 	}

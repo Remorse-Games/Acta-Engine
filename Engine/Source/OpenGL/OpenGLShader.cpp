@@ -115,7 +115,7 @@ void ActaEngine::OpenGLShader::SetUniformVec2(const std::string& name, float x, 
 
 void ActaEngine::OpenGLShader::SetUniformVec3(const std::string& name, const glm::vec3& value) const
 {
-    glUniform3fv(glGetUniformLocation(shaderProgram, name.c_str()), 3 * sizeof(float), &value[0]);
+    glUniform3f(glGetUniformLocation(shaderProgram, name.c_str()), value.x, value.y, value.z);
 }
 
 void ActaEngine::OpenGLShader::SetUniformVec3(const std::string& name, float x, float y, float z) const
@@ -125,7 +125,7 @@ void ActaEngine::OpenGLShader::SetUniformVec3(const std::string& name, float x, 
 
 void ActaEngine::OpenGLShader::SetUniformVec4(const std::string& name, const glm::vec4& value) const
 {
-    glUniform4fv(glGetUniformLocation(shaderProgram, name.c_str()), 4 * sizeof(float), &value[0]);
+    glUniform4f(glGetUniformLocation(shaderProgram, name.c_str()), value.x, value.y, value.z, value.w);
 }
 
 void ActaEngine::OpenGLShader::SetUniformVec4(const std::string& name, float x, float y, float z, float w) const

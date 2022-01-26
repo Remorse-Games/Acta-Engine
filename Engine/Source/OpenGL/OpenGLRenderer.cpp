@@ -1,5 +1,8 @@
 #include "actapch.h"
 #include "glad/glad.h"
+#if defined(ACTA_RELEASE)
+#include "GLFW/glfw3.h"
+#endif
 #include "OpenGLRenderer.h"
 
 ActaEngine::OpenGLRenderer::OpenGLRenderer(GLFWwindow* window) :
@@ -30,6 +33,7 @@ void ActaEngine::OpenGLRenderer::Wireframe()
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
+#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
 void ActaEngine::OpenGLRenderer::ImGuiRender(std::function<void()> EditorUpdate)
 {
     ImGui_ImplOpenGL3_NewFrame();
@@ -48,3 +52,4 @@ void ActaEngine::OpenGLRenderer::ImGuiRender(std::function<void()> EditorUpdate)
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+#endif

@@ -59,7 +59,9 @@ void ActaEngine::MeshRenderer::Draw(Material& material)
             material.textureGL->use_texture(i);
         }
 
-        material.shaderGL->SetUniformInt("Texture1", 1);
+        material.shaderGL->use();
+        material.shaderGL->SetUniformInt("material.diffuse", 0);
+        material.shaderGL->SetUniformInt("material.specular", 1);
     }
 
     //draw all data that has been setup
