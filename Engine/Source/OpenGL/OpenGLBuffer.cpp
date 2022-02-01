@@ -31,7 +31,6 @@ ActaEngine::OpenGLVertexBuffer::~OpenGLVertexBuffer()
 void ActaEngine::OpenGLVertexBuffer::SetData(void* vertices, const unsigned int& vertSize)
 {
     glBindBuffer(GL_ARRAY_BUFFER, render_ID);
-
     glBufferData(GL_ARRAY_BUFFER, vertSize, vertices, GL_STATIC_DRAW);
 
 #if (defined(ACTA_DEBUG) || (_DEBUG))

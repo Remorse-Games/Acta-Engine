@@ -28,7 +28,7 @@ namespace ActaEngine
 		void Bind() const;
 		void Unbind() const;
 
-	private:
+	public:
 		unsigned int render_ID;
 
 	};

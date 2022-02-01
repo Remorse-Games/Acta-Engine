@@ -7,6 +7,7 @@ class Game : public ActaEngine::Application
 {
 public:
     Material box_mat;
+    Box singleBox = Box(box_mat, "Single Box");
     std::vector<Box*> multiBox {
         new Box(box_mat, "Box multi"),
         new Box(box_mat, "Box multi"),
@@ -138,17 +139,22 @@ public:
             glm::vec3(-1.3f,  1.0f, -1.5f)
         };
 
-        for (unsigned int i = 0; i < 10; i++)
-        {
-            float angle = 20.0f * i;
-            
-            multiBox[i]->transform.Identity();
+        singleBox.transform.Identity();
 
-            multiBox[i]->transform.SetPosition(cubePositions[i]);
-            //boxi.transform.SetRotation(glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            multiBox[i]->transform.SetRotationEuler(angle, 0.0f, 1.0f);
-            multiBox[i]->Draw(box_mat);
-        }
+        singleBox.transform.SetPosition(glm::vec3(0.0f));
+        singleBox.Draw(box_mat);
+
+        //for (unsigned int i = 0; i < 10; i++)
+        //{
+        //    float angle = 20.0f * i;
+        //    
+        //    multiBox[i]->transform.Identity();
+
+        //    multiBox[i]->transform.SetPosition(cubePositions[i]);
+        //    //boxi.transform.SetRotation(glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+        //    multiBox[i]->transform.SetRotationEuler(angle, 0.0f, 1.0f);
+        //    multiBox[i]->Draw(box_mat);
+        //}
 
         //for (unsigned int i = 0; i < 10; i++)
         //{
