@@ -23,8 +23,8 @@ void ActaEngine::MeshRenderer::Init(Material& material)
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    vertexBuffer.SetData(vertices.data(), vertices.size() * sizeof(float));
-    indexBuffer.SetData(indices.data(), indices.size() * sizeof(unsigned int));
+    vertexBuffer.SetData(vertices, vertices.size() * sizeof(float));
+    indexBuffer.SetData(indices, indices.size() * sizeof(unsigned int));
     vertexBuffer.Bind();
     indexBuffer.Bind();
 

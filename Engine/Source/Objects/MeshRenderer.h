@@ -37,6 +37,6 @@ namespace ActaEngine
 		/*! Storing the vertices inside vector. */
 		std::vector<float> vertices;
 		/*! Storing indices inside vector. */
-		std::vector<float> indices;
+		std::vector<unsigned int> indices;
 	};
 }
