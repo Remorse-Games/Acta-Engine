@@ -13,8 +13,28 @@ ActaEngine::MeshRenderer::MeshRenderer(std::vector<Vertex>& vertices, std::vecto
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
+
     vertexBuffer.SetData(vertices, vertices.size() * sizeof(Vertex));
     indexBuffer.SetData(indices, indices.size() * sizeof(unsigned int));
+    vertexBuffer.Bind();
+    indexBuffer.Bind();
+
+#if (defined(ACTA_DEBUG) || (_DEBUG))
+    OpenGLDebugger::glCheckError();
+#endif
+
+}
+
+ActaEngine::MeshRenderer::MeshRenderer(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures)
+{
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    m_vertices = vertices;
+    m_indices = indices;
+
+    vertexBuffer.SetDataF(m_vertices, m_vertices.size() * sizeof(float));
+    indexBuffer.SetData(m_indices, m_indices.size() * sizeof(unsigned int));
     vertexBuffer.Bind();
     indexBuffer.Bind();
 
@@ -51,7 +71,7 @@ void ActaEngine::MeshRenderer::Draw(Material& material)
     //draw all data that has been setup
     glBindVertexArray(vao);
     //glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
     // only need declared once, it will populate all errors happened in
     // one block.
 #if (defined(ACTA_DEBUG) || (_DEBUG))

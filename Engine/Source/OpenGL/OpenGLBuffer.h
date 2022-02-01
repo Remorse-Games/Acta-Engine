@@ -12,6 +12,7 @@ namespace ActaEngine
 
 	public:
 		void SetData(std::vector<Vertex>& vertices, const unsigned int& vertSize);
+		void SetDataF(std::vector<float>& vertices, const unsigned int& vertSize);
 		void Bind() const;
 		void Unbind() const;
 

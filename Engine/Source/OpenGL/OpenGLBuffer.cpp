@@ -39,6 +39,16 @@ void ActaEngine::OpenGLVertexBuffer::SetData(std::vector<Vertex>& vertices, cons
 #endif
 }
 
+void ActaEngine::OpenGLVertexBuffer::SetDataF(std::vector<float>& vertices, const unsigned int& vertSize)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, render_ID);
+    glBufferData(GL_ARRAY_BUFFER, vertSize, &vertices[0], GL_STATIC_DRAW);
+
+#if (defined(ACTA_DEBUG) || (_DEBUG))
+    OpenGLDebugger::glCheckError();
+#endif
+}
+
 void ActaEngine::OpenGLVertexBuffer::Bind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, render_ID);
