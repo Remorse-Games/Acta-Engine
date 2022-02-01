@@ -8,22 +8,12 @@
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-ActaEngine::MeshRenderer::MeshRenderer()
-{
- 
-}
-
-ActaEngine::MeshRenderer::~MeshRenderer()
-{
-
-}
-
-void ActaEngine::MeshRenderer::Init(Material& material)
+ActaEngine::MeshRenderer::MeshRenderer(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures)
 {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    vertexBuffer.SetData(vertices, vertices.size() * sizeof(float));
+    vertexBuffer.SetData(vertices, vertices.size() * sizeof(Vertex));
     indexBuffer.SetData(indices, indices.size() * sizeof(unsigned int));
     vertexBuffer.Bind();
     indexBuffer.Bind();
@@ -31,6 +21,12 @@ void ActaEngine::MeshRenderer::Init(Material& material)
 #if (defined(ACTA_DEBUG) || (_DEBUG))
     OpenGLDebugger::glCheckError();
 #endif
+
+}
+
+ActaEngine::MeshRenderer::~MeshRenderer()
+{
+
 }
 
 void ActaEngine::MeshRenderer::Draw(Material& material)

@@ -15,17 +15,22 @@ ActaEngine::Box::Box(Material& material, const std::string& objectName)
         1, 2, 3  // second triangle
     };
 
-    for (float v : vert)
+    std::vector<Vertex> vertices = { 
+        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec2(0.0f, 0.0f)},
+        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec2(1.0f, 0.0f)},
+        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec2(1.0f, 1.0f)},
+        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec2(1.0f, 1.0f)},
+    };
+    std::vector<unsigned int> indices;
+
+    for (size_t i = 0; i < 6; i++)
     {
-        vertices.push_back(v);
+        indices.push_back(ind[i]);
     }
 
-    for (unsigned int i : ind)
-    {
-        indices.push_back(i);
-    }
+    std::vector<Texture> textures;
+    renderer = new MeshRenderer(vertices, indices, textures);
 
     m_ObjectName = objectName;
 
-    Init(material);
 }

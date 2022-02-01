@@ -139,10 +139,10 @@ public:
             glm::vec3(-1.3f,  1.0f, -1.5f)
         };
 
-        singleBox.transform.Identity();
+        singleBox.renderer->transform.Identity();
 
-        singleBox.transform.SetPosition(glm::vec3(0.0f));
-        singleBox.Draw(box_mat);
+        singleBox.renderer->transform.SetPosition(glm::vec3(0.0f));
+        singleBox.renderer->Draw(box_mat);
 
         //for (unsigned int i = 0; i < 10; i++)
         //{

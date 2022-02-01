@@ -2,6 +2,8 @@
 
 namespace ActaEngine
 {
+	struct Vertex;
+
 	class OpenGLVertexBuffer
 	{
 	public:
@@ -9,7 +11,7 @@ namespace ActaEngine
 		~OpenGLVertexBuffer();
 
 	public:
-		void SetData(std::vector<float>& vertices, const unsigned int& vertSize);
+		void SetData(std::vector<Vertex>& vertices, const unsigned int& vertSize);
 		void Bind() const;
 		void Unbind() const;
 

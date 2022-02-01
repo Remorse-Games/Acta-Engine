@@ -4,12 +4,14 @@
 
 namespace ActaEngine
 {
-	class Box : public MeshRenderer
+	class Box
 	{
 	public:
 		Box(Material& material, const std::string& objectName);
 
 	//private:
 		std::string m_ObjectName;
+
+		MeshRenderer* renderer;
 	};
 }

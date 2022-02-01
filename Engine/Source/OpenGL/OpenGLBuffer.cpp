@@ -3,6 +3,7 @@
 #include "OpenGLBuffer.h"
 #include "OpenGL/OpenGLShader.h"
 #include "OpenGL/OpenGLTexture.h"
+#include "Objects/MeshRenderer.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"
@@ -28,7 +29,7 @@ ActaEngine::OpenGLVertexBuffer::~OpenGLVertexBuffer()
     glDeleteBuffers(1, &render_ID);
 }
 
-void ActaEngine::OpenGLVertexBuffer::SetData(std::vector<float>& vertices, const unsigned int& vertSize)
+void ActaEngine::OpenGLVertexBuffer::SetData(std::vector<Vertex>& vertices, const unsigned int& vertSize)
 {
     glBindBuffer(GL_ARRAY_BUFFER, render_ID);
     glBufferData(GL_ARRAY_BUFFER, vertSize, &vertices[0], GL_STATIC_DRAW);

@@ -7,15 +7,25 @@
 
 namespace ActaEngine
 {
+	struct Vertex
+	{
+		glm::vec3 Position;
+		glm::vec3 Normal;
+		glm::vec2 TexCoords;
+	};
+
+	struct Texture {
+		unsigned int id;
+		std::string type;
+	};
+
 	class MeshRenderer
 	{
 	public:
-		MeshRenderer();
+		MeshRenderer(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
 		~MeshRenderer();
 
 	public:
-		/*! Initialize VBO, VAO and EBO, shader to start creating the object. */
-		void Init(Material& material);
 		/*! Drawing object inside renderer. */
 		void Draw(Material& material);
 
@@ -35,7 +45,7 @@ namespace ActaEngine
 
 	protected:
 		/*! Storing the vertices inside vector. */
-		std::vector<float> vertices;
+		std::vector<Vertex> vertices;
 		/*! Storing indices inside vector. */
 		std::vector<unsigned int> indices;
 	};
