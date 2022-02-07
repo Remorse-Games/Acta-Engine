@@ -61,10 +61,6 @@ public:
         //float lightx = sin(glfwGetTime() / 8.0f) * radius;
         //float lightz = cos(glfwGetTime() / 8.0f) * radius;
 
-        // light pos
-        //light.transform.SetPosition(lightx, 0.0f, lightz);
-
-        box_mat.shaderGL->use();
 
         // positions of the point lights
         glm::vec3 pointLightPositions[] = {
@@ -73,6 +69,8 @@ public:
             glm::vec3(-4.0f,  2.0f, -12.0f),
             glm::vec3(0.0f,  0.0f, -3.0f)
         };
+
+        box_mat.shaderGL->use();
 
         // directional light
         box_mat.shaderGL->SetUniformVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
@@ -160,9 +158,6 @@ public:
         //{
         //    boxes[i].Draw(box_mat);
         //}
-
-        //TODO: if box binded first, the 2nd texture will be missing.
-        //make sure if we want to reproduce this problem we need activate the 2nd object with 2 texture.
 
         OglWindow->mainCamera->Bind(&box_mat);
     }
