@@ -51,6 +51,9 @@ ActaEngine::MeshRenderer::~MeshRenderer()
 
 void ActaEngine::MeshRenderer::Draw(Material& material)
 {
+    unsigned int diffuseNr = 1;
+    unsigned int specularNr = 1;
+
     //transform into shader
     material.shaderGL->use();
     material.shaderGL->SetUniformMat4("model", transform.GetTransformMatrix());
@@ -58,14 +61,14 @@ void ActaEngine::MeshRenderer::Draw(Material& material)
     //texture setup
     if (material.textureGL != nullptr)
     {
-        for (int i = 0; i < material.textureGL->textureList.size(); ++i)
+        for (int i = 0; i < material.textureGL->textures.size(); ++i)
         {
             material.textureGL->use_texture(i);
+
+            material.shaderGL->use();
+            material.shaderGL->SetUniformInt("material." + material.textureGL->textures[i].type, i);
         }
 
-        material.shaderGL->use();
-        material.shaderGL->SetUniformInt("material.diffuse", 0);
-        material.shaderGL->SetUniformInt("material.specular", 1);
     }
 
     //draw all data that has been setup

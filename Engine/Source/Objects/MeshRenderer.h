@@ -14,11 +14,6 @@ namespace ActaEngine
 		glm::vec2 TexCoords;
 	};
 
-	struct Texture {
-		unsigned int id;
-		std::string type;
-	};
-
 	class MeshRenderer
 	{
 	public:

@@ -51,8 +51,8 @@ public:
         spdlog::info("Start the game!");           
 
         box_mat.textureGL = std::make_unique<OpenGLTexture>();
-        box_mat.textureGL->push_texture("Texture/container2.png", GL_RGBA);
-        box_mat.textureGL->push_texture("Texture/container2_specular.png", GL_RGBA);
+        box_mat.textureGL->push_texture("Texture/container2.png", GL_RGBA, "diffuse");
+        box_mat.textureGL->push_texture("Texture/container2_specular.png", GL_RGBA, "specular");
     }
 
 	void Update() override

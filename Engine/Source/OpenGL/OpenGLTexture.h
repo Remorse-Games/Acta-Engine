@@ -4,15 +4,23 @@ namespace ActaEngine
 {
 	class OpenGLShader;
 
+	struct Texture {
+		unsigned int id;
+		std::string type;
+	};
+
 	class OpenGLTexture
 	{
 	public:
+		std::vector<Texture> textures;
+
 		/*! List of texture registered. */
+		[[deprecated("Use textures.id instead.")]]
 		std::vector<unsigned int> textureList;
 		/*! Push new texture. 
 		* \param textureFile texture file location.
 		* \param colorFormat GL type of color format i.e (GL_RGB) */
-		void push_texture(const char* textureFile, GLint colorFormat);
+		void push_texture(const char* textureFile, GLint colorFormat, const std::string& textureType);
 		/*! use registered texture.
 		* \param index texture index in the vector textureList.
 		* \param glTextureNum OpenGL texture index register i.e (GL_TEXTURE0) */

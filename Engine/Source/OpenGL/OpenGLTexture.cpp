@@ -10,13 +10,14 @@
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-void ActaEngine::OpenGLTexture::push_texture(const char* textureFile, GLint colorFormat)
+void ActaEngine::OpenGLTexture::push_texture(const char* textureFile, GLint colorFormat, const std::string& textureType)
 {
     stbi_set_flip_vertically_on_load(true);
 
-    textureList.push_back(0);
-    glGenTextures(1, &textureList[texture_index]);
-    glBindTexture(GL_TEXTURE_2D, textureList[texture_index]);
+    Texture texture = { texture_index, textureType };
+    textures.push_back(texture);
+    glGenTextures(1, &textures[texture_index].id);
+    glBindTexture(GL_TEXTURE_2D, textures[texture_index].id);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -47,5 +48,5 @@ void ActaEngine::OpenGLTexture::push_texture(const char* textureFile, GLint colo
 void ActaEngine::OpenGLTexture::use_texture(unsigned int index)
 {
     glActiveTexture(GL_TEXTURE0 + index);
-    glBindTexture(GL_TEXTURE_2D, textureList[index]);
+    glBindTexture(GL_TEXTURE_2D, textures[index].id);
 }
