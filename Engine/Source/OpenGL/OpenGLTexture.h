@@ -13,10 +13,6 @@ namespace ActaEngine
 	{
 	public:
 		std::vector<Texture> textures;
-
-		/*! List of texture registered. */
-		[[deprecated("Use textures.id instead.")]]
-		std::vector<unsigned int> textureList;
 		/*! Push new texture. 
 		* \param textureFile texture file location.
 		* \param colorFormat GL type of color format i.e (GL_RGB) */
