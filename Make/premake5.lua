@@ -88,7 +88,8 @@ project "Acta"
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
+		"opengl32.lib",
+		"assimp"
 	}
 	
 	filter "system:windows"
@@ -147,7 +148,7 @@ project "Game"
 		(trunk .. "Engine/Source"),
 		(trunk .. "Externals"),
 		(trunk .. "Externals/spdlog/include"),
-        (trunk .. "Externals/assimp/include"),
+        (trunk .. "Externals/assimp"),
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",

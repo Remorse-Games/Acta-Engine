@@ -7,6 +7,7 @@ namespace ActaEngine
 	struct Texture {
 		unsigned int id;
 		std::string type;
+		std::string path;
 	};
 
 	class OpenGLTexture
@@ -16,7 +17,7 @@ namespace ActaEngine
 		/*! Push new texture. 
 		* \param textureFile texture file location.
 		* \param colorFormat GL type of color format i.e (GL_RGB) */
-		void push_texture(const char* textureFile, GLint colorFormat, const std::string& textureType);
+		unsigned int TextureFromFile(const char* path, const std::string& directory);
 		/*! use registered texture.
 		* \param index texture index in the vector textureList.
 		* \param glTextureNum OpenGL texture index register i.e (GL_TEXTURE0) */

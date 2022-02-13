@@ -18,6 +18,7 @@
 #include "Objects/MeshRenderer.h"
 #include "Objects/Transform.h"
 #include "Objects/Material.h"
+#include "Objects/Model.h"
 
 //Primitives
 #include "Objects/Primitives/Box.h"

@@ -1,6 +1,7 @@
 #pragma once
 // assimp
 #include "code/Common/Importer.h"
+#include "include/assimp/Importer.hpp"
 #include "include/assimp/scene.h"
 #include "include/assimp/postprocess.h"
 
