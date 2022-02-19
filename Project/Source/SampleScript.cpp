@@ -22,7 +22,7 @@ private:
 public:
 	Game() :
         material("Shader/object.vert", "Shader/object.frag"),
-        model("Models/backpack/backppack.obj")
+        model("Models/backpack/backpack.obj")
 	{
         Start();
     }
@@ -38,7 +38,7 @@ public:
 
 	void Update() override
 	{   
-        model.Draw(material);
+      //  model.Draw(material);
         OglWindow->mainCamera->Bind(&material);
     }
 

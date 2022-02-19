@@ -21,7 +21,7 @@ IncludeDir["glm"] 		= 	(trunk .. "Externals/glm")
 IncludeDir["stb_image"] = 	(trunk .. "Externals/stb_image")
 IncludeDir["spdlog"] 	= 	(trunk .. "Externals/spdlog/include")
 IncludeDir["catch"] 	= 	(trunk .. "Externals/Catch2")
-IncludeDir["assimp"] 	= 	(trunk .. "Externals/assimp")
+IncludeDir["assimp"] 	= 	(trunk .. "Externals/assimp/include")
 
 
 -- output name for bin / obj
@@ -31,7 +31,6 @@ outputName = "/%{cfg.system}__%{cfg.buildcfg}__%{cfg.architecture}"
 include (trunk .. "Externals/imgui/project")
 include (trunk .. "Externals/glad/project")
 include (trunk .. "Externals/glfw/project")
-include (trunk .. "Externals/assimp/project")
 
 -------------------------------------------------------------------------------------
 ------------------------ Engine project ---------------------------------------------	
@@ -50,6 +49,7 @@ project "Acta"
 	-- use precompile header
 	pchheader "actapch.h"
 	pchsource (trunk .. "Engine/Source/actapch.cpp")
+	
 	
 	files
 	{
@@ -73,7 +73,6 @@ project "Acta"
 		(trunk .. "Engine/Source"),
 		--(trunk .. "Externals"),
 		(trunk .. "Externals/spdlog/include"),
-        --(trunk .. "Externals/assimp/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
@@ -81,6 +80,11 @@ project "Acta"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.catch}",
 		"%{IncludeDir.assimp}"
+	}
+	
+	libdirs
+	{
+		(trunk .. "Externals/assimp/lib");
 	}
 	
 	links
@@ -130,6 +134,10 @@ project "Game"
 	targetdir (trunk .. "%{prj.name}/bin/" .. outputName)
 	objdir (trunk .. "%{prj.name}/obj/" .. outputName)
 	
+	prelinkcommands {
+	"{COPY} ../Externals/assimp/dlls/assimp-vc140-mt.dll ../%{prj.name}/bin/" .. outputName
+	}
+
 	files
 	{
 		(trunk .. "Project/Source/**.h"),
@@ -154,7 +162,8 @@ project "Game"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.catch}"
+		"%{IncludeDir.catch}",
+		"%{IncludeDir.assimp}"
 	}
 	
 	links

@@ -1,9 +1,8 @@
 #pragma once
 // assimp
-#include "code/Common/Importer.h"
-#include "include/assimp/Importer.hpp"
-#include "include/assimp/scene.h"
-#include "include/assimp/postprocess.h"
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 
 namespace ActaEngine
 {
@@ -16,7 +15,7 @@ namespace ActaEngine
 	public:
 		Model(char* path)
 		{
-			loadModel(path);;
+			loadModel(path);
 		}
 
 		void Draw(Material& mat);

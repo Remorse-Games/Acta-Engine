@@ -25,7 +25,7 @@ void ActaEngine::Model::loadModel(const std::string& path)
 	}
 
 	directory = path.substr(0, path.find_last_of('/'));
-	//processNode(scene->mRootNode, scene);
+	processNode(scene->mRootNode, scene);
 }
 
 void ActaEngine::Model::processNode(aiNode* node, const aiScene* scene)
