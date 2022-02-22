@@ -27,7 +27,6 @@
 #include "OpenGL/OpenGLBuffer.h"
 #include "OpenGL/OpenGLRenderer.h"
 #include "OpenGL/OpenGLShader.h"
-#include "OpenGL/OpenGLTexture.h"
 #include "OpenGL/OpenGLWindow.h"
 
 //Entry Point

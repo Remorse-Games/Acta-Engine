@@ -13,28 +13,11 @@ ActaEngine::MeshRenderer::MeshRenderer(std::vector<Vertex>& vertices, std::vecto
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
+    m_indices = indices;
+    m_textures = textures;
 
     vertexBuffer.SetData(vertices, vertices.size() * sizeof(Vertex));
     indexBuffer.SetData(indices, indices.size() * sizeof(unsigned int));
-    vertexBuffer.Bind();
-    indexBuffer.Bind();
-
-#if (defined(ACTA_DEBUG) || (_DEBUG))
-    OpenGLDebugger::glCheckError();
-#endif
-
-}
-
-ActaEngine::MeshRenderer::MeshRenderer(std::vector<float>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures)
-{
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    m_vertices = vertices;
-    m_indices = indices;
-
-    vertexBuffer.SetDataF(m_vertices, m_vertices.size() * sizeof(float));
-    indexBuffer.SetData(m_indices, m_indices.size() * sizeof(unsigned int));
     vertexBuffer.Bind();
     indexBuffer.Bind();
 
@@ -49,32 +32,46 @@ ActaEngine::MeshRenderer::~MeshRenderer()
 
 }
 
-void ActaEngine::MeshRenderer::Draw(Material& material)
+void ActaEngine::MeshRenderer::Draw(OpenGLShader& shader)
 {
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;
-
-    //transform into shader
-    material.shaderGL->use();
-    material.shaderGL->SetUniformMat4("model", transform.GetTransformMatrix());
+    unsigned int normalNr = 1;
+    unsigned int heightNr = 1;
 
     //texture setup
-    if (material.textureGL != nullptr)
-    {
-        for (int i = 0; i < material.textureGL->textures.size(); ++i)
+        for (int i = 0; i < m_textures.size(); ++i)
         {
-            material.textureGL->use_texture(i);
+            glActiveTexture(GL_TEXTURE0 + i);
 
-            material.shaderGL->use();
-            material.shaderGL->SetUniformInt("material." + material.textureGL->textures[i].type, i);
+            std::string number;
+            std::string name = m_textures[i].type;
+            if (name == "texture_diffuse")
+            {
+                number = std::to_string(diffuseNr++);
+            }
+            else if (name == "texture_specular")
+            {
+                number = std::to_string(specularNr++); // transfer unsigned int to string
+            }
+            else if (name == "texture_normal")
+                number = std::to_string(normalNr++); // transfer unsigned int to string
+            else if (name == "texture_height")
+                number = std::to_string(heightNr++); // transfer unsigned int to string
+
+            shader.use();
+            shader.SetUniformInt("material." + name + number, i);
+
+            glBindTexture(GL_TEXTURE_2D, m_textures[i].id);
         }
-
-    }
 
     //draw all data that has been setup
     glBindVertexArray(vao);
-    //glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-    glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(m_indices.size()), GL_UNSIGNED_INT, 0);
+    
+    glBindVertexArray(0);
+    glActiveTexture(GL_TEXTURE0);
+
     // only need declared once, it will populate all errors happened in
     // one block.
 #if (defined(ACTA_DEBUG) || (_DEBUG))

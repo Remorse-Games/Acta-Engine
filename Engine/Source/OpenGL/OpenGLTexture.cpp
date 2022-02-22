@@ -43,7 +43,7 @@ unsigned int ActaEngine::OpenGLTexture::TextureFromFile(const char* path, const 
 	}
 	else
 	{
-		//std::cout << "Texture failed to load at path: " << path << std::endl;
+		spdlog::error("Texture failed to load at path: {0}", path);
 		stbi_image_free(data);
 	}
 
@@ -57,5 +57,5 @@ unsigned int ActaEngine::OpenGLTexture::TextureFromFile(const char* path, const 
 void ActaEngine::OpenGLTexture::use_texture(unsigned int index)
 {
     glActiveTexture(GL_TEXTURE0 + index);
-    glBindTexture(GL_TEXTURE_2D, textures[index].id);
+   // glBindTexture(GL_TEXTURE_2D, textures[index].id);
 }

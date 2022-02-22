@@ -3,10 +3,11 @@
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
+#include "Transform.h"
 
 namespace ActaEngine
 {
-	class Material;
+	class OpenGLShader;
 	class MeshRenderer;
 	struct Texture;
 
@@ -18,13 +19,16 @@ namespace ActaEngine
 			loadModel(path);
 		}
 
-		void Draw(Material& mat);
+		void Draw(OpenGLShader& shader);
+	public:
+		/*! Transform object to manipulate object transform. */
+		Transform transform;
 
 	private:
 		std::vector<MeshRenderer> meshes;
 		std::string directory;
-
 	private:
+
 		void loadModel(const std::string& path);
 		void processNode(aiNode* node, const aiScene* scene);
 		MeshRenderer processMesh(aiMesh* mesh, const aiScene* scene);
