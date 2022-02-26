@@ -8,7 +8,7 @@
 namespace ActaEngine
 {
 	class OpenGLShader;
-	class MeshRenderer;
+	class Mesh;
 	struct Texture;
 
 	class Model
@@ -25,13 +25,14 @@ namespace ActaEngine
 		Transform transform;
 
 	private:
-		std::vector<MeshRenderer> meshes;
+		std::vector<Mesh> meshes;
 		std::string directory;
 	private:
 
 		void loadModel(const std::string& path);
 		void processNode(aiNode* node, const aiScene* scene);
-		MeshRenderer processMesh(aiMesh* mesh, const aiScene* scene);
+		Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 		std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, const std::string& typeName);
+		unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma);
 	};
 }

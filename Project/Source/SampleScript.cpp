@@ -47,9 +47,7 @@ public:
         
         shader.SetUniformFloat("material.shininess", shininess);
 
-        model.transform.Identity();
-        model.transform.SetPosition(0.0f, 0.0f, 0.0f);
-        model.transform.SetScale(1.0f, 1.0f, 1.0f);
+        shader.SetUniformVec3("viewPos", OglWindow->mainCamera->transform.GetPosition());
         model.Draw(shader);
         
         OglWindow->mainCamera->Bind(&shader);
@@ -80,6 +78,8 @@ public:
         // transform etc
         ImGui::InputFloat3("Position", modelPos);
 
+        model.transform.Identity();
+        model.transform.SetScale(1.0f, 1.0f, 1.0f);
         model.transform.SetPosition(modelPos[0], modelPos[1], modelPos[2]);
 
         // light and material stuff

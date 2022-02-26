@@ -2,7 +2,7 @@
 #include "glad/glad.h"
 #include "OpenGLBuffer.h"
 #include "OpenGL/OpenGLShader.h"
-#include "Objects/MeshRenderer.h"
+#include "Objects/Mesh.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"

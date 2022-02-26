@@ -1,6 +1,6 @@
 #include "actapch.h"
 #include "glad/glad.h"
-#include "MeshRenderer.h"
+#include "Mesh.h"
 #include "Material.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
@@ -8,7 +8,7 @@
 #define glCheckError() glCheckError(__FILE__, __LINE__)
 #endif
 
-ActaEngine::MeshRenderer::MeshRenderer(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures)
+ActaEngine::Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures)
 {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -27,12 +27,12 @@ ActaEngine::MeshRenderer::MeshRenderer(std::vector<Vertex>& vertices, std::vecto
 
 }
 
-ActaEngine::MeshRenderer::~MeshRenderer()
+ActaEngine::Mesh::~Mesh()
 {
 
 }
 
-void ActaEngine::MeshRenderer::Draw(OpenGLShader& shader)
+void ActaEngine::Mesh::Draw(OpenGLShader& shader)
 {
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;
@@ -55,9 +55,13 @@ void ActaEngine::MeshRenderer::Draw(OpenGLShader& shader)
                 number = std::to_string(specularNr++); // transfer unsigned int to string
             }
             else if (name == "texture_normal")
+            {
                 number = std::to_string(normalNr++); // transfer unsigned int to string
+            }
             else if (name == "texture_height")
+            {
                 number = std::to_string(heightNr++); // transfer unsigned int to string
+            }
 
             shader.use();
             shader.SetUniformInt("material." + name + number, i);

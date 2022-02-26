@@ -4,7 +4,7 @@
 
 namespace ActaEngine
 {
-	class MeshRenderer;
+	class Mesh;
 
 	class Material
 	{

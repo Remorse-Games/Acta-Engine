@@ -1,5 +1,5 @@
 #pragma once
-#include "Objects/MeshRenderer.h"
+#include "Objects/Mesh.h"
 #include "Objects/Material.h"
 
 namespace ActaEngine
@@ -12,6 +12,6 @@ namespace ActaEngine
 	//private:
 		std::string m_ObjectName;
 
-		MeshRenderer* renderer;
+		Mesh* renderer;
 	};
 }

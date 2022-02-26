@@ -31,11 +31,11 @@ namespace ActaEngine
 		float m_Weights[MAX_BONE_INFLUENCE];
 	};
 
-	class MeshRenderer
+	class Mesh
 	{
 	public:
-		MeshRenderer(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
-		~MeshRenderer();
+		Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
+		~Mesh();
 
 	public:
 		/*! Drawing object inside renderer. */

@@ -1,6 +1,6 @@
 #include "actapch.h"
 #include "Material.h"
-#include "MeshRenderer.h"
+#include "Mesh.h"
 #include "Objects/Camera/Camera.h"
 
 ActaEngine::Material::Material(const char* vertexFile, const char* fragmentFile)

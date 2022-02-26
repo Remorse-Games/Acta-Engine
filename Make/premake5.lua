@@ -135,7 +135,7 @@ project "Game"
 	objdir (trunk .. "%{prj.name}/obj/" .. outputName)
 	
 	prelinkcommands {
-	"{COPY} ../Externals/assimp/dlls/assimp-vc140-mt.dll ../%{prj.name}/bin/" .. outputName
+	"{COPY} ../Externals/assimp/dlls/assimp-vc143-mt.dll ../%{prj.name}/bin/" .. outputName
 	}
 
 	files

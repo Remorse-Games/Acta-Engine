@@ -3,9 +3,8 @@
 
 #include "stb_image.h"
 #include "Objects/Material.h"
-#include "Objects/MeshRenderer.h"
+#include "Objects/Mesh.h"
 
-unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma);
 
 void ActaEngine::Model::Draw(OpenGLShader& shader)
 {
@@ -20,7 +19,7 @@ void ActaEngine::Model::Draw(OpenGLShader& shader)
 void ActaEngine::Model::loadModel(const std::string& path)
 {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -46,7 +45,7 @@ void ActaEngine::Model::processNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-ActaEngine::MeshRenderer ActaEngine::Model::processMesh(aiMesh* mesh, const aiScene* scene)
+ActaEngine::Mesh ActaEngine::Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -107,7 +106,7 @@ ActaEngine::MeshRenderer ActaEngine::Model::processMesh(aiMesh* mesh, const aiSc
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 	}
 
-	return MeshRenderer(vertices, indices, textures);
+	return Mesh(vertices, indices, textures);
 }
 
 std::vector<ActaEngine::Texture> ActaEngine::Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, const std::string& typeName)
@@ -140,7 +139,7 @@ std::vector<ActaEngine::Texture> ActaEngine::Model::loadMaterialTextures(aiMater
 	return textures;
 }
 
-unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma)
+unsigned int ActaEngine::Model::TextureFromFile(const char* path, const std::string& directory, bool gamma)
 {
 	std::string filename = std::string(path);
 	filename = directory + '/' + filename;
@@ -173,7 +172,7 @@ unsigned int TextureFromFile(const char* path, const std::string& directory, boo
 	}
 	else
 	{
-		//std::cout << "Texture failed to load at path: " << path << std::endl;
+		spdlog::warn("Texture failed to load at path: {0}", path);
 		stbi_image_free(data);
 	}
 

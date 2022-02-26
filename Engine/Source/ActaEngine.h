@@ -15,7 +15,7 @@
 
 //Objects
 #include "Objects/Camera/Camera.h"
-#include "Objects/MeshRenderer.h"
+#include "Objects/Mesh.h"
 #include "Objects/Transform.h"
 #include "Objects/Material.h"
 #include "Objects/Model.h"
