@@ -12,3 +12,7 @@ void ActaEngine::Time::Update()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 }
+
+void ActaEngine::Time::ProcessTimeLoad(std::function<void()> process)
+{
+}

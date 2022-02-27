@@ -9,5 +9,7 @@ namespace ActaEngine
 		static float lastFrame;
 
 		static void Update();
+
+		static void ProcessTimeLoad(std::function<void()> process);
 	};
 }

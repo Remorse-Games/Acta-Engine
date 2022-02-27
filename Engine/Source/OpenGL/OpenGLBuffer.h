@@ -2,6 +2,8 @@
 
 namespace ActaEngine
 {
+	struct Vertex;
+
 	class OpenGLVertexBuffer
 	{
 	public:
@@ -9,7 +11,8 @@ namespace ActaEngine
 		~OpenGLVertexBuffer();
 
 	public:
-		void SetData(void* vertices, const unsigned int& vertSize);
+		void SetData(std::vector<Vertex>& vertices, const unsigned int& vertSize);
+		void SetDataF(std::vector<float>& vertices, const unsigned int& vertSize);
 		void Bind() const;
 		void Unbind() const;
 
@@ -24,11 +27,11 @@ namespace ActaEngine
 		~OpenGLIndexBuffer();
 
 	public:
-		void SetData(void* indices, const unsigned int& indiSize);
+		void SetData(std::vector<unsigned int>& indices, const unsigned int& indiSize);
 		void Bind() const;
 		void Unbind() const;
 
-	private:
+	public:
 		unsigned int render_ID;
 
 	};

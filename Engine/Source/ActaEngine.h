@@ -15,9 +15,10 @@
 
 //Objects
 #include "Objects/Camera/Camera.h"
-#include "Objects/MeshRenderer.h"
+#include "Objects/Mesh.h"
 #include "Objects/Transform.h"
 #include "Objects/Material.h"
+#include "Objects/Model.h"
 
 //Primitives
 #include "Objects/Primitives/Box.h"
@@ -26,7 +27,6 @@
 #include "OpenGL/OpenGLBuffer.h"
 #include "OpenGL/OpenGLRenderer.h"
 #include "OpenGL/OpenGLShader.h"
-#include "OpenGL/OpenGLTexture.h"
 #include "OpenGL/OpenGLWindow.h"
 
 //Entry Point

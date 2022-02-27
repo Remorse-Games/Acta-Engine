@@ -4,20 +4,20 @@ namespace ActaEngine
 {
 	class OpenGLShader;
 
+	
+
 	class OpenGLTexture
 	{
 	public:
-		/*! List of texture registered. */
-		std::vector<unsigned int> textureList;
+		//std::vector<Texture> textures;
 		/*! Push new texture. 
 		* \param textureFile texture file location.
 		* \param colorFormat GL type of color format i.e (GL_RGB) */
-		void push_texture(const char* textureFile, GLint colorFormat);
+		unsigned int TextureFromFile(const char* path, const std::string& directory);
 		/*! use registered texture.
 		* \param index texture index in the vector textureList.
 		* \param glTextureNum OpenGL texture index register i.e (GL_TEXTURE0) */
 		void use_texture(unsigned int index);
-		float mix = 0.5f;
 
 	private:
 		/*! data of baked texture by stbi_load. */
@@ -29,9 +29,5 @@ namespace ActaEngine
 		int height = 0;
 		//! number of color channels.
 		int nrChannels = 0;
-
-		//! texture index.
-		unsigned char texture_index = 0;
-
 	};
 }

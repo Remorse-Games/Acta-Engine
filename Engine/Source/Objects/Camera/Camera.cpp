@@ -35,11 +35,11 @@ void ActaEngine::Camera::Draw()
 	view = glm::lookAt(transform.GetPosition(), transform.forward + transform.GetPosition(), transform.up);
 }
 
-void ActaEngine::Camera::Bind(Material* material)
+void ActaEngine::Camera::Bind(OpenGLShader* shader)
 {
-	material->shaderGL->use();
-	material->shaderGL->SetUniformMat4("projection", projection);
-	material->shaderGL->SetUniformMat4("view", view);
+	shader->use();
+	shader->SetUniformMat4("projection", projection);
+	shader->SetUniformMat4("view", view);
 }
 
 void ActaEngine::Camera::UpdateDirection()

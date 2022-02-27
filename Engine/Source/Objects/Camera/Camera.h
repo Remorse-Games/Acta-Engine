@@ -16,7 +16,7 @@ namespace ActaEngine
 
 		void Draw();
 		void Input(GLFWwindow* window);
-		void Bind(Material* material);
+		void Bind(OpenGLShader* material);
 		void UpdateDirection();
 		void OnCameraMove(GLFWwindow* window, double xPos, double yPos, double& yaw, double& pitch);
 	public:
