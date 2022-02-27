@@ -93,7 +93,7 @@ project "Acta"
 		"Glad",
 		"ImGui",
 		"opengl32.lib",
-		"assimp"
+		"assimp-vc143-mt.lib"
 	}
 	
 	filter "system:windows"

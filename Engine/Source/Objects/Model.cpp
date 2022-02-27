@@ -4,7 +4,7 @@
 #include "stb_image.h"
 #include "Objects/Material.h"
 #include "Objects/Mesh.h"
-
+#include "System/Time.h"
 
 void ActaEngine::Model::Draw(OpenGLShader& shader)
 {
@@ -95,15 +95,24 @@ ActaEngine::Mesh ActaEngine::Model::processMesh(aiMesh* mesh, const aiScene* sce
 	// process material
 	if (mesh->mMaterialIndex >= 0)
 	{
+		texIteration++;
+		auto startDiff = std::chrono::steady_clock::now();
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		auto endDiff = std::chrono::steady_clock::now();
+		int resultDiff = std::chrono::duration_cast<std::chrono::milliseconds>(endDiff - startDiff).count();
+		spdlog::info("Process of {0} takes {1:d} ms to load. iteration : {2}", diffuseMaps[0].path , resultDiff, texIteration);
+
 		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
 		std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
 		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+
 		std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
 	}
 
 	return Mesh(vertices, indices, textures);

@@ -34,7 +34,9 @@ public:
 
 	void Start() override
 	{
-        spdlog::info("Start the game!");           
+        spdlog::info("Start the game!");
+
+        model.transform.SetScale(0.01f, 0.01f, 0.01f);
     }
 
 	void Update() override
@@ -74,13 +76,21 @@ public:
         ImGui::Begin("Game Object 0");
         
         float modelPos[] = { model.transform.GetPosition().x, model.transform.GetPosition().y, model.transform.GetPosition().z };
+        float modelRot[] = { model.transform.GetRotation().x, model.transform.GetRotation().y, model.transform.GetRotation().z };
+        float modelSca[] = { model.transform.GetScale().x, model.transform.GetScale().y, model.transform.GetScale().z };
+
+        ImGui::Text("Test {0}", 5);
 
         // transform etc
         ImGui::InputFloat3("Position", modelPos);
+        ImGui::DragFloat3("Rotation", modelRot);
+        ImGui::InputFloat3("Scale", modelSca);
 
         model.transform.Identity();
         model.transform.SetScale(1.0f, 1.0f, 1.0f);
         model.transform.SetPosition(modelPos[0], modelPos[1], modelPos[2]);
+        model.transform.SetRotationEuler(modelRot[0], modelRot[1], modelRot[2]);
+        model.transform.SetScale(modelSca[0], modelSca[1], modelSca[2]);
 
         // light and material stuff
         float diff[] = { diffuseObject.x, diffuseObject.y, diffuseObject.z };
