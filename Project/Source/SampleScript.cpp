@@ -36,7 +36,7 @@ public:
 	{
         spdlog::info("Start the game!");
 
-        model.transform.SetScale(0.01f, 0.01f, 0.01f);
+        //model.transform.SetScale(0.01f, 0.01f, 0.01f);
     }
 
 	void Update() override

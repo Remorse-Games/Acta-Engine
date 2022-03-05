@@ -7,13 +7,6 @@
 
 namespace ActaEngine
 {
-	struct Texture
-	{
-		unsigned int id;
-		std::string type;
-		std::string path;
-	};
-
 	struct Vertex {
 		// position
 		glm::vec3 Position;
@@ -34,7 +27,7 @@ namespace ActaEngine
 	class Mesh
 	{
 	public:
-		Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
+		Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices);
 		~Mesh();
 
 	public:
@@ -50,7 +43,6 @@ namespace ActaEngine
 		/*! Vertex Array Object data. */
 		unsigned int vao;
 
-		std::vector<Texture> m_textures;
 		std::vector<unsigned int> m_indices;
 	};
 }
