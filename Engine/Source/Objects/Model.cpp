@@ -102,7 +102,7 @@ ActaEngine::Mesh ActaEngine::Model::processMesh(aiMesh* mesh, const aiScene* sce
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 		auto endDiff = std::chrono::steady_clock::now();
 		int resultDiff = std::chrono::duration_cast<std::chrono::milliseconds>(endDiff - startDiff).count();
-		spdlog::info("Process of {0} takes {1:d} ms to load. iteration : {2}", diffuseMaps[0].path , resultDiff, texIteration);
+//		spdlog::info("Process of {0} takes {1:d} ms to load. iteration : {2}", diffuseMaps[0].path , resultDiff, texIteration);
 
 		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
@@ -127,11 +127,11 @@ std::vector<ActaEngine::Texture> ActaEngine::Model::loadMaterialTextures(aiMater
 		mat->GetTexture(type, i, &str);
 		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
 		bool skip = false;
-		for (unsigned int j = 0; j < textures.size(); j++)
+		for (unsigned int j = 0; j < textures_loaded.size(); j++)
 		{
-			if (std::strcmp(textures[j].path.data(), str.C_Str()) == 0)
+			if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
 			{
-				textures.push_back(textures[j]);
+				textures.push_back(textures_loaded[j]);
 				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
 				break;
 			}
@@ -142,7 +142,7 @@ std::vector<ActaEngine::Texture> ActaEngine::Model::loadMaterialTextures(aiMater
 			texture.id = TextureFromFile(str.C_Str(), this->directory, 0);
 			texture.type = typeName;
 			texture.path = str.C_Str();
-			textures.push_back(texture);
+			textures_loaded.push_back(texture);
 		}
 	}
 	return textures;

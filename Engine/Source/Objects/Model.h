@@ -34,6 +34,7 @@ namespace ActaEngine
 		Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 		std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, const std::string& typeName);
 		unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma);
+		std::vector<Texture> textures_loaded;
 		int texIteration = 0;
 	};
 }
