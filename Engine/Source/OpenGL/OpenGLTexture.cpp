@@ -43,17 +43,12 @@ unsigned int ActaEngine::OpenGLTexture::TextureFromFile(const char* path, const 
 	}
 	else
 	{
-		spdlog::error("Texture failed to load at path: {0}", path);
+		spdlog::warn("Texture failed to load at path: {0}", path);
 		stbi_image_free(data);
 	}
 
 	return textureID;
-
-#if (defined(ACTA_DEBUG) || (_DEBUG))
-    OpenGLDebugger::glCheckError();
-#endif
 }
-
 void ActaEngine::OpenGLTexture::use_texture(unsigned int index)
 {
     glActiveTexture(GL_TEXTURE0 + index);

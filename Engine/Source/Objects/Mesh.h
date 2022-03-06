@@ -7,13 +7,6 @@
 
 namespace ActaEngine
 {
-	struct Texture
-	{
-		unsigned int id;
-		std::string type;
-		std::string path;
-	};
-
 	struct Vertex {
 		// position
 		glm::vec3 Position;
@@ -30,6 +23,8 @@ namespace ActaEngine
 		//weights from each bone
 		float m_Weights[MAX_BONE_INFLUENCE];
 	};
+
+	class OpenGLTexture;
 
 	class Mesh
 	{
