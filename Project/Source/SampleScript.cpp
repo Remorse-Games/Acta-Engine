@@ -7,6 +7,7 @@ class Game : public ActaEngine::Application
 public:
     OpenGLShader shader;
     Model model;
+    Model guitar;
 
 private:
     glm::vec3 diffuseObject = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -23,8 +24,9 @@ private:
 public:
 	Game() :
         shader("Shader/object.vert", "Shader/object.frag"),
-        model("Models/sponza/sponza.obj")
-	{
+        model("Models/sponza/sponza.obj"),
+        guitar("Models/backpack/backpack.obj")
+    {
         Start();
     }
 
@@ -51,7 +53,8 @@ public:
 
         shader.SetUniformVec3("viewPos", OglWindow->mainCamera->transform.GetPosition());
         model.Draw(shader);
-        
+        guitar.Draw(shader);
+
         OglWindow->mainCamera->Bind(&shader);
     }
 
@@ -79,7 +82,8 @@ public:
         float modelRot[] = { model.transform.GetRotation().x, model.transform.GetRotation().y, model.transform.GetRotation().z };
         float modelSca[] = { model.transform.GetScale().x, model.transform.GetScale().y, model.transform.GetScale().z };
 
-        ImGui::Text("Test {0}", 5);
+        ImGui::Text("Vertices %d", model.verticesCount);
+        ImGui::Text("Mesh %d", model.meshCount);
 
         // transform etc
         ImGui::InputFloat3("Position", modelPos);
@@ -91,6 +95,7 @@ public:
         model.transform.SetPosition(modelPos[0], modelPos[1], modelPos[2]);
         model.transform.SetRotationEuler(modelRot[0], modelRot[1], modelRot[2]);
         model.transform.SetScale(modelSca[0], modelSca[1], modelSca[2]);
+        guitar.transform.Identity();
 
         // light and material stuff
         float diff[] = { diffuseObject.x, diffuseObject.y, diffuseObject.z };
