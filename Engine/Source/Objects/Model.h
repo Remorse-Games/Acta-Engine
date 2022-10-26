@@ -16,9 +16,9 @@ namespace ActaEngine
 	class Model
 	{
 	public:
-		Model(char* path)
+		Model(char* path, bool isFlipUV = false)
 		{
-			loadModel(path);
+			loadModel(path, isFlipUV);
 		}
 
 		void Draw(OpenGLShader& shader);
@@ -36,7 +36,7 @@ namespace ActaEngine
 		OpenGLTexture oglTexture;
 	private:
 
-		void loadModel(const std::string& path);
+		void loadModel(const std::string& path, bool isFlipUVs = false);
 		void processNode(aiNode* node, const aiScene* scene);
 		Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 		std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, const std::string& typeName);

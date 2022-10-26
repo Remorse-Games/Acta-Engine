@@ -16,10 +16,18 @@ void ActaEngine::Model::Draw(OpenGLShader& shader)
 	}
 }
 
-void ActaEngine::Model::loadModel(const std::string& path)
+void ActaEngine::Model::loadModel(const std::string& path, bool isFlipUVs)
 {
+	unsigned int aiFlag = 0;
+	aiFlag = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace;
+
+	if (isFlipUVs == true)
+	{
+		aiFlag |= aiProcess_FlipUVs;
+	}
+
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(path, aiFlag);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -98,13 +106,9 @@ ActaEngine::Mesh ActaEngine::Model::processMesh(aiMesh* mesh, const aiScene* sce
 	if (mesh->mMaterialIndex >= 0)
 	{
 		texIteration++;
-		auto startDiff = std::chrono::steady_clock::now();
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		auto endDiff = std::chrono::steady_clock::now();
-		int resultDiff = std::chrono::duration_cast<std::chrono::milliseconds>(endDiff - startDiff).count();
-//		spdlog::info("Process of {0} takes {1:d} ms to load. iteration : {2}", diffuseMaps[0].path , resultDiff, texIteration);
 
 		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());

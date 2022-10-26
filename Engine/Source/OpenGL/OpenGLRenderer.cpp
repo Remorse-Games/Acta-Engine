@@ -6,18 +6,13 @@
 #include "OpenGLRenderer.h"
 
 ActaEngine::OpenGLRenderer::OpenGLRenderer(GLFWwindow* window) :
-    wireframe(false)
+    wireframe(false),
+    imgui(window)
 {
-#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
-    imgui.Init(window);
-#endif
 }
 
 ActaEngine::OpenGLRenderer::~OpenGLRenderer()
 {
-#if defined(ACTA_DEBUG) || defined(ACTA_DEV)
-    imgui.Destroy();
-#endif
 }
 
 void ActaEngine::OpenGLRenderer::Draw()
@@ -46,6 +41,20 @@ void ActaEngine::OpenGLRenderer::ImGuiRender(std::function<void()> EditorUpdate)
     Wireframe();
 
     ImGui::End();
+
+//    ImGui::Begin("Game View");
+    ImGui::DockSpaceOverViewport();
+    if (ImGui::BeginMainMenuBar()) 
+    {
+        if (ImGui::BeginMenu("File")) {
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu("Edit")) {
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+ //   ImGui::End();
 
     EditorUpdate();
 

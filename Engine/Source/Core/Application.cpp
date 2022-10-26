@@ -10,6 +10,7 @@ ActaEngine::Application::Application()
 {
 	OglWindow = new OpenGLWindow(windowWidth, windowHeight, "Acta Engine");
 	render = new OpenGLRenderer(OglWindow->window);
+
 	Start();
 }
 
@@ -37,10 +38,11 @@ void ActaEngine::Application::Run()
 {
 	while (!glfwWindowShouldClose(OglWindow->window))
 	{
-		KeyEvent::ProcessInputKey(OglWindow->window);
-
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+		KeyEvent::ProcessInputKey(OglWindow->window);
 
 		Time::Update();
 
@@ -52,6 +54,7 @@ void ActaEngine::Application::Run()
 		render->ImGuiRender([=]() {EditorUpdate(); });
 #endif
 		glfwPollEvents();
+
 		glfwSwapBuffers(OglWindow->window);
 	}
 }
