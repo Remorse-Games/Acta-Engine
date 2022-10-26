@@ -4,7 +4,12 @@ namespace ActaEngine
 {
 	class OpenGLShader;
 
-	
+	struct Texture
+	{
+		unsigned int id;
+		std::string type;
+		std::string path;
+	};
 
 	class OpenGLTexture
 	{

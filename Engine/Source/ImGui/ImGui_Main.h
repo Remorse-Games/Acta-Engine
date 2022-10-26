@@ -5,8 +5,8 @@
 class ImGui_Main
 {
 public:
-	void Init(GLFWwindow* window);
-	void Destroy();
+	ImGui_Main(GLFWwindow* window);
+	~ImGui_Main();
 };
 
 #endif

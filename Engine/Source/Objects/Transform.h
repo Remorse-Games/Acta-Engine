@@ -60,7 +60,7 @@ namespace ActaEngine
 
 	private:
 		/*! member variable to store matrix location. */
-		glm::mat4 m_Transform;
+		glm::mat4 m_Transform = glm::mat4(0.0f);
 
 		/*! member variable storing position. */
 		glm::vec3 m_Position = glm::vec3(0.0f);

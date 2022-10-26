@@ -2,6 +2,7 @@
 #include "glad/glad.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "OpenGL/OpenGLTexture.h"
 
 #if defined(ACTA_DEBUG) || (_DEBUG)
 #include "OpenGL/OpenGLDebugger.h"

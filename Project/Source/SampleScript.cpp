@@ -6,7 +6,7 @@ class Game : public ActaEngine::Application
 {
 public:
     OpenGLShader shader;
-    Model model;
+    Model guitar;
 
 private:
     glm::vec3 diffuseObject = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -23,8 +23,8 @@ private:
 public:
 	Game() :
         shader("Shader/object.vert", "Shader/object.frag"),
-        model("Models/sponza/sponza.obj")
-	{
+        guitar("Models/backpack/backpack.obj")
+    {
         Start();
     }
 
@@ -35,8 +35,6 @@ public:
 	void Start() override
 	{
         spdlog::info("Start the game!");
-
-        model.transform.SetScale(0.01f, 0.01f, 0.01f);
     }
 
 	void Update() override
@@ -50,15 +48,17 @@ public:
         shader.SetUniformFloat("material.shininess", shininess);
 
         shader.SetUniformVec3("viewPos", OglWindow->mainCamera->transform.GetPosition());
-        model.Draw(shader);
-        
+        guitar.Draw(shader);
+
         OglWindow->mainCamera->Bind(&shader);
+
     }
 
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
     void EditorUpdate() override
     {
         /// Inspector for Camera
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
         ImGui::Begin("Camera");
 
         float camPos[] = { OglWindow->mainCamera->transform.GetPosition().x, OglWindow->mainCamera->transform.GetPosition().y, OglWindow->mainCamera->transform.GetPosition().z };
@@ -70,27 +70,29 @@ public:
         ImGui::InputFloat("Camera Speed", &OglWindow->mainCamera->cameraSpeed);
         ImGui::InputFloat("Near", &OglWindow->mainCamera->nearClipping);
         ImGui::InputFloat("Far", &OglWindow->mainCamera->farClipping);
+
         ImGui::End();
 
         // Inspector for Game Object 0
         ImGui::Begin("Game Object 0");
         
-        float modelPos[] = { model.transform.GetPosition().x, model.transform.GetPosition().y, model.transform.GetPosition().z };
-        float modelRot[] = { model.transform.GetRotation().x, model.transform.GetRotation().y, model.transform.GetRotation().z };
-        float modelSca[] = { model.transform.GetScale().x, model.transform.GetScale().y, model.transform.GetScale().z };
+        float modelPos[] = { guitar.transform.GetPosition().x, guitar.transform.GetPosition().y, guitar.transform.GetPosition().z };
+        float modelRot[] = { guitar.transform.GetRotation().x, guitar.transform.GetRotation().y, guitar.transform.GetRotation().z };
+        float modelSca[] = { guitar.transform.GetScale().x, guitar.transform.GetScale().y, guitar.transform.GetScale().z };
 
-        ImGui::Text("Test {0}", 5);
+        ImGui::Text("Vertices %d", guitar.verticesCount);
+        ImGui::Text("Mesh %d", guitar.meshCount);
 
         // transform etc
         ImGui::InputFloat3("Position", modelPos);
         ImGui::DragFloat3("Rotation", modelRot);
         ImGui::InputFloat3("Scale", modelSca);
 
-        model.transform.Identity();
-        model.transform.SetScale(1.0f, 1.0f, 1.0f);
-        model.transform.SetPosition(modelPos[0], modelPos[1], modelPos[2]);
-        model.transform.SetRotationEuler(modelRot[0], modelRot[1], modelRot[2]);
-        model.transform.SetScale(modelSca[0], modelSca[1], modelSca[2]);
+        guitar.transform.Identity();
+        guitar.transform.SetScale(1.0f, 1.0f, 1.0f);
+        guitar.transform.SetPosition(modelPos[0], modelPos[1], modelPos[2]);
+        guitar.transform.SetRotationEuler(modelRot[0], modelRot[1], modelRot[2]);
+        guitar.transform.SetScale(modelSca[0], modelSca[1], modelSca[2]);
 
         // light and material stuff
         float diff[] = { diffuseObject.x, diffuseObject.y, diffuseObject.z };
@@ -119,7 +121,12 @@ public:
         diffuseLight = glm::vec3(diffL[0], diffL[1], diffL[2]);
 
         ImGui::End();
+        ImGui::PopStyleColor();
 
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
+        ImGui::Begin("Game Scene");
+        ImGui::End();
+        ImGui::PopStyleColor();
     }
 #endif       
 

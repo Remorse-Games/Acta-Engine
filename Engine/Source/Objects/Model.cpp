@@ -16,17 +16,25 @@ void ActaEngine::Model::Draw(OpenGLShader& shader)
 	}
 }
 
-void ActaEngine::Model::loadModel(const std::string& path)
+void ActaEngine::Model::loadModel(const std::string& path, bool isFlipUVs)
 {
+	unsigned int aiFlag = 0;
+	aiFlag = aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace;
+
+	if (isFlipUVs == true)
+	{
+		aiFlag |= aiProcess_FlipUVs;
+	}
+
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
+	const aiScene* scene = importer.ReadFile(path, aiFlag);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		spdlog::error("ERROR::ASSIMP::{0}", importer.GetErrorString());
 		return;
 	}
-
+	meshCount = scene->mNumMeshes;
 	directory = path.substr(0, path.find_last_of('/'));
 	processNode(scene->mRootNode, scene);
 }
@@ -50,6 +58,8 @@ ActaEngine::Mesh ActaEngine::Model::processMesh(aiMesh* mesh, const aiScene* sce
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
+
+	verticesCount += mesh->mNumVertices;
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -96,13 +106,9 @@ ActaEngine::Mesh ActaEngine::Model::processMesh(aiMesh* mesh, const aiScene* sce
 	if (mesh->mMaterialIndex >= 0)
 	{
 		texIteration++;
-		auto startDiff = std::chrono::steady_clock::now();
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		auto endDiff = std::chrono::steady_clock::now();
-		int resultDiff = std::chrono::duration_cast<std::chrono::milliseconds>(endDiff - startDiff).count();
-		spdlog::info("Process of {0} takes {1:d} ms to load. iteration : {2}", diffuseMaps[0].path , resultDiff, texIteration);
 
 		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
@@ -127,11 +133,11 @@ std::vector<ActaEngine::Texture> ActaEngine::Model::loadMaterialTextures(aiMater
 		mat->GetTexture(type, i, &str);
 		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
 		bool skip = false;
-		for (unsigned int j = 0; j < textures.size(); j++)
+		for (unsigned int j = 0; j < textures_loaded.size(); j++)
 		{
-			if (std::strcmp(textures[j].path.data(), str.C_Str()) == 0)
+			if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
 			{
-				textures.push_back(textures[j]);
+				textures.push_back(textures_loaded[j]);
 				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
 				break;
 			}
@@ -139,51 +145,11 @@ std::vector<ActaEngine::Texture> ActaEngine::Model::loadMaterialTextures(aiMater
 		if (!skip)
 		{   // if texture hasn't been loaded already, load it
 			Texture texture;
-			texture.id = TextureFromFile(str.C_Str(), this->directory, 0);
+			texture.id = oglTexture.TextureFromFile(str.C_Str(), this->directory);
 			texture.type = typeName;
 			texture.path = str.C_Str();
-			textures.push_back(texture);
+			textures_loaded.push_back(texture);
 		}
 	}
 	return textures;
-}
-
-unsigned int ActaEngine::Model::TextureFromFile(const char* path, const std::string& directory, bool gamma)
-{
-	std::string filename = std::string(path);
-	filename = directory + '/' + filename;
-
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
-
-	int width, height, nrComponents;
-	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
-	if (data)
-	{
-		GLenum format;
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		stbi_image_free(data);
-	}
-	else
-	{
-		spdlog::warn("Texture failed to load at path: {0}", path);
-		stbi_image_free(data);
-	}
-
-	return textureID;
 }
