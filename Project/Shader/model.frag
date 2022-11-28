@@ -1,18 +1,17 @@
 #version 330 core
 out vec4 FragColor;
 
-in vec2 TexCoords;
+float near = 0.1;
+float far = 100;
 
-struct Material{
- sampler2D texture_diffuse1;
- sampler2D texture_specular1;
- sampler2D texture_normal1;
- sampler2D texture_height1;
-};
-
-uniform Material material;
+float LinearDepth(float depth)
+{
+    float ndc = (depth * 2.0) - 1.0;
+    return (2.0 * near * far) / (far + near - ndc * (far - near));
+}
 
 void main()
-{    
-    FragColor = texture(material.texture_diffuse1, TexCoords);
+{   
+    float depth = LinearDepth(gl_FragCoord.z);
+    FragColor = vec4(vec3(depth), 1.0);
 }

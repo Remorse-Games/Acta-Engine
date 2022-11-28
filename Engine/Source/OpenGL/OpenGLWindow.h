@@ -17,7 +17,7 @@ namespace ActaEngine
 		~OpenGLWindow();
 
 		void UpdateWindow();
-		
+		void ClearWindow();
 		GLFWwindow* window;
 		Camera* mainCamera;
 	};

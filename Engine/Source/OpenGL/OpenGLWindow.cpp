@@ -31,6 +31,11 @@ ActaEngine::OpenGLWindow::OpenGLWindow(unsigned int width, unsigned int height, 
 	}
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_STENCIL_TEST);
+
+	// stencil test
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
 	mainCamera = new Camera();
 	glfwSetWindowUserPointer(window, mainCamera);
 
@@ -53,6 +58,12 @@ void ActaEngine::OpenGLWindow::UpdateWindow()
 {
 	mainCamera->Draw();
 	mainCamera->Input(window);
+}
+
+void ActaEngine::OpenGLWindow::ClearWindow()
+{
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void resize_callback(GLFWwindow* window, int width, int height)

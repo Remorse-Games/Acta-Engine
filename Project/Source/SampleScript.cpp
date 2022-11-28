@@ -6,7 +6,15 @@ class Game : public ActaEngine::Application
 {
 public:
     OpenGLShader shader;
+    OpenGLShader cubeShader;
+    OpenGLShader stencilShader;
+
     Model guitar;
+    Model cube;
+    Model cubeStencilTest;
+    Model cubeStencilTest1;
+    Model cube1;
+    Model cube2;
 
 private:
     glm::vec3 diffuseObject = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -23,7 +31,14 @@ private:
 public:
 	Game() :
         shader("Shader/object.vert", "Shader/object.frag"),
-        guitar("Models/backpack/backpack.obj")
+        cubeShader("Shader/object.vert", "Shader/object.frag"),
+        stencilShader("Shader/stencil_single_color.vert", "Shader/stencil_single_color.frag"),
+        guitar("Models/backpack/backpack.obj"),
+        cube("Models/cube/cube.obj"),
+        cubeStencilTest("Models/cube/cube.obj"),
+        cubeStencilTest1("Models/cube/cube.obj"),
+        cube1("Models/cube/cube.obj"),
+        cube2("Models/cube/cube.obj")
     {
         Start();
     }
@@ -35,10 +50,14 @@ public:
 	void Start() override
 	{
         spdlog::info("Start the game!");
+        diffuseLight = glm::vec3(0.5f);
+        guitar.transform.SetPosition(25.0f, 0.0f, 0.0f);
     }
 
 	void Update() override
 	{   
+        //---START OF SHADER SETUP
+        // guitar shader
         shader.use();
         shader.SetUniformVec3("dirLight.direction", dirLightDirection);
         shader.SetUniformVec3("dirLight.ambient", diffuseLight);
@@ -48,17 +67,68 @@ public:
         shader.SetUniformFloat("material.shininess", shininess);
 
         shader.SetUniformVec3("viewPos", OglWindow->mainCamera->transform.GetPosition());
+
+        cubeShader.SetUniformVec3("dirLight.direction", dirLightDirection);
+        cubeShader.SetUniformVec3("dirLight.ambient", diffuseLight);
+        cubeShader.SetUniformVec3("dirLight.diffuse", diffuseLight);
+        cubeShader.SetUniformVec3("dirLight.specular", specularLight);
+
+        cubeShader.SetUniformFloat("material.shininess", shininess);
+
+        cubeShader.SetUniformVec3("viewPos", OglWindow->mainCamera->transform.GetPosition());
+        //---END OF SHADER SETUP
+
+        glStencilMask(0x00);
+
+        // guitar object
         guitar.Draw(shader);
 
-        OglWindow->mainCamera->Bind(&shader);
+        // floor
+        cube2.Draw(shader);
+        cube2.transform.Identity();
+        cube2.transform.SetPosition(0.0f, -3.0f, 0.0f);
+        cube2.transform.SetScale(15.0f, 5.0f, 15.0f);
 
+        cubeShader.use();
+
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
+        // front box
+        cube.Draw(shader);
+        cube.transform.Identity();
+        cube.transform.SetPosition(0.0f, 0.0f, 0.0f);
+
+        // back box
+        cube1.Draw(shader);
+        cube1.transform.Identity();
+        cube1.transform.SetPosition(3.0f, 0.0f, -5.0f);
+
+
+        glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+        glStencilMask(0x00);
+        stencilShader.use();
+        cubeStencilTest.Draw(stencilShader);
+        cubeStencilTest.transform.Identity();
+        cubeStencilTest.transform.SetPosition(0.0f, 0.0f, 0.0f);
+        cubeStencilTest.transform.SetScale(1.1f, 1.1f, 1.1f);
+
+        cubeStencilTest1.Draw(stencilShader);
+        cubeStencilTest1.transform.Identity();
+        cubeStencilTest1.transform.SetPosition(3.0f, 0.0f, -5.0f);
+        cubeStencilTest1.transform.SetScale(1.1f, 1.1f, 1.1f);
+        glStencilMask(0xFF);
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+
+        // camera binding to shader
+        OglWindow->mainCamera->Bind(&shader);
+        OglWindow->mainCamera->Bind(&cubeShader);
+        OglWindow->mainCamera->Bind(&stencilShader);
     }
 
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
     void EditorUpdate() override
     {
         /// Inspector for Camera
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
         ImGui::Begin("Camera");
 
         float camPos[] = { OglWindow->mainCamera->transform.GetPosition().x, OglWindow->mainCamera->transform.GetPosition().y, OglWindow->mainCamera->transform.GetPosition().z };
@@ -112,21 +182,15 @@ public:
         ImGui::Begin("Directional Light");
 
         float dirL[] = { dirLightDirection.x, dirLightDirection.y, dirLightDirection.z };
-        float diffL[] = { diffuseLight.x, diffuseLight.y, diffuseLight.z };
+        float diffL[] = { diffuseLight.x, diffuseLight.y, diffuseLight.z};
 
         ImGui::DragFloat3("Light Direction", dirL);
-        ImGui::ColorPicker4("Light Color", diffL);
+        ImGui::ColorPicker3("Light Color", diffL);
 
         dirLightDirection = glm::vec3(dirL[0], dirL[1], dirL[2]);
         diffuseLight = glm::vec3(diffL[0], diffL[1], diffL[2]);
 
         ImGui::End();
-        ImGui::PopStyleColor();
-
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
-        ImGui::Begin("Game Scene");
-        ImGui::End();
-        ImGui::PopStyleColor();
     }
 #endif       
 

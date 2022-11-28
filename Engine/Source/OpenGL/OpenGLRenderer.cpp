@@ -42,18 +42,19 @@ void ActaEngine::OpenGLRenderer::ImGuiRender(std::function<void()> EditorUpdate)
 
     ImGui::End();
 
+    // TODO: uncomment this later when I already implement viewport for game.
 //    ImGui::Begin("Game View");
-    ImGui::DockSpaceOverViewport();
-    if (ImGui::BeginMainMenuBar()) 
-    {
-        if (ImGui::BeginMenu("File")) {
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Edit")) {
-            ImGui::EndMenu();
-        }
-        ImGui::EndMainMenuBar();
-    }
+    //ImGui::DockSpaceOverViewport();
+    //if (ImGui::BeginMainMenuBar()) 
+    //{
+    //    if (ImGui::BeginMenu("File")) {
+    //        ImGui::EndMenu();
+    //    }
+    //    if (ImGui::BeginMenu("Edit")) {
+    //        ImGui::EndMenu();
+    //    }
+    //    ImGui::EndMainMenuBar();
+    //}
  //   ImGui::End();
 
     EditorUpdate();

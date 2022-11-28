@@ -38,20 +38,24 @@ void ActaEngine::Application::Run()
 {
 	while (!glfwWindowShouldClose(OglWindow->window))
 	{
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		OglWindow->ClearWindow();
 
 		KeyEvent::ProcessInputKey(OglWindow->window);
 
 		Time::Update();
 
+		// render graphics
 		render->Draw();
+
+		// update game logic
 		Update();
+
+		// update window
 		OglWindow->UpdateWindow();
 
+		// update editor
 #if defined(ACTA_DEBUG) || defined(ACTA_DEV)
-		render->ImGuiRender([=]() {EditorUpdate(); });
+		render->ImGuiRender([&]() {EditorUpdate(); });
 #endif
 		glfwPollEvents();
 
